@@ -10,4 +10,5 @@ public class Hero extends Mobile {
 	public Boolean hasEagle() {
 		return eagle;
 	}
+	
 }
