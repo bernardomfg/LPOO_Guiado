@@ -18,7 +18,12 @@ public class Game {
 		Eagle e = new Eagle();
 		System.out.print("Escolha o tamanho do labirinto (0 para default): ");
 		Scanner input = new Scanner(System.in);
-		int op = input.nextInt();
+		int op = 0;
+		do {
+			op =  input.nextInt();
+			if (op < 5 && op > 0)
+				System.out.print("Insira um valor maior que 5 (0 para default): ");
+		} while (op < 5 && op > 0);
 		input.close();
 		if(op == 0)
 		{
