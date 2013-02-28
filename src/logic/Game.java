@@ -1,17 +1,34 @@
 package logic;
 
-import console.Display;
 import java.util.Random;
+import java.util.Scanner;
+import console.Display;
 
 public class Game {
 
-	public void main() {
+	/**
+	 * @param args
+	 */
+	@SuppressWarnings("unused")
+	public static void main(String[] args) {
 		Maze m = new Maze();
 		Drake d = new Drake();
 		Hero h = new Hero();
 		Sword s = new Sword();
 		Eagle e = new Eagle();
-		m.generateMaze();
+		System.out.print("Escolha o tamanho do labirinto (0 para default): ");
+		Scanner input = new Scanner(System.in);
+		int op = input.nextInt();
+		input.close();
+		if(op == 0)
+		{
+			
+		}
+		else
+		{
+			m.generateMaze(op);
+		}
+		Display.print(m.getMaze());
 	}
 
 	public void moveDrake(char[][] maze) {
@@ -23,4 +40,5 @@ public class Game {
 		case 0:
 		}
 	}
+
 }

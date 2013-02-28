@@ -200,5 +200,175 @@ public class Maze {
 			//Display.print(maze);
 			//System.out.println();
 		}
+
+		// maze[lc[0]][lc[1]] = ' ';
+
+		// int cont = 0;
+		// while (x33()) {
+		//
+		// x = r.nextInt(4);
+		//
+		// switch (x) {
+		// // para esquerda
+		// case 0:
+		// if (lc[1] > 1 && maze[lc[0]][lc[1] - 1] == 'X'
+		// && x22(lc[0], lc[1] - 1) && diag(lc[0], lc[1] - 1, x)) {
+		// lc[1] = lc[1] - 1;
+		// maze[lc[0]][lc[1]] = ' ';
+		// cont = 0;
+		// paths.push(lc);
+		// }
+		// break;
+		// // para a direita
+		// case 1:
+		// if (lc[1] < N - 2 && maze[lc[0]][lc[1] + 1] == 'X'
+		// && x22(lc[0], lc[1] + 1) && diag(lc[0], lc[1] + 1, x)) {
+		// lc[1] = lc[1] + 1;
+		// maze[lc[0]][lc[1]] = ' ';
+		// cont = 0;
+		// paths.push(lc);
+		// }
+		// break;
+		// // para cima
+		// case 2:
+		// if (lc[0] > 1 && maze[lc[0] - 1][lc[1]] == 'X'
+		// && x22(lc[0] - 1, lc[1]) && diag(lc[0] - 1, lc[1], x)) {
+		// lc[0] = lc[0] - 1;
+		// maze[lc[0]][lc[1]] = ' ';
+		// cont = 0;
+		// paths.push(lc);
+		// }
+		// break;
+		// // para para baixo
+		// case 3:
+		// if (lc[0] < N - 2 && maze[lc[0] + 1][lc[1]] == 'X'
+		// && x22(lc[0] + 1, lc[1]) && diag(lc[0] + 1, lc[1], x)) {
+		// lc[0] = lc[0] + 1;
+		// maze[lc[0]][lc[1]] = ' ';
+		// cont = 0;
+		// paths.push(lc);
+		// }
+		// break;
+		// }
+		//
+		// cont++;
+		// System.out.println(cont);
+		//
+		// if (cont >= 20) {
+		// if (!paths.empty())
+		// {
+		// if (!paths.empty())
+		// lc = paths.pop();
+		// else break;
+		//
+		// }
+		// cont=0;
+		//
+		//
+		// //else break;
+		// }
+		// print();
+		// }
 	}
+	// public void print() {
+	// for (char[] line : maze) {
+	// for (char sym : line) {
+	// System.out.print(sym);
+	// System.out.print(' ');
+	// }
+	// System.out.println();
+	// }
+	// }
+
+	// public Boolean x33() {
+	// int N = maze.length;
+	//
+	// for (int i = 1; i < N - 2; i++)
+	// for (int j = 1; j < N - 2; j++) {
+	// if (maze[i][j] == 'X' && maze[i - 1][j] == 'X'
+	// && maze[i - 1][j - 1] == 'X' && maze[i][j - 1] == 'X'
+	// && maze[i + 1][j - 1] == 'X' && maze[i + 1][j] == 'X'
+	// && maze[i + 1][j + 1] == 'X' && maze[i][j + 1] == 'X'
+	// && maze[i - 1][j + 1] == 'X')
+	// return true;
+	// }
+	// return false;
+	// }
+
+	// public Boolean x22(int i, int j) {
+	// int N = maze.length;
+	// Boolean x = true;
+	// if (i < N - 1 && j < N - 1) {
+	// if (maze[i][j + 1] == ' ' && maze[i + 1][j] == ' '
+	// && maze[i + 1][j + 1] == ' ') {
+	// System.out.println("falsex221");
+	// x = false;
+	//
+	// }
+	//
+	// if (maze[i][j + 1] == ' ' && maze[i - 1][j] == ' '
+	// && maze[i - 1][j + 1] == ' ') {
+	// System.out.println("falsex222");
+	// x = false;
+	//
+	// }
+	//
+	// if (maze[i][j - 1] == ' ' && maze[i - 1][j] == ' '
+	// && maze[i - 1][j - 1] == ' ') {
+	// System.out.println("falsex223");
+	// x = false;
+	//
+	// }
+	//
+	// if (maze[i][j - 1] == ' ' && maze[i + 1][j] == ' '
+	// && maze[i + 1][j - 1] == ' ') {
+	// System.out.println("falsex224");
+	// x = false;
+	//
+	// }
+	//
+	// }
+	// return x;
+	// }
+
+	// public Boolean diag(int l, int c, int k) {
+	//
+	// int N = maze.length;
+	//
+	// if (l < N - 1 && l > 0 && c < N - 1 && c > 0) {
+	// switch (k) {
+	// case 0:
+	// if ((maze[l + 1][c] == 'X' && maze[l][c + 1] == 'X' && maze[l + 1][c + 1]
+	// == ' ')
+	// || (maze[l + 1][c] == 'X' && maze[l][c - 1] == 'X' && maze[l + 1][c - 1]
+	// == ' ')) {
+	// return false;
+	// }
+	// case 1:
+	// if ((maze[l - 1][c] == 'X' && maze[l][c + 1] == 'X' && maze[l - 1][c + 1]
+	// == ' ')
+	// || (maze[l - 1][c] == 'X' && maze[l][c - 1] == 'X' && maze[l - 1][c - 1]
+	// == ' ')) {
+	// return false;
+	// }
+	// case 2:
+	// if ((maze[l - 1][c] == 'X' && maze[l][c + 1] == 'X' && maze[l - 1][c + 1]
+	// == ' ')
+	// || (maze[l - 1][c] == 'X' && maze[l][c - 1] == 'X' && maze[l - 1][c - 1]
+	// == ' ')) {
+	// return false;
+	// }
+	// case 3:
+	// if ((maze[l - 1][c] == 'X' && maze[l][c + 1] == 'X' && maze[l - 1][c + 1]
+	// == ' ')
+	// || (maze[l - 1][c] == 'X' && maze[l][c - 1] == 'X' && maze[l - 1][c - 1]
+	// == ' ')) {
+	// return false;
+	// }
+	// }
+	// }
+	//
+	// return true;
+	// }
+
 }
