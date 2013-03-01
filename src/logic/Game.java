@@ -34,6 +34,7 @@ public class Game {
 			m.generateMaze(op);
 			placeHero(m, h);
 			placeSword(m, s);
+			placeDrake(m, d);
 		}
 		Display.print(m.getMaze());
 	}
@@ -71,6 +72,22 @@ public class Game {
 		s.setY(lc[1]);
 		
 		m.maze[lc[0]][lc[1]] = 'E';
+	}
+	
+	public static void placeDrake(Maze m, Drake d)
+	{
+		int[] lc = new int[2];
+		
+		do {
+			lc = m.getFree();
+			
+		}while (m.maze[lc[0]+1][lc[1]] == 'H' || m.maze[lc[0]-1][lc[1]] == 'H'
+				|| m.maze[lc[0]][lc[1]+1] == 'H' || m.maze[lc[0]][lc[1]-1] == 'H');
+		
+		d.setX(lc[0]);
+		d.setY(lc[1]);
+		
+		m.maze[lc[0]][lc[1]] = 'D';
 	}
 
 }
