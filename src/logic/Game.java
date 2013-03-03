@@ -23,108 +23,29 @@ public class Game {
 		} while (op < 5 && op > 0);
 		if (op == 0) {
 			m.generateDefault();
+			h.setX(1);
+			h.setY(1);
+			d.setX(1);
+			d.setY(3);
+			s.setX(1);
+			s.setY(8);
 		} else {
 			m.generateMaze(op);
-			placeHero(m, h);
-			placeSword(m, s);
-			placeDrake(m, d);
+			h.placeHero(m);
+			s.placeSword(m);
+			d.placeDrake(m);
 		}
 		Display.print(m.getMaze());
-		do {
-			System.out.print("Escolha uma direção (WASD): ");
-			mov = input.next();
 
-		} while (mov != "A" && mov != "a" && mov != "W" && mov != "w"
-				&& mov != "D" && mov != "d" && mov != "S" && mov != "s");
-	}
+		while (true) {
+			do {
+				System.out.print("Escolha uma direção (WASD): ");
+				mov = input.next();
+			} while (mov != "A" && mov != "a" && mov != "W" && mov != "w"
+					&& mov != "D" && mov != "d" && mov != "S" && mov != "s");
 
-	public void moveDrake(char[][] maze) {
-		Random r = new Random();
-		int p = r.nextInt(4);
-
-		switch (p) {
-
-		case 0:
-		}
-	}
-
-	public static void placeHero(Maze m, Hero h) {
-		int[] lc = new int[2];
-
-		lc = m.getFree();
-
-		h.setX(lc[0]);
-		h.setY(lc[1]);
-
-		m.maze[lc[0]][lc[1]] = 'H';
-	}
-
-	public static void placeSword(Maze m, Sword s) {
-		int[] lc = new int[2];
-
-		lc = m.getFree();
-
-		s.setX(lc[0]);
-		s.setY(lc[1]);
-
-		m.maze[lc[0]][lc[1]] = 'E';
-	}
-
-	public static void placeDrake(Maze m, Drake d) {
-		int[] lc = new int[2];
-
-		do {
-			lc = m.getFree();
-
-		} while (m.maze[lc[0] + 1][lc[1]] == 'H'
-				|| m.maze[lc[0] - 1][lc[1]] == 'H'
-				|| m.maze[lc[0]][lc[1] + 1] == 'H'
-				|| m.maze[lc[0]][lc[1] - 1] == 'H');
-
-		d.setX(lc[0]);
-		d.setY(lc[1]);
-
-		m.maze[lc[0]][lc[1]] = 'D';
-	}
-
-	public static void moveHero(Maze m, Hero h, String op) {
-		int x = h.getX();
-		int y = h.getY();
-
-		switch (op) {
-		// para a esquerda
-		case "A":
-		case "a":
-			if (m.maze[y][x - 1] == ' ') {
-				m.maze[y][x - 1] = 'H';
-				h.setX(x - 1);
-			}
-			break;
-		// para a direita
-		case "D":
-		case "d":
-			if (m.maze[y][x + 1] == ' ') {
-				m.maze[y][x + 1] = 'H';
-				h.setX(x + 1);
-			}
-			break;
-		// para a cima
-		case "W":
-		case "w":
-			if (m.maze[y - 1][x] == ' ') {
-				m.maze[y - 1][x] = 'H';
-				h.setY(y - 1);
-			}
-			break;
-		// para a baixo
-		case "S":
-		case "s":
-			if (m.maze[y + 1][x] == ' ') {
-				m.maze[y + 1][x] = 'H';
-				h.setY(y + 1);
-			}
-			break;
-
+			h.moveHero(m, mov);
+			Display.print(m.getMaze());
 		}
 	}
 }
