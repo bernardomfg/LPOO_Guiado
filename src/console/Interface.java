@@ -7,7 +7,8 @@ public class Interface {
 	public static int readMazeSize() {
 		Scanner input = new Scanner(System.in);
 		int op = 0;
-		System.out.print("Insira o tamanho do labirinto (maior que 6 ou 0 para default): ");
+		System.out
+				.print("Insira o tamanho do labirinto (maior que 6 ou 0 para default): ");
 		do {
 			op = input.nextInt();
 			if (op < 7 && op > 0)
@@ -31,5 +32,17 @@ public class Interface {
 				valid = false;
 		} while (!valid);
 		return mov;
+	}
+
+	public static int readDrakeNumber() {
+		Scanner input = new Scanner(System.in);
+		int op = 0;
+		System.out.print("Insira o número de Dragões (maior que 0): ");
+		do {
+			op = input.nextInt();
+			if (op < 0)
+				System.out.print("Insira o número de Dragões (maior que 0): ");
+		} while (op < 0);
+		return op;
 	}
 }

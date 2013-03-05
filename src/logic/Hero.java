@@ -3,23 +3,15 @@ package logic;
 public class Hero extends Mobile {
 	public Boolean sword = false;
 	public Boolean eagle = true;
-	
+
 	public Boolean hasSword() {
 		return sword;
 	}
+
 	public Boolean hasEagle() {
 		return eagle;
 	}
-	
-	public void placeHero(Maze m) {
-		int[] lc = new int[2];
 
-		lc = m.getFree();
-
-		setX(lc[0]);
-		setY(lc[1]);
-	}
-	
 	public void moveHero(Maze m, String op) {
 
 		int x = getX();
@@ -56,5 +48,4 @@ public class Hero extends Mobile {
 
 		}
 	}
-	
 }

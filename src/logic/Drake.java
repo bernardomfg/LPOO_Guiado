@@ -21,30 +21,36 @@ public class Drake extends Mobile {
 	public Boolean isSleeping() {
 		return sleeping;
 	}
-	
-	public void placeDrake(Maze m, Hero h) {
-		int[] lc = new int[2];
 
-		do {
-			lc = m.getFree();
 
-		} while ((lc[0] + 1 == h.getY() && lc[1] == h.getX())
-				|| (lc[0] - 1 == h.getY() && lc[1] == h.getX())
-				|| (lc[0] == h.getY() && lc[1] + 1 == h.getX())
-				|| (lc[0] == h.getY() && lc[1] - 1 == h.getX()));
-
-		setX(lc[0]);
-		setY(lc[1]);
-	}
-	
-	public void moveDrake(char[][] maze) {
+	public void moveDrake(Maze m) {
 		Random r = new Random();
 		int p = r.nextInt(4);
 
 		switch (p) {
-
+		// para a esquerda
 		case 0:
+			if (m.maze[y][x - 1] != 'X')
+				move(0);
+			break;
+		// para a direita
+		case 1:
+			if (m.maze[y][x + 1] != 'X')
+				move(1);
+			break;
+		// para a cima
+		case 2:
+			if (m.maze[y - 1][x] != 'X')
+				move(2);
+			break;
+		// para a baixo
+		case 3:
+			if (m.maze[y + 1][x] != 'X')
+				move(3);
+			break;
+
 		}
+
 	}
 
 }

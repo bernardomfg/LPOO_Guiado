@@ -4,20 +4,24 @@ import logic.Drake;
 import logic.Eagle;
 import logic.Hero;
 import logic.Sword;
+import logic.mazeBuilder;
 
 public class Display {
-	public static void print(char[][] maze, Hero h, Drake d, Sword s, Eagle e) {
-		int N = maze.length;
-		char[][] temp = new char[N][N];
+	public static void print(char[][] maze, mazeBuilder mb, Hero h, Drake[] d,
+			Sword s, Eagle e) {
 
-		for (int i = 0; i < N; i++)
-			for (int j = 0; j < N; j++) {
-				temp[i][j] = maze[i][j];
-			}
-		temp[h.getY()][h.getX()] = 'H';
-		temp[d.getY()][d.getX()] = 'D';
-		temp[s.getY()][s.getX()] = 'E';
-		for (char[] line : temp) {
+		maze = mb.getMaze();
+		maze[h.getY()][h.getX()] = 'H';
+		for (int i = 0; i < d.length; i++) {
+			maze[d[i].getY()][d[i].getX()] = 'D';
+		}
+		
+		if (maze[s.getY()][s.getX()] == 'D')
+			maze[s.getY()][s.getX()] = 'F';
+		else
+			maze[s.getY()][s.getX()] = 'E';
+		
+		for (char[] line : maze) {
 			for (char sym : line) {
 				System.out.print(sym);
 				System.out.print(' ');
