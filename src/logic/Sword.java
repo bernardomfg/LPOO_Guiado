@@ -9,8 +9,6 @@ public class Sword extends GameElement {
 
 		setX(lc[0]);
 		setY(lc[1]);
-
-		m.maze[lc[0]][lc[1]] = 'E';
 	}
 
 }
