@@ -24,7 +24,7 @@ public class Hero extends Mobile {
 		// para a esquerda
 		case "A":
 		case "a":
-			if (m.maze[y][x - 1] == ' ')
+			if (m.maze[y][x - 1] == ' ') 
 				move(0);
 			break;
 		// para a direita

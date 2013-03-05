@@ -4,13 +4,22 @@ import java.util.Random;
 public class Maze {
 
 	public char[][] maze;
-
+	public mazeBuilder mb;
 	public char[][] getMaze() {
 		return maze;
 	}
 	
-	public void setMaze(char[][] temp) {
-		maze=temp.clone();
+	public void generateMaze(int N) {
+		if(N==0)
+		{
+			mb = new mazeBuilderDefault();
+			maze=mb.buildMaze(0);
+		}
+		else
+		{
+			mb = new mazeBuilderN();
+			maze=mb.buildMaze(N);
+		}
 	}
 
 	public int[] getFree() {

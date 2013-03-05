@@ -4,6 +4,9 @@ import java.util.Scanner;
 
 public class Interface {
 
+	/**
+	 * Reads desired maze size from user making sure it's a valid size.
+	 */
 	public static int readMazeSize() {
 		Scanner input = new Scanner(System.in);
 		int op = 0;
@@ -18,6 +21,9 @@ public class Interface {
 		return op;
 	}
 
+	/**
+	 * Reads the direction the user wants to move to.
+	 */
 	public static String readDirection() {
 		Scanner dir = new Scanner(System.in);
 		String mov;
@@ -33,7 +39,10 @@ public class Interface {
 		} while (!valid);
 		return mov;
 	}
-
+	
+	/**
+	 * Reads number of Dragons from user.
+	 */
 	public static int readDrakeNumber() {
 		Scanner input = new Scanner(System.in);
 		int op = 0;

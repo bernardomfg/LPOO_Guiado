@@ -6,7 +6,7 @@ import java.util.Vector;
 
 public class mazeBuilderN extends mazeBuilder {
 
-	public void buildMaze(int N) {
+	public char[][] buildMaze(int N) {
 
 		// Variables
 		char[][] temp;
@@ -160,7 +160,7 @@ public class mazeBuilderN extends mazeBuilder {
 			}
 		}
 
-		createNewMaze(temp);
+		return temp;
 	}
 
 	public Boolean unvisited(Boolean[][] visited, char[][] temp) {
