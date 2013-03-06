@@ -1,6 +1,6 @@
 package logic;
 
-public abstract class mazeBuilder {
+public abstract class MazeBuilder {
 	protected char[][] m;
 
 	public char[][] getMaze() {

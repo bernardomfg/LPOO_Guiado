@@ -1,5 +1,7 @@
 package console;
 
+import java.util.ArrayList;
+
 import logic.Drake;
 import logic.Eagle;
 import logic.Hero;
@@ -7,24 +9,17 @@ import logic.Sword;
 
 public class Display {
 	/**
-	 * @param m
-	 * @param h
-	 * @param d
-	 * @param s
-	 * @param e
-	 * 
-	 *            Uses the initial maze built by the maze builder and places all
-	 *            the game elements in their position. It then prints the
-	 *            array's lines one by one to draw the maze
+	 * Uses the initial maze built by the maze builder and places all the game
+	 * elements in their position. It then prints the array's lines one by one
+	 * to draw the maze
 	 */
-	public static void print(char[][] maze, Hero h, Drake[] d, Sword s, Eagle e) {
-
+	public static void print(char[][] maze, Hero h, ArrayList<Drake> d, Sword s, Eagle e) {
 		int N = maze.length;
 		char[][] temp = new char[N][N];
 		for (int i = 0; i < N; i++)
-			for(int j=0; j< N; j++)
-			// copying the basic maze to the dynamic maze
-			temp[i][j] = maze[i][j];
+			for (int j = 0; j < N; j++)
+				// copying the basic maze to the dynamic maze
+				temp[i][j] = maze[i][j];
 
 		// places hero
 		if (h.hasSword())
@@ -33,11 +28,11 @@ public class Display {
 			temp[h.getY()][h.getX()] = 'H';
 
 		// places all possible dragons
-		for (int i = 0; i < d.length; i++) {
-			if (d[i].isSleeping())
-				temp[d[i].getY()][d[i].getX()] = 'd';
+		for (int i = 0; i < d.size(); i++) {
+			if (d.get(i).isSleeping())
+				temp[d.get(i).getY()][d.get(i).getX()] = 'd';
 			else
-				temp[d[i].getY()][d[i].getX()] = 'D';
+				temp[d.get(i).getY()][d.get(i).getX()] = 'D';
 		}
 
 		// places sword checking if it's in same position as dragon

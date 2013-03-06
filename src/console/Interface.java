@@ -39,7 +39,7 @@ public class Interface {
 		} while (!valid);
 		return mov;
 	}
-	
+
 	/**
 	 * Reads number of Dragons from user.
 	 */
@@ -53,5 +53,13 @@ public class Interface {
 				System.out.print("Insira o número de Dragões (maior que 0): ");
 		} while (op < 0);
 		return op;
+	}
+
+	public static void lostTheGame() {
+		System.out.print("Perdeu o jogo!");
+	}
+
+	public static void wonTheGame() {
+		System.out.print("Ganhou o jogo!");
 	}
 }

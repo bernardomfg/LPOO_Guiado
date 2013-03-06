@@ -1,6 +1,6 @@
 package logic;
 
-public class mazeBuilderDefault extends mazeBuilder {
+public class MazeBuilderDefault extends MazeBuilder {
 
 	public char[][] buildMaze(int N) {
 		char[][] temp = { { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' },

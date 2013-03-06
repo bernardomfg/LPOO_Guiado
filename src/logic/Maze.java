@@ -4,7 +4,7 @@ import java.util.Random;
 public class Maze {
 
 	public char[][] maze;
-	public mazeBuilder mb;
+	public MazeBuilder mb;
 	public char[][] getMaze() {
 		return maze;
 	}
@@ -12,12 +12,12 @@ public class Maze {
 	public void generateMaze(int N) {
 		if(N==0)
 		{
-			mb = new mazeBuilderDefault();
+			mb = new MazeBuilderDefault();
 			maze=mb.buildMaze(0);
 		}
 		else
 		{
-			mb = new mazeBuilderN();
+			mb = new MazeBuilderN();
 			maze=mb.buildMaze(N);
 		}
 	}

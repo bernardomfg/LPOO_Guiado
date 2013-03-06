@@ -1,9 +1,12 @@
 package logic;
 
+import java.util.ArrayList;
+
 import console.*;
 
 public class Game {
-	public static void placeElements(Maze m, Drake[] d, Hero h, Sword s, Eagle e) {
+	public static void placeElements(Maze m, ArrayList<Drake> d, Hero h,
+			Sword s, Eagle e) {
 		int[] lc = new int[2];
 		int[] lc1 = new int[2];
 		int[] lc2 = new int[2];
@@ -13,26 +16,26 @@ public class Game {
 		h.setY(lc[0]);
 
 		lc1 = m.getFree();
-		for (int i = 0; i < d.length; i++) {
+		for (int i = 0; i < d.size(); i++) {
 			while ((lc1[0] + 1 == h.getY() && lc1[1] == h.getX())
 					|| (lc1[0] - 1 == h.getY() && lc1[1] == h.getX())
 					|| (lc1[0] == h.getY() && lc1[1] + 1 == h.getX())
 					|| (lc1[0] == h.getY() && lc1[1] - 1 == h.getX())
 					|| (lc1[0] == h.getY() && lc1[1] == h.getX())) {
 				lc1 = m.getFree();
-				
+
 			}
-			d[i].setX(lc1[1]);
-			d[i].setY(lc1[0]);
-			lc1=new int[2];
+			d.get(i).setX(lc1[1]);
+			d.get(i).setY(lc1[0]);
+			lc1 = new int[2];
 			lc1 = m.getFree();
 		}
-		
+
 		lc2 = m.getFree();
 		while ((lc2[0] == h.getY() && lc2[1] == h.getX())) {
 			lc2 = m.getFree();
 		}
-		
+
 		s.setX(lc2[1]);
 		s.setY(lc2[0]);
 	}
@@ -46,19 +49,18 @@ public class Game {
 		Boolean gameOver = false;
 		int N = Interface.readMazeSize();
 		int dN = 1;
-		if (N!=0)
-		 dN = Interface.readDrakeNumber();
-		Drake[] d = new Drake[dN];
-		for (int i=0;i<d.length; i++)
-		{
-			d[i] = new Drake();
+		if (N != 0)
+			dN = Interface.readDrakeNumber();
+		ArrayList<Drake> d = new ArrayList<Drake>();
+		for (int i = 0; i < dN; i++) {
+			d.add(new Drake());
 		}
 		if (N == 0) {
 			m.generateMaze(N);
 			h.setX(1);
 			h.setY(1);
-			d[0].setX(1);
-			d[0].setY(3);
+			d.get(0).setX(1);
+			d.get(0).setY(3);
 			s.setX(1);
 			s.setY(8);
 		} else {
@@ -70,61 +72,84 @@ public class Game {
 		while (!gameOver) {
 			mov = Interface.readDirection();
 			h.moveHero(m, mov);
-			for (int i=0;i<d.length; i++)
-			{
-				d[i].moveDrake(m);
+			for (int i = 0; i < d.size(); i++) {
+				d.get(i).moveDrake(m);
 			}
 			if (!h.hasSword())
 				checkSword(h, s);
-			gameOver = checkDead(h, d);
 			Display.print(m.getMaze(), h, d, s, e);
+			if (checkDead(h, d)) {
+				Interface.lostTheGame();
+				gameOver=true;
+			}
+
+			if (h.atExit) {
+				Interface.wonTheGame();
+				gameOver=true;
+			}
 		}
 	}
-	
+
 	private static void checkSword(Hero h, Sword s) {
-		
-		if (h.getX() == s.getX() && h.getY() == s.getY()){
+
+		if (h.getX() == s.getX() && h.getY() == s.getY()) {
 			h.sword = true;
-		}
-		else
+		} else
 			h.sword = false;
 	}
 
-	public static Boolean checkDead(Hero h, Drake[] d)
-	{
+	public static Boolean checkDead(Hero h, ArrayList<Drake> d) {
 		Boolean isDead = false;
-		for (int i=0;i<d.length;i++)
-		{
-			if (h.getY() + 1 == d[i].getY() && h.getX() == d[i].getX())
-			{
-				isDead = true;
-				break;
-			}
-			
-			if (h.getY() - 1 == d[i].getY() && h.getX() == d[i].getX())
-			{
-				isDead = true;
-				break;
-			}
-			
-			if (h.getY() == d[i].getY() && h.getX() + 1 == d[i].getX())
-			{
-				isDead = true;
-				break;
-			}
-			
-			if (h.getY() == d[i].getY() && h.getX() - 1 == d[i].getX())
-			{
-				isDead = true;
-				break;
+		for (int i = 0; i < d.size(); i++) {
+			if (h.getY() + 1 == d.get(i).getY() && h.getX() == d.get(i).getX()) {
+				if (!h.hasSword() && !d.get(i).isSleeping()) {
+					isDead = true;
+					break;
+				} else if (h.hasSword()) {
+					d.remove(i);
+					if (i > 0)
+						i--;
+				}
+			} else
+
+			if (h.getY() - 1 == d.get(i).getY() && h.getX() == d.get(i).getX()) {
+				if (!h.hasSword() && !d.get(i).isSleeping()) {
+					isDead = true;
+					break;
+				} else if (h.hasSword()) {
+					d.remove(i);
+					if (i > 0)
+						i--;
+				}
+			} else
+
+			if (h.getY() == d.get(i).getY() && h.getX() + 1 == d.get(i).getX()) {
+				if (!h.hasSword() && !d.get(i).isSleeping()) {
+					isDead = true;
+					break;
+				} else if (h.hasSword()) {
+					d.remove(i);
+					if (i > 0)
+						i--;
+				}
+			} else
+
+			if (h.getY() == d.get(i).getY() && h.getX() - 1 == d.get(i).getX()) {
+				if (!h.hasSword() && !d.get(i).isSleeping()) {
+					isDead = true;
+					break;
+				} else if (h.hasSword()) {
+					d.remove(i);
+					if (i > 0)
+						i--;
+				}
 			}
 		}
-		
-		if (isDead)
-		{
+
+		if (isDead) {
 			return true;
-		}
-		else
+		} else
 			return false;
 	}
+
 }

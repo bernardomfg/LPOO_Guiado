@@ -4,7 +4,7 @@ import java.util.Random;
 import java.util.Stack;
 import java.util.Vector;
 
-public class mazeBuilderN extends mazeBuilder {
+public class MazeBuilderN extends MazeBuilder {
 
 	public char[][] buildMaze(int N) {
 

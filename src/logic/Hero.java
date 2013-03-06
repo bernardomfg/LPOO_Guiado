@@ -3,6 +3,7 @@ package logic;
 public class Hero extends Mobile {
 	public Boolean sword = false;
 	public Boolean eagle = true;
+	public Boolean atExit = false;
 
 	public Boolean hasSword() {
 		return sword;
@@ -24,26 +25,44 @@ public class Hero extends Mobile {
 		// para a esquerda
 		case "A":
 		case "a":
-			if (m.maze[y][x - 1] == ' ') 
+			if (m.maze[y][x - 1] == ' ')
 				move(0);
+			if (m.maze[y][x - 1] == 'S' && hasSword()) {
+				move(0);
+				atExit = true;
+			}
 			break;
 		// para a direita
 		case "D":
 		case "d":
 			if (m.maze[y][x + 1] == ' ')
 				move(1);
+			if (m.maze[y][x + 1] == 'S' && hasSword()) {
+				move(0);
+				atExit = true;
+			}
 			break;
 		// para a cima
 		case "W":
 		case "w":
 			if (m.maze[y - 1][x] == ' ')
 				move(2);
+			if (m.maze[y-1][x] == 'S' && hasSword()) 
+			{
+				move(0);
+				atExit = true;
+			}
 			break;
 		// para a baixo
 		case "S":
 		case "s":
 			if (m.maze[y + 1][x] == ' ')
 				move(3);
+			if (m.maze[y + 1][x] == 'S' && hasSword())
+			{
+				move(0);
+				atExit = true;
+			}
 			break;
 
 		}
