@@ -1,20 +1,16 @@
 package logic;
 
 import java.util.ArrayList;
-
 import console.*;
 
 public class Game {
-	public static void placeElements(Maze m, ArrayList<Drake> d, Hero h,
-			Sword s, Eagle e) {
+	public static void placeElements(Maze m, ArrayList<Drake> d, Hero h, Sword s) {
 		int[] lc = new int[2];
 		int[] lc1 = new int[2];
 		int[] lc2 = new int[2];
 		lc = m.getFree();
-
 		h.setX(lc[1]);
 		h.setY(lc[0]);
-
 		lc1 = m.getFree();
 		for (int i = 0; i < d.size(); i++) {
 			while ((lc1[0] + 1 == h.getY() && lc1[1] == h.getX())
@@ -30,12 +26,10 @@ public class Game {
 			lc1 = new int[2];
 			lc1 = m.getFree();
 		}
-
 		lc2 = m.getFree();
 		while ((lc2[0] == h.getY() && lc2[1] == h.getX())) {
 			lc2 = m.getFree();
 		}
-
 		s.setX(lc2[1]);
 		s.setY(lc2[0]);
 	}
@@ -44,7 +38,6 @@ public class Game {
 		Maze m = new Maze();
 		Hero h = new Hero();
 		Sword s = new Sword();
-		Eagle e = new Eagle();
 		String mov;
 		Boolean gameOver = false;
 		int N = Interface.readMazeSize();
@@ -65,33 +58,41 @@ public class Game {
 			s.setY(8);
 		} else {
 			m.generateMaze(N);
-			placeElements(m, d, h, s, e);
+			placeElements(m, d, h, s);
 		}
-		Display.print(m.getMaze(), h, d, s, e);
+		Display.print(m.getMaze(), h, d, s);
 
 		while (!gameOver) {
-			mov = Interface.readDirection();
-			h.moveHero(m, mov);
+			if (h.hasEagle())
+				mov = Interface.readDirectionEagle();
+			else
+				mov = Interface.readDirection();
+			if (mov.equals("l") || mov.equals("L"))
+			{
+				h.launchEagle();
+			}
+			else {
+				h.moveHero(m, mov);
+				h.e.moveEagle(s);
+			}
 			for (int i = 0; i < d.size(); i++) {
 				d.get(i).moveDrake(m);
 			}
 			if (!h.hasSword())
 				checkSword(h, s);
-			Display.print(m.getMaze(), h, d, s, e);
+			Display.print(m.getMaze(), h, d, s);
 			if (checkDead(h, d)) {
 				Interface.lostTheGame();
-				gameOver=true;
+				gameOver = true;
 			}
-
 			if (h.atExit) {
 				Interface.wonTheGame();
-				gameOver=true;
+				gameOver = true;
 			}
 		}
 	}
 
 	private static void checkSword(Hero h, Sword s) {
-
 		if (h.getX() == s.getX() && h.getY() == s.getY()) {
 			h.sword = true;
 		} else
@@ -110,9 +111,8 @@ public class Game {
 					if (i > 0)
 						i--;
 				}
-			} else
-
-			if (h.getY() - 1 == d.get(i).getY() && h.getX() == d.get(i).getX()) {
+			} else if (h.getY() - 1 == d.get(i).getY()
+					&& h.getX() == d.get(i).getX()) {
 				if (!h.hasSword() && !d.get(i).isSleeping()) {
 					isDead = true;
 					break;
@@ -121,9 +121,8 @@ public class Game {
 					if (i > 0)
 						i--;
 				}
-			} else
-
-			if (h.getY() == d.get(i).getY() && h.getX() + 1 == d.get(i).getX()) {
+			} else if (h.getY() == d.get(i).getY()
+					&& h.getX() + 1 == d.get(i).getX()) {
 				if (!h.hasSword() && !d.get(i).isSleeping()) {
 					isDead = true;
 					break;
@@ -132,9 +131,8 @@ public class Game {
 					if (i > 0)
 						i--;
 				}
-			} else
-
-			if (h.getY() == d.get(i).getY() && h.getX() - 1 == d.get(i).getX()) {
+			} else if (h.getY() == d.get(i).getY()
+					&& h.getX() - 1 == d.get(i).getX()) {
 				if (!h.hasSword() && !d.get(i).isSleeping()) {
 					isDead = true;
 					break;
@@ -145,7 +143,6 @@ public class Game {
 				}
 			}
 		}
-
 		if (isDead) {
 			return true;
 		} else

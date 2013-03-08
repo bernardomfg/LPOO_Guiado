@@ -4,13 +4,28 @@ public class Hero extends Mobile {
 	public Boolean sword = false;
 	public Boolean eagle = true;
 	public Boolean atExit = false;
+	public Eagle e;
 
+	public Hero() {
+		e = new Eagle();
+		e.xIn = x;
+		e.yIn = y;
+	}
+	
 	public Boolean hasSword() {
 		return sword;
 	}
 
 	public Boolean hasEagle() {
 		return eagle;
+	}
+	
+	public void launchEagle()
+	{
+		e.motion = 1;
+		e.setX(x);
+		e.setY(y);
+		eagle = false;
 	}
 
 	public void moveHero(Maze m, String op) {

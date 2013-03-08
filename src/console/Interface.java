@@ -39,6 +39,22 @@ public class Interface {
 		} while (!valid);
 		return mov;
 	}
+	
+	public static String readDirectionEagle() {
+		Scanner dir = new Scanner(System.in);
+		String mov;
+		Boolean valid;
+		do {
+			System.out.print("Escolha uma direção (WASD) ou lancar aguia (L): ");
+			mov = dir.next();
+			if (mov != "A" && mov != "a" && mov != "W" && mov != "w"
+					&& mov != "D" && mov != "d" && mov != "S" && mov != "s" && mov != "L" && mov != "l")
+				valid = true;
+			else
+				valid = false;
+		} while (!valid);
+		return mov;
+	}
 
 	/**
 	 * Reads number of Dragons from user.
