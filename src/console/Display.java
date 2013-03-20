@@ -31,7 +31,7 @@ public class Display {
 			else
 				temp[h.getY()][h.getX()] = 'H';
 
-			if (!h.e.isDead())
+			if (!h.e.isDead)
 				temp[h.e.getY()][h.e.getX()] = 'P';
 		}
 		// places all possible dragons
