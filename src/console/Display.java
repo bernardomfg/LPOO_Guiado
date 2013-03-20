@@ -43,12 +43,13 @@ public class Display {
 		}
 		// places sword checking if it's in same position as dragon
 		if (!h.hasSword()) {
-			if (temp[s.getY()][s.getX()] == 'D')
+			if (temp[s.getY()][s.getX()] == 'D' && !h.e.inFlight)
 				temp[s.getY()][s.getX()] = 'F';
-			else if (temp[s.getY()][s.getX()] == 'd')
+			else if (temp[s.getY()][s.getX()] == 'd' && !h.e.inFlight)
 				temp[s.getY()][s.getX()] = 'f';
 			else
-				temp[s.getY()][s.getX()] = 'E';
+				if (temp[s.getY()][s.getX()] != 'P')
+					temp[s.getY()][s.getX()] = 'E';
 		}
 		// maze printing cycle
 		for (char[] line : temp) {

@@ -8,8 +8,6 @@ public class Hero extends Mobile {
 
 	public Hero() {
 		e = new Eagle();
-		e.xIn = x;
-		e.yIn = y;
 	}
 	
 	public Boolean hasSword() {
@@ -25,7 +23,10 @@ public class Hero extends Mobile {
 		e.motion = 1;
 		e.setX(x);
 		e.setY(y);
+		e.xIn = x;
+		e.yIn = y;
 		eagle = false;
+		e.inFlight = true;
 	}
 
 	public void moveHero(Maze m, String op) {

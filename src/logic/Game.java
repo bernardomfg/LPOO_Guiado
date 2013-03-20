@@ -74,11 +74,16 @@ public class Game {
 			else {
 				h.moveHero(m, mov);
 				h.e.moveEagle(s);
+				if (h.e.hasSword)
+				{
+					s.setX(h.e.getX());
+					s.setY(h.e.getY());
+				}
 			}
 			for (int i = 0; i < d.size(); i++) {
 				d.get(i).moveDrake(m);
 			}
-			if (!h.hasSword())
+			if (!h.hasSword() && !h.e.inFlight)
 				checkSword(h, s);
 			Display.print(m.getMaze(), h, d, s);
 			if (checkDead(h, d)) {
