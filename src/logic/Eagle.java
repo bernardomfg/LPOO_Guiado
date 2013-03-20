@@ -12,9 +12,9 @@ public class Eagle extends Mobile {
 
 	public void moveEagle(Sword s) {
 
-		int x_temp = 0;
-		int y_temp = 0;
-		int ratio = 0;
+		float x_temp = 0;
+		float y_temp = 0;
+		float ratio = 0;
 
 		switch (motion) {
 		case 1:
@@ -100,7 +100,7 @@ public class Eagle extends Mobile {
 				else
 					setY(getY()-1);
 			} else if (x_temp == 0 && y_temp == 0) {
-				motion = 2;
+				motion = 0;
 				hasSword = true;
 			} else {
 				ratio = x_temp / y_temp;
@@ -128,7 +128,7 @@ public class Eagle extends Mobile {
 						else
 							setY(getY()+1);
 					}
-				} else
+				} 
 				if (ratio < 0) {
 					if (Math.abs(ratio) == 1) {
 						if (x_temp < 0)
