@@ -18,18 +18,18 @@ public class Eagle extends Mobile {
 
 		switch (motion) {
 		case 1:
-			x_temp = s.getX() - x;
-			y_temp = s.getY() - y;
+			x_temp = s.getX() - getX();
+			y_temp = s.getY() - getY();
 			if (y_temp == 0) {
 				if (x_temp > 0)
-					x += 1;
+					setX(getX()+1);
 				else
-					x -= 1;
+					setX(getX()-1);
 			} else if (x_temp == 0) {
 				if (y_temp > 0)
-					y += 1;
+					setY(getY()+1);
 				else
-					y -= 1;
+					setY(getY()-1);
 			} else if (x_temp == 0 && y_temp == 0) {
 				motion = 2;
 				hasSword = true;
@@ -39,66 +39,66 @@ public class Eagle extends Mobile {
 				if (ratio > 0) {
 					if (Math.abs(ratio) == 1) {
 						if (x_temp > 0) {
-							x += 1;
-							y += 1;
+							setX(getX()+1);
+							setY(getY()+1);
 						}
 						if (x_temp < 0) {
-							x -= 1;
-							y -= 1;
+							setX(getX()-1);
+							setY(getY()-1);
 						}
-					}
+					} else
 
 					if (Math.abs(ratio) > 1) {
 						if (x_temp < 0)
-							x -= 1;
+							setX(getX()-1);
 						else
-							x += 1;
+							setX(getX()+1);
 					} else {
 						if (y_temp < 0)
-							y -= 1;
+							setY(getY()-1);
 						else
-							y += 1;
+							setY(getY()+1);
 					}
-				} else
+				} 
 				if (ratio < 0) {
 					if (Math.abs(ratio) == 1) {
 						if (x_temp < 0)
-							x -= 1;
+							setX(getX()-1);
 						else
-							x += 1;
+							setX(getX()+1);
 						if (y_temp < 0)
-							y -= 1;
+							setY(getY()-1);
 						else
-							y += 1;
-					}
+							setY(getY()+1);
+					} else
 
 					if (Math.abs(ratio) > 1) {
 						if (x_temp < 0)
-							x -= 1;
+							setX(getX()-1);
 						else
-							x += 1;
+							setX(getX()+1);
 					} else {
 						if (y_temp < 0)
-							y -= 1;
+							setY(getY()-1);
 						else
-							y += 1;
+							setY(getY()+1);
 					}
 				}
 			}
 			break;
 		case 2:
-			x_temp = xIn - x;
-			y_temp = yIn - y;
+			x_temp = xIn - getX();
+			y_temp = yIn - getY();
 			if (y_temp == 0) {
 				if (x_temp > 0)
-					x += 1;
+					setX(getX()+1);
 				else
-					x -= 1;
+					setX(getX()-1);
 			} else if (x_temp == 0) {
 				if (y_temp > 0)
-					y += 1;
+					setY(getY()+1);
 				else
-					y -= 1;
+					setY(getY()-1);
 			} else if (x_temp == 0 && y_temp == 0) {
 				motion = 2;
 				hasSword = true;
@@ -107,41 +107,51 @@ public class Eagle extends Mobile {
 
 				if (ratio > 0) {
 					if (Math.abs(ratio) == 1) {
-						if (x > 0) {
-							x += 1;
-							y += 1;
+						if (x_temp > 0) {
+							setX(getX()+1);
+							setY(getY()+1);
 						}
-						if (x < 0) {
-							x -= 1;
-							y -= 1;
+						if (x_temp < 0) {
+							setX(getX()-1);
+							setY(getY()-1);
 						}
-					}
+					} else
 
 					if (Math.abs(ratio) > 1) {
-						if (x < 0)
-							x -= 1;
+						if (x_temp < 0)
+							setX(getX()-1);
 						else
-							x += 1;
-					} else if (y < 0)
-						y -= 1;
-					else
-						y += 1;
-				}
+							setX(getX()+1);
+					} else {
+						if (y_temp < 0)
+							setY(getY()-1);
+						else
+							setY(getY()+1);
+					}
+				} else
 				if (ratio < 0) {
 					if (Math.abs(ratio) == 1) {
-						x -= 1;
-						y -= 1;
-					}
+						if (x_temp < 0)
+							setX(getX()-1);
+						else
+							setX(getX()+1);
+						if (y_temp < 0)
+							setY(getY()-1);
+						else
+							setY(getY()+1);
+					} else
 
 					if (Math.abs(ratio) > 1) {
-						if (x < 0)
-							x -= 1;
+						if (x_temp < 0)
+							setX(getX()-1);
 						else
-							x += 1;
-					} else if (y < 0)
-						y -= 1;
-					else
-						y += 1;
+							setX(getX()+1);
+					} else {
+						if (y_temp < 0)
+							setY(getY()-1);
+						else
+							setY(getY()+1);
+					}
 				}
 			}
 			break;
