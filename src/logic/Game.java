@@ -1,15 +1,14 @@
 package logic;
 
-
 import java.util.ArrayList;
 
 public class Game {
-	
-	public static int gameMode = 0;
-	
-	public static void BuildMaze(ArrayList<Drake> d,Maze m,Hero h,Sword s,int N) {
 
-		
+	public static int gameMode = 0;
+
+	public static void BuildMaze(ArrayList<Drake> d, Maze m, Hero h, Sword s,
+			int N) {
+
 		if (N == 0) {
 			m.generateMaze(N);
 			h.setX(1);
@@ -23,8 +22,9 @@ public class Game {
 			Game.placeElements(m, d, h, s);
 		}
 	}
-	
-	public static void play(String mov, Hero h, Sword s, Maze m,ArrayList<Drake> d) {
+
+	public static void play(String mov, Hero h, Sword s, Maze m,
+			ArrayList<Drake> d) {
 		if (mov.equals("l") || mov.equals("L")) {
 			h.launchEagle();
 		} else {
@@ -46,7 +46,7 @@ public class Game {
 		if (!h.hasSword() && !h.e.inFlight)
 			Game.checkSword(h, s);
 	}
-	
+
 	public static void placeElements(Maze m, ArrayList<Drake> d, Hero h, Sword s) {
 		int[] lc = new int[2];
 		int[] lc1 = new int[2];
@@ -87,7 +87,7 @@ public class Game {
 	public static Boolean checkDead(Hero h, ArrayList<Drake> d) {
 		Boolean isDead = false;
 		for (int i = 0; i < d.size(); i++) {
-			
+
 			if (h.e.getY() + 1 == d.get(i).getY()
 					&& h.e.getX() == d.get(i).getX()) {
 				if (!d.get(i).isSleeping() && !h.e.inFlight)
@@ -109,7 +109,7 @@ public class Game {
 				if (!d.get(i).isSleeping() && !h.e.inFlight)
 					h.e.kill();
 			}
-			
+
 			if (h.getY() + 1 == d.get(i).getY() && h.getX() == d.get(i).getX()) {
 				if (!h.hasSword() && !d.get(i).isSleeping()) {
 					isDead = true;
@@ -160,8 +160,7 @@ public class Game {
 						i--;
 				}
 			}
-			
-			
+
 		}
 
 		if (isDead) {
