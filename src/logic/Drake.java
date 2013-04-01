@@ -14,6 +14,21 @@ public class Drake extends Mobile {
 	public Boolean isSleeping() {
 		return sleeping;
 	}
+	
+	public void sleepDrake(Maze m) {
+		Random r = new Random();
+		int p = r.nextInt(10);
+
+		switch (p) {
+		// dormir
+		case 0:
+		case 1:
+		case 2: setSleep(true);
+				break;
+		default : setSleep(false);
+					break;
+		}
+	}
 
 	public void moveDrake(Maze m) {
 		Random r = new Random();
@@ -44,21 +59,6 @@ public class Drake extends Mobile {
 			break;
 
 		}
-		}
-		
-		
-		p = r.nextInt(10);
-
-		switch (p) {
-		// dormir
-		case 0:
-		case 1:
-		case 2: setSleep(true);
-				break;
-		default : setSleep(false);
-					break;
-		
-
 		}
 
 	}

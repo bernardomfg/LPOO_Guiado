@@ -1,17 +1,14 @@
 package console;
-
 import java.util.ArrayList;
+
 import logic.Drake;
 import logic.Hero;
 import logic.Sword;
 
-public class Display {
-	/**
-	 * Uses the initial maze built by the maze builder and places all the game
-	 * elements in their position. It then prints the array's lines one by one
-	 * to draw the maze
-	 */
+public class DisplayConsole {
+
 	public static void print(char[][] maze, Hero h, ArrayList<Drake> d, Sword s) {
+
 		int N = maze.length;
 		char[][] temp = new char[N][N];
 		for (int i = 0; i < N; i++)
@@ -60,4 +57,7 @@ public class Display {
 			System.out.println();
 		}
 	}
+
+	
+
 }

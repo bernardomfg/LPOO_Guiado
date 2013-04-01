@@ -2,12 +2,30 @@ package console;
 
 import java.util.Scanner;
 
-public class Interface {
+public class InterfaceConsole {
+	
+	
+	public static int readGameMode() {
+		Scanner mode = new Scanner(System.in);
+		int op = 0;
+		System.out.println("Modos de Jogo:");
+		System.out.println("1 - Dragao sem movimento");
+		System.out.println("2 - Dragao com movimento");
+		System.out.println("3 - Dragao com movimento intercalado com dormir");
+		System.out.print("Insira o modo de jogo: ");
+		
+		do {
+			op = mode.nextInt();
+			if (op > 3 || op < 1)
+				System.out
+						.print("Insira o modo de jogo: ");
+		} while (op > 3 || op < 1);
+		return op;
+		
+	}
 
-	/**
-	 * Reads desired maze size from user making sure it's a valid size.
-	 */
 	public static int readMazeSize() {
+
 		Scanner input = new Scanner(System.in);
 		int op = 0;
 		System.out
@@ -20,11 +38,9 @@ public class Interface {
 		} while (op < 7 && op > 0);
 		return op;
 	}
-
-	/**
-	 * Reads the direction the user wants to move to.
-	 */
+	
 	public static String readDirection() {
+
 		Scanner dir = new Scanner(System.in);
 		String mov;
 		Boolean valid;
@@ -39,8 +55,9 @@ public class Interface {
 		} while (!valid);
 		return mov;
 	}
-	
+
 	public static String readDirectionEagle() {
+
 		Scanner dir = new Scanner(System.in);
 		String mov;
 		Boolean valid;
@@ -56,10 +73,8 @@ public class Interface {
 		return mov;
 	}
 
-	/**
-	 * Reads number of Dragons from user.
-	 */
 	public static int readDrakeNumber() {
+
 		Scanner input = new Scanner(System.in);
 		int op = 0;
 		System.out.print("Insira o número de Dragões (maior que 0): ");
@@ -72,10 +87,16 @@ public class Interface {
 	}
 
 	public static void lostTheGame() {
+
 		System.out.print("Perdeu o jogo!");
+		
 	}
 
+
 	public static void wonTheGame() {
+
 		System.out.print("Ganhou o jogo!");
+		
 	}
+
 }
