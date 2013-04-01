@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 
 import logic.Drake;
+import logic.Game;
 import logic.Hero;
 import logic.Maze;
 import logic.Sword;
@@ -66,10 +67,12 @@ public class EagleTest {
 		assertEquals(1, h.e.getX());
 		assertEquals(1, h.e.getY());
 		assertEquals(false, h.e.inFlight);
+		Game.checkSword(h, s);
 		assertEquals(true, h.hasSword());
 		assertEquals(false, h.e.hasSword);
 	}
 	
+	@Test
 	public void testEagleGetsKilled() {
 		Maze m = new Maze();
 		Hero h = new Hero();
@@ -124,16 +127,13 @@ public class EagleTest {
 		assertEquals(2, h.e.getX());
 		assertEquals(2, h.e.getY());
 		assertEquals(true, h.e.inFlight);
-		h.e.moveEagle(s);
-		assertEquals(1, h.e.getX());
-		assertEquals(1, h.e.getY());
-		assertEquals(true, h.e.hasSword);
-		assertEquals(true, h.e.inFlight);
 		assertEquals(false, h.e.isDead);
 		h.e.moveEagle(s);
 		assertEquals(1, h.e.getX());
 		assertEquals(1, h.e.getY());
+		assertEquals(true, h.e.hasSword);
 		assertEquals(false, h.e.inFlight);
+		Game.checkDead(h, d);
 		assertEquals(true, h.e.isDead);
 	}
 

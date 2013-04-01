@@ -163,6 +163,10 @@ public class Eagle extends Mobile {
 					}
 				}
 			}
+			if (hasSword) {
+				s.setX(getX());
+				s.setY(getY());
+			}
 			x_temp = xIn - getX();
 			y_temp = yIn - getY();
 			if (x_temp == 0 && y_temp == 0) {

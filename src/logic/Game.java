@@ -31,10 +31,7 @@ public class Game {
 			h.moveHero(m, mov);
 			if (!h.e.isDead) {
 				h.e.moveEagle(s);
-				if (h.e.hasSword) {
-					s.setX(h.e.getX());
-					s.setY(h.e.getY());
-				}
+
 			}
 		}
 		if (gameMode != 1)
@@ -88,26 +85,28 @@ public class Game {
 		Boolean isDead = false;
 		for (int i = 0; i < d.size(); i++) {
 
-			if (h.e.getY() + 1 == d.get(i).getY()
-					&& h.e.getX() == d.get(i).getX()) {
-				if (!d.get(i).isSleeping() && !h.e.inFlight)
-					h.e.kill();
-			} else if (h.getY() - 1 == d.get(i).getY()
-					&& h.e.getX() == d.get(i).getX()) {
-				if (!d.get(i).isSleeping() && !h.e.inFlight)
-					h.e.kill();
-			} else if (h.getY() == d.get(i).getY()
-					&& h.e.getX() + 1 == d.get(i).getX()) {
-				if (!d.get(i).isSleeping() && !h.e.inFlight)
-					h.e.kill();
-			} else if (h.getY() == d.get(i).getY()
-					&& h.e.getX() - 1 == d.get(i).getX()) {
-				if (!d.get(i).isSleeping() && !h.e.inFlight)
-					h.e.kill();
-			} else if (h.getY() == d.get(i).getY()
-					&& h.e.getX() == d.get(i).getX()) {
-				if (!d.get(i).isSleeping() && !h.e.inFlight)
-					h.e.kill();
+			if (!h.e.isDead) {
+				if (h.e.getY() + 1 == d.get(i).getY()
+						&& h.e.getX() == d.get(i).getX()) {
+					if (!d.get(i).isSleeping() && !h.e.inFlight)
+						h.e.kill();
+				} else if (h.e.getY() - 1 == d.get(i).getY()
+						&& h.e.getX() == d.get(i).getX()) {
+					if (!d.get(i).isSleeping() && !h.e.inFlight)
+						h.e.kill();
+				} else if (h.e.getY() == d.get(i).getY()
+						&& h.e.getX() + 1 == d.get(i).getX()) {
+					if (!d.get(i).isSleeping() && !h.e.inFlight)
+						h.e.kill();
+				} else if (h.e.getY() == d.get(i).getY()
+						&& h.e.getX() - 1 == d.get(i).getX()) {
+					if (!d.get(i).isSleeping() && !h.e.inFlight)
+						h.e.kill();
+				} else if (h.e.getY() == d.get(i).getY()
+						&& h.e.getX() == d.get(i).getX()) {
+					if (!d.get(i).isSleeping() && !h.e.inFlight)
+						h.e.kill();
+				}
 			}
 
 			if (h.getY() + 1 == d.get(i).getY() && h.getX() == d.get(i).getX()) {
