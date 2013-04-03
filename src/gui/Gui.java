@@ -77,11 +77,12 @@ public class Gui {
 				SelectMode chooseButton = new SelectMode();
 				chooseButton.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
 				chooseButton.setVisible(true);
-				//Game.gameMode = Integer.parseInt(chooseButton.op);
 			}
 		});
 		btnNewButton.setBounds(321, 444, 147, 51);
 		frame.getContentPane().add(btnNewButton);
+		
+		
 		
 			
 		

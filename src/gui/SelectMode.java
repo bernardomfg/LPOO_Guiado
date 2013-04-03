@@ -35,20 +35,40 @@ public class SelectMode extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		{
-			JRadioButtonMenuItem rdbtnmntmNewRadioItem = new JRadioButtonMenuItem("1");
+			JRadioButtonMenuItem rdbtnmntmNewRadioItem = new JRadioButtonMenuItem("1 - Dragao parado");
+			rdbtnmntmNewRadioItem.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent arg0) {
+					
+					Game.gameMode = 1;
+				}
+			});
 			rdbtnmntmNewRadioItem.setSelected(true);
 			buttonGroup.add(rdbtnmntmNewRadioItem);
 			rdbtnmntmNewRadioItem.setBounds(36, 89, 328, 37);
 			contentPanel.add(rdbtnmntmNewRadioItem);
 		}
 		{
-			JRadioButtonMenuItem rdbtnmntmDragao = new JRadioButtonMenuItem("2");
+			JRadioButtonMenuItem rdbtnmntmDragao = new JRadioButtonMenuItem("2 - Dragao com movimento");
+			rdbtnmntmDragao.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent arg0) {
+					
+					Game.gameMode = 2;
+				}
+			});
 			buttonGroup.add(rdbtnmntmDragao);
 			rdbtnmntmDragao.setBounds(36, 135, 328, 37);
 			contentPanel.add(rdbtnmntmDragao);
 		}
 		
-		JRadioButtonMenuItem rdbtnmntmDragao_1 = new JRadioButtonMenuItem("3");
+		JRadioButtonMenuItem rdbtnmntmDragao_1 = new JRadioButtonMenuItem("3 - Dragao com movimento intercalado com dormir");
+		rdbtnmntmDragao_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Game.gameMode = 3;
+			}
+		});
 		buttonGroup.add(rdbtnmntmDragao_1);
 		rdbtnmntmDragao_1.setBounds(36, 183, 347, 37);
 		contentPanel.add(rdbtnmntmDragao_1);
