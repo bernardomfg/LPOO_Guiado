@@ -17,6 +17,7 @@ import javax.swing.JTextField;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import logic.Drake;
 import logic.Game;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
@@ -26,8 +27,10 @@ public class SelectMode extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private final JPanel contentPanel1 = new JPanel();
+	private final JPanel contentPanel2 = new JPanel();
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private JTextField textField;
+	private JTextField textField1;
 	public String op;
 	int ok = 0;
 
@@ -127,11 +130,46 @@ public class SelectMode extends JDialog {
 							if (s.hasNextInt())
 								Gui.N = s.nextInt();
 							ok = 1;
-							System.out.println(Gui.N);
+							// System.out.println(Gui.N);
 							if ((Gui.N >= 7)
 									|| (Gui.N == 0 && textField.getText()
 											.length() == 1))
+								ok = 3;
+						}
+
+						if (ok == 3 && Gui.N != 0) {
+							JLabel lblNumeroDeDragoes = new JLabel(
+									"Numero de Dragoes:");
+							lblNumeroDeDragoes.setBounds(36, 24, 234, 37);
+							lblNumeroDeDragoes.setVisible(true);
+							textField1 = new JTextField();
+							textField1.setBounds(36, 50, 234, 37);
+							textField1.setColumns(10);
+							contentPanel2.add(lblNumeroDeDragoes);
+							contentPanel2.add(textField1);
+							contentPanel2.setVisible(true);
+							contentPanel.setVisible(false);
+							contentPanel1.setVisible(false);
+
+							getContentPane().add(contentPanel2,
+									BorderLayout.CENTER);
+						}
+
+						if (ok == 4) {
+
+							// System.out.println(textField.getText());
+							Scanner s = new Scanner(textField1.getText());
+							if (s.hasNextInt())
+								Gui.dN = s.nextInt();
+							ok = 3;
+							// System.out.println(Gui.N);
+							if (Gui.dN > 0) {
+
+								for (int i = 0; i < Gui.dN; i++) {
+									Gui.d.add(new Drake());
+								}
 								dispose();
+							}
 						}
 						// Game.gameMode =
 						// Integer.parseInt(buttonGroup.getSelection().toString());
