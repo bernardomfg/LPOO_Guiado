@@ -13,15 +13,11 @@ import logic.Sword;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowFocusListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowStateListener;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
-
+import javax.swing.JPanel;
+import java.awt.GridLayout;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
+
 
 public class Gui {
 
@@ -30,6 +26,11 @@ public class Gui {
 	public static int N = 0;
 	public static int dN = 0;
 	public static ArrayList<Drake> d = new ArrayList<Drake>();
+	public static Maze m = new Maze();
+	public static Hero h = new Hero();
+	public static Sword s = new Sword();
+	public static String mov;
+	public static Boolean gameOver = false;
 
 	/**
 	 * Launch the application.
@@ -47,19 +48,6 @@ public class Gui {
 			}
 		});
 
-		Maze m = new Maze();
-		Hero h = new Hero();
-		Sword s = new Sword();
-		String mov;
-		Boolean gameOver = false;
-
-
-
-		
-
-
-
-		System.out.println(d);
 
 	}
 
@@ -75,12 +63,19 @@ public class Gui {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		final JPanel gamePanel = new JPanel();
 
-		frame.setBounds(100, 100, 819, 548);
+		frame.setBounds(100, 100, 1024, 768);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
+		gamePanel.setVisible(false);
+		//frame.getContentPane().add(gamePanel);
+		gamePanel.setLayout(new GridLayout(1, 0, 0, 0));
+		
+		JLabel lblNewLabel = new JLabel("New label");
+		gamePanel.add(lblNewLabel);
 
 		JButton btnNewButton = new JButton("Novo Jogo");
+		btnNewButton.setBounds(252, 607, 478, 85);
 		btnNewButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -89,11 +84,28 @@ public class Gui {
 				chooseButton
 						.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
 				chooseButton.setVisible(true);
+				
+				createPanel(gamePanel);
+				/*gamePanel.setVisible(true);
+				gamePanel.setLayout(new GridLayout(N, N, 0, 0));*/
+				frame.repaint();
+				
 
 			}
+
+
 		});
-		btnNewButton.setBounds(321, 444, 147, 51);
+		frame.getContentPane().setLayout(null);
 		frame.getContentPane().add(btnNewButton);
 
 	}
+	
+	private void createPanel(JPanel gamePanel) {
+		
+		gamePanel.setVisible(true);
+		gamePanel.setLayout(new GridLayout(N, N, 0, 0));
+		frame.getContentPane().add(gamePanel);
+		
+	}
+	
 }

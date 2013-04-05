@@ -22,6 +22,7 @@ import logic.Game;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 import java.util.Scanner;
+import java.awt.Font;
 
 public class SelectMode extends JDialog {
 
@@ -38,15 +39,17 @@ public class SelectMode extends JDialog {
 	 * Create the dialog.
 	 */
 	public SelectMode() {
-		setBounds(100, 100, 565, 398);
+		setBounds(100, 100, 456, 500);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPanel1.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPanel2.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPanel1.setVisible(false);
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 
 		contentPanel.setLayout(null);
 		contentPanel1.setLayout(null);
+		contentPanel2.setLayout(null);
 
 		{
 			JRadioButtonMenuItem rdbtnmntmNewRadioItem = new JRadioButtonMenuItem(
@@ -78,6 +81,24 @@ public class SelectMode extends JDialog {
 			contentPanel.add(rdbtnmntmDragao);
 		}
 
+		JLabel lblTamanhoDoLabirinto = new JLabel("Tamanho do Labirinto:");
+		lblTamanhoDoLabirinto.setBounds(36, 250, 234, 37);
+		lblTamanhoDoLabirinto.setVisible(true);
+		textField = new JTextField();
+		textField.setBounds(36, 275, 234, 37);
+		textField.setColumns(10);
+		contentPanel.add(lblTamanhoDoLabirinto);
+		contentPanel.add(textField);
+
+		JLabel lblNumeroDeDragoes = new JLabel("Numero de Dragoes:");
+		lblNumeroDeDragoes.setBounds(36, 323, 234, 37);
+		lblNumeroDeDragoes.setVisible(true);
+		textField1 = new JTextField();
+		textField1.setBounds(36, 348, 234, 37);
+		textField1.setColumns(10);
+		contentPanel.add(lblNumeroDeDragoes);
+		contentPanel.add(textField1);
+
 		final JRadioButtonMenuItem rdbtnmntmDragao_1 = new JRadioButtonMenuItem(
 				"3 - Dragao com movimento intercalado com dormir");
 		rdbtnmntmDragao_1.addMouseListener(new MouseAdapter() {
@@ -91,6 +112,7 @@ public class SelectMode extends JDialog {
 		contentPanel.add(rdbtnmntmDragao_1);
 
 		JLabel lblModoDeJogo = new JLabel("Modo de Jogo:");
+		lblModoDeJogo.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		lblModoDeJogo.setBounds(36, 24, 234, 37);
 		contentPanel.add(lblModoDeJogo);
 		{
@@ -104,77 +126,46 @@ public class SelectMode extends JDialog {
 					@Override
 					public void mouseClicked(MouseEvent e) {
 
-						ok++; // dispose window on second click
+						// System.out.println(textField.getText());
+						Scanner s = new Scanner(textField.getText());
+						if (s.hasNextInt())
+							Gui.N = s.nextInt();
 
-						if (ok == 1) {
-							JLabel lblTamanhoDoLabirinto = new JLabel(
-									"Tamanho do Labirinto:");
-							lblTamanhoDoLabirinto.setBounds(36, 24, 234, 37);
-							lblTamanhoDoLabirinto.setVisible(true);
-							textField = new JTextField();
-							textField.setBounds(36, 50, 234, 37);
-							textField.setColumns(10);
-							contentPanel1.add(lblTamanhoDoLabirinto);
-							contentPanel1.add(textField);
-							contentPanel1.setVisible(true);
-							contentPanel.setVisible(false);
+						// System.out.println(Gui.N);
 
-							getContentPane().add(contentPanel1,
-									BorderLayout.CENTER);
-						}
+						// if (ok == 3 && Gui.N != 0) {
 
-						if (ok == 2) {
+						/*
+						 * contentPanel2.setVisible(true);
+						 * contentPanel.setVisible(false);
+						 * contentPanel1.setVisible(false);
+						 * 
+						 * getContentPane().add(contentPanel2,
+						 * BorderLayout.CENTER); }
+						 */
 
-							// System.out.println(textField.getText());
-							Scanner s = new Scanner(textField.getText());
-							if (s.hasNextInt())
-								Gui.N = s.nextInt();
-							ok = 1;
-							// System.out.println(Gui.N);
-							if ((Gui.N >= 7)
-									|| (Gui.N == 0 && textField.getText()
-											.length() == 1))
-								ok = 3;
-						}
+						// System.out.println(textField.getText());
+						s = new Scanner(textField1.getText());
+						if (s.hasNextInt())
+							Gui.dN = s.nextInt();
+						// System.out.println(Gui.N);
+						if ((Gui.dN > 0)
+								&& ((Gui.N >= 7) || (Gui.N == 0 && textField
+										.getText().length() == 1))) {
+							if (Gui.N == 0)
+								Gui.dN = 1;
 
-						if (ok == 3 && Gui.N != 0) {
-							JLabel lblNumeroDeDragoes = new JLabel(
-									"Numero de Dragoes:");
-							lblNumeroDeDragoes.setBounds(36, 24, 234, 37);
-							lblNumeroDeDragoes.setVisible(true);
-							textField1 = new JTextField();
-							textField1.setBounds(36, 50, 234, 37);
-							textField1.setColumns(10);
-							contentPanel2.add(lblNumeroDeDragoes);
-							contentPanel2.add(textField1);
-							contentPanel2.setVisible(true);
-							contentPanel.setVisible(false);
-							contentPanel1.setVisible(false);
-
-							getContentPane().add(contentPanel2,
-									BorderLayout.CENTER);
-						}
-
-						if (ok == 4) {
-
-							// System.out.println(textField.getText());
-							Scanner s = new Scanner(textField1.getText());
-							if (s.hasNextInt())
-								Gui.dN = s.nextInt();
-							ok = 3;
-							// System.out.println(Gui.N);
-							if (Gui.dN > 0) {
-
-								for (int i = 0; i < Gui.dN; i++) {
-									Gui.d.add(new Drake());
-								}
-								dispose();
+							for (int i = 0; i < Gui.dN; i++) {
+								Gui.d.add(new Drake());
 							}
-						}
-						// Game.gameMode =
-						// Integer.parseInt(buttonGroup.getSelection().toString());
 
+							Game.BuildMaze(Gui.d, Gui.m, Gui.h, Gui.s, Gui.N);
+
+							dispose();
+						}
 					}
+					// Game.gameMode =
+					// Integer.parseInt(buttonGroup.getSelection().toString());
 
 				});
 				okButton.setActionCommand("OK");
