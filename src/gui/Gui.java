@@ -6,7 +6,6 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 
 import logic.Drake;
-import logic.Game;
 import logic.Hero;
 import logic.Maze;
 import logic.Sword;
@@ -17,7 +16,8 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 import java.awt.GridLayout;
 import javax.swing.JLabel;
-
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Gui {
 
@@ -48,7 +48,6 @@ public class Gui {
 			}
 		});
 
-
 	}
 
 	/**
@@ -63,49 +62,67 @@ public class Gui {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		final JPanel gamePanel = new JPanel();
-
-		frame.setBounds(100, 100, 1024, 768);
+		frame.setResizable(false);
+		frame.setBounds(100, 100, 600, 400);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		gamePanel.setVisible(false);
-		//frame.getContentPane().add(gamePanel);
-		gamePanel.setLayout(new GridLayout(1, 0, 0, 0));
+		frame.getContentPane().setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("New label");
-		gamePanel.add(lblNewLabel);
+		//Creates Game panel
 
-		JButton btnNewButton = new JButton("Novo Jogo");
-		btnNewButton.setBounds(252, 607, 478, 85);
-		btnNewButton.addMouseListener(new MouseAdapter() {
+		JPanel panelGame = new JPanel();
+		panelGame.setBounds(144, 0, 455, 370);
+		frame.getContentPane().add(panelGame);
+		panelGame.setLayout(new GridLayout(1, 0, 0, 0));
+		
+		//Creates menu panel
+		
+		JPanel panelMenu = new JPanel();
+		panelMenu.setBounds(0, 0, 134, 371);
+		frame.getContentPane().add(panelMenu);
+		panelMenu.setLayout(new GridLayout(0, 1, 0, 0));
+		
+		//New Game button actions
+		
+		JButton btnNovoJogo = new JButton("New Game");
+		panelMenu.add(btnNovoJogo);
+		btnNovoJogo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-
 				SelectMode chooseButton = new SelectMode();
-				chooseButton
-						.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
+				chooseButton.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
 				chooseButton.setVisible(true);
-				
-				createPanel(gamePanel);
-				/*gamePanel.setVisible(true);
-				gamePanel.setLayout(new GridLayout(N, N, 0, 0));*/
 				frame.repaint();
 				
-
 			}
-
-
 		});
-		frame.getContentPane().setLayout(null);
-		frame.getContentPane().add(btnNewButton);
+
+		//Load button actions
+		
+		JButton btnCarregar = new JButton("Load Game");
+		panelMenu.add(btnCarregar);
+
+		//Save button actions
+		
+		JButton btnGravar = new JButton("Save Game");
+		panelMenu.add(btnGravar);
+
+		//Create button actions
+		
+		JButton btnCriar = new JButton("Create Maze");
+		panelMenu.add(btnCriar);
+
+		//Exit button actions
+		
+		JButton btnSair = new JButton("Exit");
+		btnSair.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				System.exit(0);
+			}
+		});
+		panelMenu.add(btnSair);
+
 
 	}
-	
-	private void createPanel(JPanel gamePanel) {
-		
-		gamePanel.setVisible(true);
-		gamePanel.setLayout(new GridLayout(N, N, 0, 0));
-		frame.getContentPane().add(gamePanel);
-		
-	}
-	
+
 }

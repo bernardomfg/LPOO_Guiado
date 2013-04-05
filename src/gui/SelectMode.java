@@ -23,6 +23,8 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 import java.util.Scanner;
 import java.awt.Font;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class SelectMode extends JDialog {
 
@@ -30,8 +32,8 @@ public class SelectMode extends JDialog {
 	private final JPanel contentPanel1 = new JPanel();
 	private final JPanel contentPanel2 = new JPanel();
 	private final ButtonGroup buttonGroup = new ButtonGroup();
-	private JTextField textField;
-	private JTextField textField1;
+	private JTextField textFieldTamanho;
+	private JTextField textFieldNDragoes;
 	public String op;
 	int ok = 0;
 
@@ -39,7 +41,8 @@ public class SelectMode extends JDialog {
 	 * Create the dialog.
 	 */
 	public SelectMode() {
-		setBounds(100, 100, 456, 500);
+		setResizable(false);
+		setBounds(100, 100, 352, 400);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPanel1.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -52,68 +55,68 @@ public class SelectMode extends JDialog {
 		contentPanel2.setLayout(null);
 
 		{
-			JRadioButtonMenuItem rdbtnmntmNewRadioItem = new JRadioButtonMenuItem(
+			JRadioButtonMenuItem rdbDragaoParado = new JRadioButtonMenuItem(
 					"1 - Dragao parado");
-			rdbtnmntmNewRadioItem.addMouseListener(new MouseAdapter() {
+			rdbDragaoParado.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
 
 					Game.gameMode = 1;
 				}
 			});
-			rdbtnmntmNewRadioItem.setSelected(true);
-			buttonGroup.add(rdbtnmntmNewRadioItem);
-			rdbtnmntmNewRadioItem.setBounds(36, 89, 328, 37);
-			contentPanel.add(rdbtnmntmNewRadioItem);
+			rdbDragaoParado.setSelected(true);
+			buttonGroup.add(rdbDragaoParado);
+			rdbDragaoParado.setBounds(10, 47, 328, 37);
+			contentPanel.add(rdbDragaoParado);
 		}
 		{
-			JRadioButtonMenuItem rdbtnmntmDragao = new JRadioButtonMenuItem(
+			JRadioButtonMenuItem rdbDragaoMov = new JRadioButtonMenuItem(
 					"2 - Dragao com movimento");
-			rdbtnmntmDragao.addMouseListener(new MouseAdapter() {
+			rdbDragaoMov.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
 
 					Game.gameMode = 2;
 				}
 			});
-			buttonGroup.add(rdbtnmntmDragao);
-			rdbtnmntmDragao.setBounds(36, 135, 328, 37);
-			contentPanel.add(rdbtnmntmDragao);
+			buttonGroup.add(rdbDragaoMov);
+			rdbDragaoMov.setBounds(10, 93, 328, 37);
+			contentPanel.add(rdbDragaoMov);
 		}
 
 		JLabel lblTamanhoDoLabirinto = new JLabel("Tamanho do Labirinto:");
-		lblTamanhoDoLabirinto.setBounds(36, 250, 234, 37);
+		lblTamanhoDoLabirinto.setBounds(10, 189, 234, 37);
 		lblTamanhoDoLabirinto.setVisible(true);
-		textField = new JTextField();
-		textField.setBounds(36, 275, 234, 37);
-		textField.setColumns(10);
+		textFieldTamanho = new JTextField();
+		textFieldTamanho.setBounds(10, 214, 234, 37);
+		textFieldTamanho.setColumns(10);
+		
+				final JRadioButtonMenuItem rdbDragaoMovSleep = new JRadioButtonMenuItem(
+						"3 - Dragao com movimento intercalado com dormir");
+				rdbDragaoMovSleep.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						Game.gameMode = 3;
+					}
+				});
+				buttonGroup.add(rdbDragaoMovSleep);
+				rdbDragaoMovSleep.setBounds(10, 141, 347, 37);
+				contentPanel.add(rdbDragaoMovSleep);
 		contentPanel.add(lblTamanhoDoLabirinto);
-		contentPanel.add(textField);
+		contentPanel.add(textFieldTamanho);
 
 		JLabel lblNumeroDeDragoes = new JLabel("Numero de Dragoes:");
-		lblNumeroDeDragoes.setBounds(36, 323, 234, 37);
+		lblNumeroDeDragoes.setBounds(10, 262, 234, 37);
 		lblNumeroDeDragoes.setVisible(true);
-		textField1 = new JTextField();
-		textField1.setBounds(36, 348, 234, 37);
-		textField1.setColumns(10);
+		textFieldNDragoes = new JTextField();
+		textFieldNDragoes.setBounds(10, 287, 234, 37);
+		textFieldNDragoes.setColumns(10);
 		contentPanel.add(lblNumeroDeDragoes);
-		contentPanel.add(textField1);
-
-		final JRadioButtonMenuItem rdbtnmntmDragao_1 = new JRadioButtonMenuItem(
-				"3 - Dragao com movimento intercalado com dormir");
-		rdbtnmntmDragao_1.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				Game.gameMode = 3;
-			}
-		});
-		buttonGroup.add(rdbtnmntmDragao_1);
-		rdbtnmntmDragao_1.setBounds(36, 183, 347, 37);
-		contentPanel.add(rdbtnmntmDragao_1);
+		contentPanel.add(textFieldNDragoes);
 
 		JLabel lblModoDeJogo = new JLabel("Modo de Jogo:");
 		lblModoDeJogo.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-		lblModoDeJogo.setBounds(36, 24, 234, 37);
+		lblModoDeJogo.setBounds(10, 11, 234, 37);
 		contentPanel.add(lblModoDeJogo);
 		{
 			JPanel buttonPane = new JPanel();
@@ -127,7 +130,7 @@ public class SelectMode extends JDialog {
 					public void mouseClicked(MouseEvent e) {
 
 						// System.out.println(textField.getText());
-						Scanner s = new Scanner(textField.getText());
+						Scanner s = new Scanner(textFieldTamanho.getText());
 						if (s.hasNextInt())
 							Gui.N = s.nextInt();
 
@@ -145,12 +148,12 @@ public class SelectMode extends JDialog {
 						 */
 
 						// System.out.println(textField.getText());
-						s = new Scanner(textField1.getText());
+						s = new Scanner(textFieldNDragoes.getText());
 						if (s.hasNextInt())
 							Gui.dN = s.nextInt();
 						// System.out.println(Gui.N);
 						if ((Gui.dN > 0)
-								&& ((Gui.N >= 7) || (Gui.N == 0 && textField
+								&& ((Gui.N >= 7) || (Gui.N == 0 && textFieldTamanho
 										.getText().length() == 1))) {
 							if (Gui.N == 0)
 								Gui.dN = 1;
