@@ -66,53 +66,58 @@ public class Gui {
 		frame.setBounds(100, 100, 600, 400);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-		
-		//Creates Game panel
 
-		JPanel panelGame = new JPanel();
+		// Creates Game panel
+
+		final JPanel panelGame = new JPanel();
 		panelGame.setBounds(144, 0, 455, 370);
 		frame.getContentPane().add(panelGame);
 		panelGame.setLayout(new GridLayout(1, 0, 0, 0));
-		
-		//Creates menu panel
-		
+
+		// Creates menu panel
+
 		JPanel panelMenu = new JPanel();
 		panelMenu.setBounds(0, 0, 134, 371);
 		frame.getContentPane().add(panelMenu);
 		panelMenu.setLayout(new GridLayout(0, 1, 0, 0));
-		
-		//New Game button actions
-		
-		JButton btnNovoJogo = new JButton("New Game");
+
+		// New Game button actions
+
+		final JButton btnNovoJogo = new JButton("New Game");
 		panelMenu.add(btnNovoJogo);
 		btnNovoJogo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				SelectMode chooseButton = new SelectMode();
-				chooseButton.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
+				chooseButton
+						.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
 				chooseButton.setVisible(true);
 				frame.repaint();
-				
+				final JLabel test = new JLabel("test");
+				final JLabel test2 = new JLabel("test2");
+				panelGame.setLayout(new GridLayout(N, N, 0, 0));
+				panelGame.add(test);panelGame.add(test2);
+				frame.repaint();
 			}
 		});
 
-		//Load button actions
-		
+		// Load button actions
+
 		JButton btnCarregar = new JButton("Load Game");
 		panelMenu.add(btnCarregar);
 
-		//Save button actions
-		
+		// Save button actions
+
 		JButton btnGravar = new JButton("Save Game");
 		panelMenu.add(btnGravar);
 
-		//Create button actions
-		
+		// Create button actions
+
 		JButton btnCriar = new JButton("Create Maze");
 		panelMenu.add(btnCriar);
 
-		//Exit button actions
-		
+		// Exit button actions
+
 		JButton btnSair = new JButton("Exit");
 		btnSair.addMouseListener(new MouseAdapter() {
 			@Override
@@ -121,7 +126,6 @@ public class Gui {
 			}
 		});
 		panelMenu.add(btnSair);
-
 
 	}
 
