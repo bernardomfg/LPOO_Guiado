@@ -1,8 +1,10 @@
 package gui;
 
+import java.awt.Color;
 import java.awt.Dialog;
 import java.awt.EventQueue;
 
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 
 import logic.Drake;
@@ -76,7 +78,7 @@ public class Gui {
 
 		// Creates menu panel
 
-		JPanel panelMenu = new JPanel();
+		final JPanel panelMenu = new JPanel();
 		panelMenu.setBounds(0, 0, 134, 371);
 		frame.getContentPane().add(panelMenu);
 		panelMenu.setLayout(new GridLayout(0, 1, 0, 0));
@@ -92,12 +94,17 @@ public class Gui {
 				chooseButton
 						.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
 				chooseButton.setVisible(true);
-				frame.repaint();
-				final JLabel test = new JLabel("test");
-				final JLabel test2 = new JLabel("test2");
 				panelGame.setLayout(new GridLayout(N, N, 0, 0));
-				panelGame.add(test);panelGame.add(test2);
+				frame.setBounds(100, 100, 600+N*32, 400+N*32);
+				panelGame.setBounds(144, 0, 455+N*32, 370+N*32);
+				panelMenu.setBounds(0, 0, 134, 371+N*32);
 				frame.repaint();
+				panelGame.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
+				for (int i =0; i<(N*N); i++){
+				    final JLabel label = new JLabel("Label");
+				    label.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+				    panelGame.add(label);
+				}
 			}
 		});
 
@@ -128,5 +135,4 @@ public class Gui {
 		panelMenu.add(btnSair);
 
 	}
-
 }
