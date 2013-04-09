@@ -9,7 +9,7 @@ public class Hero extends Mobile {
 	public Hero() {
 		e = new Eagle();
 	}
-	
+
 	public Boolean hasSword() {
 		return sword;
 	}
@@ -17,9 +17,8 @@ public class Hero extends Mobile {
 	public Boolean hasEagle() {
 		return eagle;
 	}
-	
-	public void launchEagle()
-	{
+
+	public void launchEagle() {
 		e.motion = 1;
 		e.setX(x);
 		e.setY(y);
@@ -44,7 +43,6 @@ public class Hero extends Mobile {
 			if (m.maze[y][x - 1] == ' ')
 				move(0);
 			if (m.maze[y][x - 1] == 'S' && hasSword()) {
-				move(0);
 				atExit = true;
 			}
 			break;
@@ -54,7 +52,6 @@ public class Hero extends Mobile {
 			if (m.maze[y][x + 1] == ' ')
 				move(1);
 			if (m.maze[y][x + 1] == 'S' && hasSword()) {
-				move(0);
 				atExit = true;
 			}
 			break;
@@ -63,9 +60,7 @@ public class Hero extends Mobile {
 		case "w":
 			if (m.maze[y - 1][x] == ' ')
 				move(2);
-			if (m.maze[y-1][x] == 'S' && hasSword()) 
-			{
-				move(0);
+			if (m.maze[y - 1][x] == 'S' && hasSword()) {
 				atExit = true;
 			}
 			break;
@@ -74,9 +69,7 @@ public class Hero extends Mobile {
 		case "s":
 			if (m.maze[y + 1][x] == ' ')
 				move(3);
-			if (m.maze[y + 1][x] == 'S' && hasSword())
-			{
-				move(0);
+			if (m.maze[y + 1][x] == 'S' && hasSword()) {
 				atExit = true;
 			}
 			break;

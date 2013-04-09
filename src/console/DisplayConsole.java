@@ -9,6 +9,19 @@ public class DisplayConsole {
 
 	public static void print(char[][] maze, Hero h, ArrayList<Drake> d, Sword s) {
 
+		char[][] temp = fillMaze(maze, h, d, s);
+		// maze printing cycle
+		for (char[] line : temp) {
+			for (char sym : line) {
+				System.out.print(sym);
+				System.out.print(' ');
+			}
+			System.out.println();
+		}
+	}
+
+	public static char[][] fillMaze(char[][] maze, Hero h, ArrayList<Drake> d,
+			Sword s) {
 		int N = maze.length;
 		char[][] temp = new char[N][N];
 		for (int i = 0; i < N; i++)
@@ -48,14 +61,7 @@ public class DisplayConsole {
 				if (temp[s.getY()][s.getX()] != 'P')
 					temp[s.getY()][s.getX()] = 'E';
 		}
-		// maze printing cycle
-		for (char[] line : temp) {
-			for (char sym : line) {
-				System.out.print(sym);
-				System.out.print(' ');
-			}
-			System.out.println();
-		}
+		return temp;
 	}
 
 	
