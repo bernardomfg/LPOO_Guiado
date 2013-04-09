@@ -7,35 +7,46 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import java.awt.GridLayout;
 import javax.swing.JLabel;
-import javax.swing.SwingConstants;
 import java.awt.Font;
 import java.awt.Color;
+import javax.swing.SwingConstants;
+import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class lostGame extends JDialog {
+public class wonGame extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		try {
+			wonGame dialog = new wonGame();
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	/**
 	 * Create the dialog.
 	 */
-	public lostGame() {
-		setResizable(false);
+	public wonGame() {
 		setBounds(100, 100, 450, 215);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		contentPanel.setLayout(new GridLayout(1, 0, 0, 0));
+		contentPanel.setLayout(new GridLayout(0, 1, 0, 0));
 		{
-			JLabel lblPerdeuOJogo = new JLabel("Perdeu o Jogo!");
-			lblPerdeuOJogo.setForeground(Color.RED);
-			lblPerdeuOJogo.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 30));
-			lblPerdeuOJogo.setHorizontalAlignment(SwingConstants.CENTER);
-			contentPanel.add(lblPerdeuOJogo);
+			JLabel lblGanhouOJogo = new JLabel("Ganhou o Jogo!");
+			contentPanel.add(lblGanhouOJogo);
+			lblGanhouOJogo.setHorizontalAlignment(SwingConstants.CENTER);
+			lblGanhouOJogo.setForeground(Color.BLUE);
+			lblGanhouOJogo.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 30));
 		}
 		{
 			JPanel buttonPane = new JPanel();

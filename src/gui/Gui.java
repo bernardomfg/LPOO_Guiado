@@ -2,6 +2,8 @@ package gui;
 
 import java.awt.Dialog;
 import java.awt.EventQueue;
+import java.awt.Graphics;
+import java.awt.Image;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -83,14 +85,14 @@ public class Gui {
 			}
 		});
 		frame.setResizable(false);
-		frame.setBounds(100, 100, 600, 400);
+		frame.setBounds(100, 100, /*600*/1280, /*400*/1024);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
 		// Creates Game panel
 
 		// final JPanel panelGame = new JPanel();
-		panelGame.setBounds(138, 0, 461, 370);
+		panelGame.setBounds(138, 0, 1126, 981);
 		frame.getContentPane().add(panelGame);
 		panelGame.setLayout(new GridLayout(1, 0, 0, 0));
 		panelGame.setFocusable(true);
@@ -154,7 +156,10 @@ public class Gui {
 
 				}
 				if (h.atExit) {
-					// InterfaceConsole.wonTheGame();
+					
+					wonGame won = new wonGame();
+					won.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
+					won.setVisible(true);
 				}
 
 			}
@@ -163,7 +168,7 @@ public class Gui {
 		// Creates menu panel
 
 		final JPanel panelMenu = new JPanel();
-		panelMenu.setBounds(0, 0, 134, 371);
+		panelMenu.setBounds(0, 0, 134, 981);
 		frame.getContentPane().add(panelMenu);
 		panelMenu.setLayout(new GridLayout(0, 1, 0, 0));
 
@@ -181,17 +186,17 @@ public class Gui {
 				h = new Hero();
 				s = new Sword();
 				panelGame.removeAll();
-				panelGame.revalidate();
 				SelectMode chooseButton = new SelectMode();
 				chooseButton
 						.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
 				chooseButton.setVisible(true);
-				panelGame.setLayout(new GridLayout(N, N, 0, 0));
-				frame.setBounds(100, 100, 600 + N * 32, 400 + N * 32);
-				panelGame.setBounds(144, 0, N * 32, N * 32);
-				panelMenu.setBounds(0, 0, 134, 371 + N * 32);
-				frame.repaint();
+				if (N == 0)
+					panelGame.setLayout(new GridLayout(10, 10, 0, 0));
+				else
+					panelGame.setLayout(new GridLayout(N, N, 0, 0));
 				paintMaze(m.getMaze(), h, d, s);
+				panelGame.revalidate();
+				panelGame.repaint();
 			}
 		});
 
@@ -223,32 +228,22 @@ public class Gui {
 
 	}
 
+	@SuppressWarnings("serial")
 	public void paintMaze(char[][] maze, Hero h, ArrayList<Drake> d, Sword s) {
 
 		char[][] temp = DisplayConsole.fillMaze(maze, h, d, s);
-		BufferedImage heroImg = null;
-		BufferedImage drakeImg = null;
-		BufferedImage wallImg = null;
-		BufferedImage eagleImg = null;
-		BufferedImage exitImg = null;
-		BufferedImage swordImg = null;
-		BufferedImage superImg = null;
-		BufferedImage backgroundImg = null;
-		try {
-			heroImg = ImageIO.read(new File("sprites\\goku.png"));
 
-			drakeImg = ImageIO.read(new File("sprites\\cell.png"));
-			wallImg = ImageIO.read(new File("sprites\\block.png"));
-			eagleImg = ImageIO.read(new File("sprites\\cloud.png"));
-			exitImg = ImageIO.read(new File("sprites\\chichi.png"));
-			swordImg = ImageIO.read(new File("sprites\\dragonball.png"));
-			superImg = ImageIO.read(new File("sprites\\gokuSayan.png"));
-			backgroundImg = ImageIO.read(new File("sprites\\grass.png"));
+		final ImageIcon heroImg = new ImageIcon("sprites\\goku.png");
+		final ImageIcon drakeImg =  new ImageIcon("sprites\\cell.png");
+		final ImageIcon wallImg = new ImageIcon("sprites\\block.png");
+		final ImageIcon eagleImg =  new ImageIcon("sprites\\cloud.png");
+		final ImageIcon exitImg =  new ImageIcon("sprites\\chichi.png");
+		final ImageIcon swordImg =  new ImageIcon("sprites\\dragonball.png");
+		final ImageIcon superImg =  new ImageIcon("sprites\\gokuSayan.png");
+		final ImageIcon backgroundImg =  new ImageIcon("sprites\\grass.png");
+		final ImageIcon drakeSwordImg = new ImageIcon("sprites\\cellBall.png");
+		final ImageIcon drakeSleepImg = new ImageIcon("sprites\\cellSleep.png");
 
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		JLabel labelBackground = null;
 		JLabel labelHero = null;
 		JLabel labelDrake = null;
@@ -263,45 +258,112 @@ public class Gui {
 				switch (temp[i][j]) {
 
 				case 'H':
-					labelHero = new JLabel(new ImageIcon(heroImg));
+					labelHero = new JLabel()
+					{ 
+					    public void paintComponent (Graphics g) 
+					    { 
+					        super.paintComponent (g); 
+					        g.drawImage (heroImg.getImage(), 0, 0, getWidth (), getHeight (), null); 
+					    } 
+					};
 					panelGame.add(labelHero);
 					break;
 
 				case 'D':
+					labelDrake = new JLabel(){ 
+					    public void paintComponent (Graphics g) 
+					    { 
+					        super.paintComponent (g); 
+					        g.drawImage (drakeImg.getImage(), 0, 0, getWidth (), getHeight (), null); 
+					    } 
+					};
+					panelGame.add(labelDrake);
+					break;
 				case 'd': // test
 				case 'f':
+					labelDrake = new JLabel(){ 
+					    public void paintComponent (Graphics g) 
+					    { 
+					        super.paintComponent (g); 
+					        g.drawImage (drakeSleepImg.getImage(), 0, 0, getWidth (), getHeight (), null); 
+					    } 
+					};
+					panelGame.add(labelDrake);
+					break;
 				case 'F':
-					labelDrake = new JLabel(new ImageIcon(drakeImg));
+					labelDrake = new JLabel(){ 
+					    public void paintComponent (Graphics g) 
+					    { 
+					        super.paintComponent (g); 
+					        g.drawImage (drakeSwordImg.getImage(), 0, 0, getWidth (), getHeight (), null); 
+					    } 
+					};
 					panelGame.add(labelDrake);
 					break;
 
 				case 'P':
-					labelEagle = new JLabel(new ImageIcon(eagleImg));
+					labelEagle = new JLabel(){ 
+					    public void paintComponent (Graphics g) 
+					    { 
+					        super.paintComponent (g); 
+					        g.drawImage (eagleImg.getImage(), 0, 0, getWidth (), getHeight (), null); 
+					    } 
+					};
 					panelGame.add(labelEagle);
 					break;
 
 				case 'E':
-					labelSword = new JLabel(new ImageIcon(swordImg));
+					labelSword = new JLabel(){ 
+					    public void paintComponent (Graphics g) 
+					    { 
+					        super.paintComponent (g); 
+					        g.drawImage (swordImg.getImage(), 0, 0, getWidth (), getHeight (), null); 
+					    } 
+					};
 					panelGame.add(labelSword);
 					break;
 
 				case 'A':
-					labelHero = new JLabel(new ImageIcon(superImg));
+					labelHero = new JLabel(){ 
+					    public void paintComponent (Graphics g) 
+					    { 
+					        super.paintComponent (g); 
+					        g.drawImage (superImg.getImage(), 0, 0, getWidth (), getHeight (), null); 
+					    } 
+					};
 					panelGame.add(labelHero);
 					break;
 
 				case ' ':
-					labelBackground = new JLabel(new ImageIcon(backgroundImg));
+					labelBackground = new JLabel(){ 
+					    public void paintComponent (Graphics g) 
+					    { 
+					        super.paintComponent (g); 
+					        g.drawImage (backgroundImg.getImage(), 0, 0, getWidth (), getHeight (), null); 
+					    } 
+					};
 					panelGame.add(labelBackground);
 					break;
 
 				case 'X':
-					labelWall = new JLabel(new ImageIcon(wallImg));
+					labelWall = new JLabel(){ 
+					    public void paintComponent (Graphics g) 
+					    { 
+					        super.paintComponent (g); 
+					        g.drawImage (wallImg.getImage(), 0, 0, getWidth (), getHeight (), null); 
+					    } 
+					};
 					panelGame.add(labelWall);
 					break;
 
 				case 'S':
-					labelExit = new JLabel(new ImageIcon(exitImg));
+					labelExit = new JLabel(){ 
+					    public void paintComponent (Graphics g) 
+					    { 
+					        super.paintComponent (g); 
+					        g.drawImage (exitImg.getImage(), 0, 0, getWidth (), getHeight (), null); 
+					    } 
+					};
 					panelGame.add(labelExit);
 					break;
 				}

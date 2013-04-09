@@ -12,6 +12,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JMenuItem;
 import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
+import javax.swing.JRootPane;
 import javax.swing.JTextField;
 
 import java.awt.event.MouseAdapter;
@@ -25,6 +26,8 @@ import java.util.Scanner;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class SelectMode extends JDialog {
 
@@ -44,6 +47,8 @@ public class SelectMode extends JDialog {
 		setResizable(false);
 		setBounds(100, 100, 352, 400);
 		getContentPane().setLayout(new BorderLayout());
+		final JButton okButton = new JButton("OK");
+
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPanel1.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPanel2.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -123,35 +128,21 @@ public class SelectMode extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("OK");
+				
 
 				okButton.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent e) {
 
-						// System.out.println(textField.getText());
+						
 						Scanner s = new Scanner(textFieldTamanho.getText());
 						if (s.hasNextInt())
 							Gui.N = s.nextInt();
 
-						// System.out.println(Gui.N);
-
-						// if (ok == 3 && Gui.N != 0) {
-
-						/*
-						 * contentPanel2.setVisible(true);
-						 * contentPanel.setVisible(false);
-						 * contentPanel1.setVisible(false);
-						 * 
-						 * getContentPane().add(contentPanel2,
-						 * BorderLayout.CENTER); }
-						 */
-
-						// System.out.println(textField.getText());
 						s = new Scanner(textFieldNDragoes.getText());
 						if (s.hasNextInt())
 							Gui.dN = s.nextInt();
-						// System.out.println(Gui.N);
+						
 						if ((Gui.dN > 0)
 								&& ((Gui.N >= 7) || (Gui.N == 0 && textFieldTamanho
 										.getText().length() == 1))) {
@@ -167,8 +158,6 @@ public class SelectMode extends JDialog {
 							dispose();
 						}
 					}
-					// Game.gameMode =
-					// Integer.parseInt(buttonGroup.getSelection().toString());
 
 				});
 				okButton.setActionCommand("OK");
@@ -186,7 +175,9 @@ public class SelectMode extends JDialog {
 				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
+				
 			}
+			
 		}
 	}
 }
