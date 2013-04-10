@@ -5,6 +5,7 @@ import java.util.Random;
 
 public class Drake extends Mobile implements Serializable {
 	public Boolean sleeping = false;
+	public int sleeps = Game.gameMode;
 
 
 	public void setSleep(Boolean state) {

@@ -1,11 +1,14 @@
 package gui;
 
 import java.awt.Dialog;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Graphics;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.SpinnerModel;
+import javax.swing.SpinnerNumberModel;
 
 import logic.Drake;
 import logic.Game;
@@ -22,7 +25,6 @@ import javax.swing.JLabel;
 
 import console.DisplayConsole;
 
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -35,6 +37,11 @@ import java.awt.event.WindowFocusListener;
 import java.awt.event.WindowEvent;
 import java.awt.BorderLayout;
 import javax.swing.JSpinner;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
 
 public class Gui implements Serializable {
 
@@ -92,68 +99,90 @@ public class Gui implements Serializable {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
 		final JPanel panelCreate = new JPanel();
-		frame.getContentPane().add(panelCreate, BorderLayout.NORTH);
+		// frame.getContentPane().add(panelCreate, BorderLayout.NORTH);
 		panelCreate.setLayout(new GridLayout(0, 1, 0, 0));
 		panelCreate.setVisible(false);
-		
+		panelCreate.setPreferredSize(new Dimension(50, 150));
+
 		JLabel label = new JLabel("Size");
 		panelCreate.add(label);
-		
-		JSpinner spinner = new JSpinner();
+
+		final JSpinner spinner = new JSpinner();
+		spinner.setModel(new SpinnerNumberModel(7, 7, 50, 1));
+		ChangeListener listener = new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+
+				panelGame.removeAll();
+				
+				N = (Integer) spinner.getValue();
+				panelGame.setLayout(new GridLayout(N, N, 0, 0));
+				JLabel labelInit;
+				final ImageIcon wallImg = new ImageIcon("sprites\\block.png");
+				panelCreate.revalidate();
+				panelCreate.repaint();
+				for (int i = 0; i < N; i++) {
+					for (int j = 0; j < N; j++) {
+						labelInit = new JLabel() {
+							public void paintComponent(Graphics g) {
+								super.paintComponent(g);
+								g.drawImage(wallImg.getImage(), 0, 0,
+										getWidth(), getHeight(), null);
+							}
+						};
+						panelGame.add(labelInit);
+					}
+				}
+				panelCreate.revalidate();
+				panelCreate.repaint();
+
+			}
+		};
+		spinner.addChangeListener(listener);
 		panelCreate.add(spinner);
-		
+
 		final ImageIcon heroImg = new ImageIcon("sprites\\goku.png");
 		final ImageIcon drakeImg = new ImageIcon("sprites\\cell.png");
 		final ImageIcon wallImg = new ImageIcon("sprites\\block.png");
 		final ImageIcon exitImg = new ImageIcon("sprites\\chichi.png");
 		final ImageIcon swordImg = new ImageIcon("sprites\\dragonball.png");
 		final ImageIcon backgroundImg = new ImageIcon("sprites\\grass.png");
-		
+
 		JLabel labelHero = new JLabel() {
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				g.drawImage(heroImg.getImage(), 0, 0, getWidth(),
-						getHeight(), null);
+				g.drawImage(heroImg.getImage(), 0, 0, getWidth(), getHeight(),
+						null);
 			}
 		};
 		panelCreate.add(labelHero);
-		
+
 		JLabel labelDrake = new JLabel() {
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				g.drawImage(drakeImg.getImage(), 0, 0, getWidth(),
-						getHeight(), null);
+				g.drawImage(drakeImg.getImage(), 0, 0, getWidth(), getHeight(),
+						null);
 			}
 		};
 		panelCreate.add(labelDrake);
-		
+
 		JLabel labelSword = new JLabel() {
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				g.drawImage(swordImg.getImage(), 0, 0, getWidth(),
-						getHeight(), null);
+				g.drawImage(swordImg.getImage(), 0, 0, getWidth(), getHeight(),
+						null);
 			}
 		};
 		panelCreate.add(labelSword);
-		
-		JLabel labelWall = new JLabel() {
-			public void paintComponent(Graphics g) {
-				super.paintComponent(g);
-				g.drawImage(wallImg.getImage(), 0, 0, getWidth(),
-						getHeight(), null);
-			}
-		};
-		panelCreate.add(labelWall);
-		
+
 		JLabel labelExit = new JLabel() {
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				g.drawImage(exitImg.getImage(), 0, 0, getWidth(),
-						getHeight(), null);
+				g.drawImage(exitImg.getImage(), 0, 0, getWidth(), getHeight(),
+						null);
 			}
 		};
 		panelCreate.add(labelExit);
-		
+
 		JLabel labelBackground = new JLabel() {
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
@@ -233,8 +262,6 @@ public class Gui implements Serializable {
 
 			}
 		});
-		
-
 
 		// Creates menu panel
 
@@ -284,14 +311,16 @@ public class Gui implements Serializable {
 				ObjectInputStream load = null;
 				try {
 
-					load = new ObjectInputStream(
-							new FileInputStream("MazeGame.dat"));
+					load = new ObjectInputStream(new FileInputStream(
+							"MazeGame.dat"));
 					N = (Integer) load.readObject();
 					m = (Maze) load.readObject();
 					h = (Hero) load.readObject();
 					d = (ArrayList<Drake>) load.readObject();
 					s = (Sword) load.readObject();
-					
+					if (d.size() != 0)
+						Game.gameMode = d.get(0).sleeps;
+
 					if (N == 0)
 						panelGame.setLayout(new GridLayout(10, 10, 0, 0));
 					else
@@ -328,7 +357,7 @@ public class Gui implements Serializable {
 
 				ObjectOutputStream save = null;
 				try {
-					
+
 					save = new ObjectOutputStream(new FileOutputStream(
 							"MazeGame.dat"));
 					save.writeObject(N);
@@ -358,11 +387,13 @@ public class Gui implements Serializable {
 		btnCriar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				
+
 				panelMenu.setVisible(false);
 				panelCreate.setVisible(true);
+				frame.getContentPane().add(panelCreate, BorderLayout.WEST);
 				panelCreate.revalidate();
 				panelCreate.repaint();
+
 			}
 		});
 		panelMenu.add(btnCriar);
@@ -377,9 +408,6 @@ public class Gui implements Serializable {
 			}
 		});
 		panelMenu.add(btnSair);
-		
-
-
 
 	}
 
