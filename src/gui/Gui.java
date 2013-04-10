@@ -46,7 +46,7 @@ import java.beans.PropertyChangeEvent;
 public class Gui implements Serializable {
 
 	private JFrame frame;
-	JPanel panelGame = new JPanel();
+	public static JPanel panelGame = new JPanel();
 
 	public static int N = 0;
 	public static int dN = 0;
@@ -104,93 +104,8 @@ public class Gui implements Serializable {
 		panelCreate.setVisible(false);
 		panelCreate.setPreferredSize(new Dimension(50, 150));
 
-		JLabel label = new JLabel("Size");
-		panelCreate.add(label);
-
-		final JSpinner spinner = new JSpinner();
-		spinner.setModel(new SpinnerNumberModel(7, 7, 50, 1));
-		ChangeListener listener = new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-
-				panelGame.removeAll();
-				
-				N = (Integer) spinner.getValue();
-				panelGame.setLayout(new GridLayout(N, N, 0, 0));
-				JLabel labelInit;
-				final ImageIcon wallImg = new ImageIcon("sprites\\block.png");
-				panelCreate.revalidate();
-				panelCreate.repaint();
-				for (int i = 0; i < N; i++) {
-					for (int j = 0; j < N; j++) {
-						labelInit = new JLabel() {
-							public void paintComponent(Graphics g) {
-								super.paintComponent(g);
-								g.drawImage(wallImg.getImage(), 0, 0,
-										getWidth(), getHeight(), null);
-							}
-						};
-						panelGame.add(labelInit);
-					}
-				}
-				panelCreate.revalidate();
-				panelCreate.repaint();
-
-			}
-		};
-		spinner.addChangeListener(listener);
-		panelCreate.add(spinner);
-
-		final ImageIcon heroImg = new ImageIcon("sprites\\goku.png");
-		final ImageIcon drakeImg = new ImageIcon("sprites\\cell.png");
-		final ImageIcon wallImg = new ImageIcon("sprites\\block.png");
-		final ImageIcon exitImg = new ImageIcon("sprites\\chichi.png");
-		final ImageIcon swordImg = new ImageIcon("sprites\\dragonball.png");
-		final ImageIcon backgroundImg = new ImageIcon("sprites\\grass.png");
-
-		JLabel labelHero = new JLabel() {
-			public void paintComponent(Graphics g) {
-				super.paintComponent(g);
-				g.drawImage(heroImg.getImage(), 0, 0, getWidth(), getHeight(),
-						null);
-			}
-		};
-		panelCreate.add(labelHero);
-
-		JLabel labelDrake = new JLabel() {
-			public void paintComponent(Graphics g) {
-				super.paintComponent(g);
-				g.drawImage(drakeImg.getImage(), 0, 0, getWidth(), getHeight(),
-						null);
-			}
-		};
-		panelCreate.add(labelDrake);
-
-		JLabel labelSword = new JLabel() {
-			public void paintComponent(Graphics g) {
-				super.paintComponent(g);
-				g.drawImage(swordImg.getImage(), 0, 0, getWidth(), getHeight(),
-						null);
-			}
-		};
-		panelCreate.add(labelSword);
-
-		JLabel labelExit = new JLabel() {
-			public void paintComponent(Graphics g) {
-				super.paintComponent(g);
-				g.drawImage(exitImg.getImage(), 0, 0, getWidth(), getHeight(),
-						null);
-			}
-		};
-		panelCreate.add(labelExit);
-
-		JLabel labelBackground = new JLabel() {
-			public void paintComponent(Graphics g) {
-				super.paintComponent(g);
-				g.drawImage(backgroundImg.getImage(), 0, 0, getWidth(),
-						getHeight(), null);
-			}
-		};
-		panelCreate.add(labelBackground);
+		userBuildMenu(panelCreate);
+		
 		frame.getContentPane().add(panelGame);
 		panelGame.setLayout(new GridLayout(1, 0, 0, 0));
 		panelGame.setFocusable(true);
@@ -207,7 +122,7 @@ public class Gui implements Serializable {
 				case KeyEvent.VK_W:
 					Game.play("w", h, s, m, d);
 					panelGame.removeAll();
-					paintMaze(m.getMaze(), h, d, s);
+					texturesLoader.paintMaze(m.getMaze(), h, d, s);
 					panelGame.revalidate();
 					panelGame.repaint();
 					break;
@@ -215,7 +130,7 @@ public class Gui implements Serializable {
 				case KeyEvent.VK_S:
 					Game.play("s", h, s, m, d);
 					panelGame.removeAll();
-					paintMaze(m.getMaze(), h, d, s);
+					texturesLoader.paintMaze(m.getMaze(), h, d, s);
 					panelGame.revalidate();
 					panelGame.repaint();
 					break;
@@ -223,7 +138,7 @@ public class Gui implements Serializable {
 				case KeyEvent.VK_A:
 					Game.play("a", h, s, m, d);
 					panelGame.removeAll();
-					paintMaze(m.getMaze(), h, d, s);
+					texturesLoader.paintMaze(m.getMaze(), h, d, s);
 					panelGame.revalidate();
 					panelGame.repaint();
 					break;
@@ -231,7 +146,7 @@ public class Gui implements Serializable {
 				case KeyEvent.VK_D:
 					Game.play("d", h, s, m, d);
 					panelGame.removeAll();
-					paintMaze(m.getMaze(), h, d, s);
+					texturesLoader.paintMaze(m.getMaze(), h, d, s);
 					panelGame.revalidate();
 					panelGame.repaint();
 					break;
@@ -239,7 +154,7 @@ public class Gui implements Serializable {
 				case KeyEvent.VK_L:
 					Game.play("l", h, s, m, d);
 					panelGame.removeAll();
-					paintMaze(m.getMaze(), h, d, s);
+					texturesLoader.paintMaze(m.getMaze(), h, d, s);
 					panelGame.revalidate();
 					panelGame.repaint();
 					break;
@@ -294,7 +209,7 @@ public class Gui implements Serializable {
 				else
 					panelGame.setLayout(new GridLayout(N, N, 0, 0));
 				panelGame.setBorder(null);
-				paintMaze(m.getMaze(), h, d, s);
+				texturesLoader.paintMaze(m.getMaze(), h, d, s);
 				panelGame.revalidate();
 				panelGame.repaint();
 			}
@@ -326,7 +241,7 @@ public class Gui implements Serializable {
 					else
 						panelGame.setLayout(new GridLayout(N, N, 0, 0));
 					panelGame.setBorder(null);
-					paintMaze(m.getMaze(), h, d, s);
+					texturesLoader.paintMaze(m.getMaze(), h, d, s);
 					panelGame.revalidate();
 					panelGame.repaint();
 					panelGame.requestFocus();
@@ -411,146 +326,48 @@ public class Gui implements Serializable {
 
 	}
 
-	@SuppressWarnings("serial")
-	public void paintMaze(char[][] maze, Hero h, ArrayList<Drake> d, Sword s) {
+	public void userBuildMenu(final JPanel panelCreate) {
+		JLabel label = new JLabel("Size");
+		panelCreate.add(label);
 
-		char[][] temp = DisplayConsole.fillMaze(maze, h, d, s);
+		final JSpinner spinner = new JSpinner();
+		spinner.setModel(new SpinnerNumberModel(7, 7, 50, 1));
+		ChangeListener listener = new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
 
-		final ImageIcon heroImg = new ImageIcon("sprites\\goku.png");
-		final ImageIcon drakeImg = new ImageIcon("sprites\\cell.png");
-		final ImageIcon wallImg = new ImageIcon("sprites\\block.png");
-		final ImageIcon eagleImg = new ImageIcon("sprites\\cloud.png");
-		final ImageIcon exitImg = new ImageIcon("sprites\\chichi.png");
-		final ImageIcon swordImg = new ImageIcon("sprites\\dragonball.png");
-		final ImageIcon superImg = new ImageIcon("sprites\\gokuSayan.png");
-		final ImageIcon backgroundImg = new ImageIcon("sprites\\grass.png");
-		final ImageIcon drakeSwordImg = new ImageIcon("sprites\\cellBall.png");
-		final ImageIcon drakeSleepImg = new ImageIcon("sprites\\cellSleep.png");
-
-		JLabel labelBackground = null;
-		JLabel labelHero = null;
-		JLabel labelDrake = null;
-		JLabel labelWall = null;
-		JLabel labelEagle = null;
-		JLabel labelExit = null;
-		JLabel labelSword = null;
-
-		for (int i = 0; i < temp.length; i++) {
-			for (int j = 0; j < temp.length; j++) {
-
-				switch (temp[i][j]) {
-
-				case 'H':
-					labelHero = new JLabel() {
-						public void paintComponent(Graphics g) {
-							super.paintComponent(g);
-							g.drawImage(heroImg.getImage(), 0, 0, getWidth(),
-									getHeight(), null);
-						}
-					};
-					panelGame.add(labelHero);
-					break;
-
-				case 'D':
-					labelDrake = new JLabel() {
-						public void paintComponent(Graphics g) {
-							super.paintComponent(g);
-							g.drawImage(drakeImg.getImage(), 0, 0, getWidth(),
-									getHeight(), null);
-						}
-					};
-					panelGame.add(labelDrake);
-					break;
-				case 'd': // test
-				case 'f':
-					labelDrake = new JLabel() {
-						public void paintComponent(Graphics g) {
-							super.paintComponent(g);
-							g.drawImage(drakeSleepImg.getImage(), 0, 0,
-									getWidth(), getHeight(), null);
-						}
-					};
-					panelGame.add(labelDrake);
-					break;
-				case 'F':
-					labelDrake = new JLabel() {
-						public void paintComponent(Graphics g) {
-							super.paintComponent(g);
-							g.drawImage(drakeSwordImg.getImage(), 0, 0,
-									getWidth(), getHeight(), null);
-						}
-					};
-					panelGame.add(labelDrake);
-					break;
-
-				case 'P':
-					labelEagle = new JLabel() {
-						public void paintComponent(Graphics g) {
-							super.paintComponent(g);
-							g.drawImage(eagleImg.getImage(), 0, 0, getWidth(),
-									getHeight(), null);
-						}
-					};
-					panelGame.add(labelEagle);
-					break;
-
-				case 'E':
-					labelSword = new JLabel() {
-						public void paintComponent(Graphics g) {
-							super.paintComponent(g);
-							g.drawImage(swordImg.getImage(), 0, 0, getWidth(),
-									getHeight(), null);
-						}
-					};
-					panelGame.add(labelSword);
-					break;
-
-				case 'A':
-					labelHero = new JLabel() {
-						public void paintComponent(Graphics g) {
-							super.paintComponent(g);
-							g.drawImage(superImg.getImage(), 0, 0, getWidth(),
-									getHeight(), null);
-						}
-					};
-					panelGame.add(labelHero);
-					break;
-
-				case ' ':
-					labelBackground = new JLabel() {
-						public void paintComponent(Graphics g) {
-							super.paintComponent(g);
-							g.drawImage(backgroundImg.getImage(), 0, 0,
-									getWidth(), getHeight(), null);
-						}
-					};
-					panelGame.add(labelBackground);
-					break;
-
-				case 'X':
-					labelWall = new JLabel() {
-						public void paintComponent(Graphics g) {
-							super.paintComponent(g);
-							g.drawImage(wallImg.getImage(), 0, 0, getWidth(),
-									getHeight(), null);
-						}
-					};
-					panelGame.add(labelWall);
-					break;
-
-				case 'S':
-					labelExit = new JLabel() {
-						public void paintComponent(Graphics g) {
-							super.paintComponent(g);
-							g.drawImage(exitImg.getImage(), 0, 0, getWidth(),
-									getHeight(), null);
-						}
-					};
-					panelGame.add(labelExit);
-					break;
+				panelGame.removeAll();
+				
+				N = (Integer) spinner.getValue();
+				panelGame.setLayout(new GridLayout(N, N, 0, 0));
+				panelCreate.revalidate();
+				panelCreate.repaint();
+				for (int i = 0; i < N; i++) {
+					for (int j = 0; j < N; j++) {
+						
+						panelGame.add(new gameTiles(texturesLoader.wallImg,' '));
+					}
 				}
-			}
-		}
+				panelCreate.revalidate();
+				panelCreate.repaint();
 
+			}
+		};
+		spinner.addChangeListener(listener);
+		panelCreate.add(spinner);
+
+		gameTiles labelHero = new gameTiles(texturesLoader.heroImg,'H');
+		panelCreate.add(labelHero);
+
+		gameTiles labelDrake = new gameTiles(texturesLoader.drakeImg,'H');
+		panelCreate.add(labelDrake);
+
+		gameTiles labelSword = new gameTiles(texturesLoader.swordImg,'H');
+		panelCreate.add(labelSword);
+
+		gameTiles labelExit = new gameTiles(texturesLoader.exitImg,'H');
+		panelCreate.add(labelExit);
+
+		gameTiles labelBackground = new gameTiles(texturesLoader.backgroundImg,'H');
+		panelCreate.add(labelBackground);
 	}
 }
