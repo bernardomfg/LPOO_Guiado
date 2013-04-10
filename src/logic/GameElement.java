@@ -1,6 +1,8 @@
 package logic;
 
-public abstract class GameElement {
+import java.io.Serializable;
+
+public abstract class GameElement implements Serializable{
 	public int x, y;
 
 	public int getX() {

@@ -2,6 +2,10 @@ package logic;
 
 import java.io.Serializable;
 import java.util.Random;
+/**
+ * @author wilson
+ *
+ */
 public class Maze implements Serializable {
 
 	public char[][] maze;
@@ -10,6 +14,9 @@ public class Maze implements Serializable {
 		return maze;
 	}
 	
+	/**
+	 * @param N
+	 */
 	public void generateMaze(int N) {
 		if(N==0)
 		{

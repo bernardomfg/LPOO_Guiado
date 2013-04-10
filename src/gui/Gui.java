@@ -3,9 +3,7 @@ package gui;
 import java.awt.Dialog;
 import java.awt.EventQueue;
 import java.awt.Graphics;
-import java.awt.Image;
 
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
@@ -24,8 +22,7 @@ import javax.swing.JLabel;
 
 import console.DisplayConsole;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -36,11 +33,13 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowFocusListener;
 import java.awt.event.WindowEvent;
+import java.awt.BorderLayout;
+import javax.swing.JSpinner;
 
 public class Gui implements Serializable {
 
 	private JFrame frame;
-	final JPanel panelGame = new JPanel();
+	JPanel panelGame = new JPanel();
 
 	public static int N = 0;
 	public static int dN = 0;
@@ -89,15 +88,80 @@ public class Gui implements Serializable {
 			public void windowLostFocus(WindowEvent arg0) {
 			}
 		});
-		frame.setResizable(false);
-		frame.setBounds(100, 100, /* 600 */1280, /* 400 */1024);
+		frame.setBounds(100, 100, 600, 400);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
-
-		// Creates Game panel
-
-		// final JPanel panelGame = new JPanel();
-		panelGame.setBounds(138, 0, 1126, 981);
+		frame.getContentPane().setLayout(new BorderLayout(0, 0));
+		final JPanel panelCreate = new JPanel();
+		frame.getContentPane().add(panelCreate, BorderLayout.NORTH);
+		panelCreate.setLayout(new GridLayout(0, 1, 0, 0));
+		panelCreate.setVisible(false);
+		
+		JLabel label = new JLabel("Size");
+		panelCreate.add(label);
+		
+		JSpinner spinner = new JSpinner();
+		panelCreate.add(spinner);
+		
+		final ImageIcon heroImg = new ImageIcon("sprites\\goku.png");
+		final ImageIcon drakeImg = new ImageIcon("sprites\\cell.png");
+		final ImageIcon wallImg = new ImageIcon("sprites\\block.png");
+		final ImageIcon exitImg = new ImageIcon("sprites\\chichi.png");
+		final ImageIcon swordImg = new ImageIcon("sprites\\dragonball.png");
+		final ImageIcon backgroundImg = new ImageIcon("sprites\\grass.png");
+		
+		JLabel labelHero = new JLabel() {
+			public void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				g.drawImage(heroImg.getImage(), 0, 0, getWidth(),
+						getHeight(), null);
+			}
+		};
+		panelCreate.add(labelHero);
+		
+		JLabel labelDrake = new JLabel() {
+			public void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				g.drawImage(drakeImg.getImage(), 0, 0, getWidth(),
+						getHeight(), null);
+			}
+		};
+		panelCreate.add(labelDrake);
+		
+		JLabel labelSword = new JLabel() {
+			public void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				g.drawImage(swordImg.getImage(), 0, 0, getWidth(),
+						getHeight(), null);
+			}
+		};
+		panelCreate.add(labelSword);
+		
+		JLabel labelWall = new JLabel() {
+			public void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				g.drawImage(wallImg.getImage(), 0, 0, getWidth(),
+						getHeight(), null);
+			}
+		};
+		panelCreate.add(labelWall);
+		
+		JLabel labelExit = new JLabel() {
+			public void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				g.drawImage(exitImg.getImage(), 0, 0, getWidth(),
+						getHeight(), null);
+			}
+		};
+		panelCreate.add(labelExit);
+		
+		JLabel labelBackground = new JLabel() {
+			public void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				g.drawImage(backgroundImg.getImage(), 0, 0, getWidth(),
+						getHeight(), null);
+			}
+		};
+		panelCreate.add(labelBackground);
 		frame.getContentPane().add(panelGame);
 		panelGame.setLayout(new GridLayout(1, 0, 0, 0));
 		panelGame.setFocusable(true);
@@ -169,12 +233,13 @@ public class Gui implements Serializable {
 
 			}
 		});
+		
+
 
 		// Creates menu panel
 
 		final JPanel panelMenu = new JPanel();
-		panelMenu.setBounds(0, 0, 134, 981);
-		frame.getContentPane().add(panelMenu);
+		frame.getContentPane().add(panelMenu, BorderLayout.WEST);
 		panelMenu.setLayout(new GridLayout(0, 1, 0, 0));
 
 		// New Game button actions
@@ -195,10 +260,13 @@ public class Gui implements Serializable {
 				chooseButton
 						.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
 				chooseButton.setVisible(true);
+				if (N % 2 == 0 && N != 0)
+					N--;
 				if (N == 0)
 					panelGame.setLayout(new GridLayout(10, 10, 0, 0));
 				else
 					panelGame.setLayout(new GridLayout(N, N, 0, 0));
+				panelGame.setBorder(null);
 				paintMaze(m.getMaze(), h, d, s);
 				panelGame.revalidate();
 				panelGame.repaint();
@@ -209,19 +277,31 @@ public class Gui implements Serializable {
 
 		JButton btnCarregar = new JButton("Load Game");
 		btnCarregar.addMouseListener(new MouseAdapter() {
+			@SuppressWarnings({ "resource", "unchecked" })
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				
-
 
 				ObjectInputStream load = null;
 				try {
+
 					load = new ObjectInputStream(
-							new FileInputStream("Game.dat"));
-					Gui loaded = (Gui)load.readObject();
-					loaded.main(null);
-					loaded.frame.repaint();
+							new FileInputStream("MazeGame.dat"));
+					N = (Integer) load.readObject();
+					m = (Maze) load.readObject();
+					h = (Hero) load.readObject();
+					d = (ArrayList<Drake>) load.readObject();
+					s = (Sword) load.readObject();
 					
+					if (N == 0)
+						panelGame.setLayout(new GridLayout(10, 10, 0, 0));
+					else
+						panelGame.setLayout(new GridLayout(N, N, 0, 0));
+					panelGame.setBorder(null);
+					paintMaze(m.getMaze(), h, d, s);
+					panelGame.revalidate();
+					panelGame.repaint();
+					panelGame.requestFocus();
+
 				} catch (IOException e) {
 					e.printStackTrace();
 				} catch (ClassNotFoundException e) {
@@ -242,14 +322,22 @@ public class Gui implements Serializable {
 
 		JButton btnGravar = new JButton("Save Game");
 		btnGravar.addMouseListener(new MouseAdapter() {
+			@SuppressWarnings("resource")
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 
 				ObjectOutputStream save = null;
 				try {
-					save = new ObjectOutputStream(
-							new FileOutputStream("Game.dat"));
-					save.writeObject(Gui.this);
+					
+					save = new ObjectOutputStream(new FileOutputStream(
+							"MazeGame.dat"));
+					save.writeObject(N);
+					save.writeObject(m);
+					save.writeObject(h);
+					save.writeObject(d);
+					save.writeObject(s);
+					panelGame.requestFocus();
+
 				} catch (IOException e) {
 					e.printStackTrace();
 				} finally {
@@ -267,6 +355,16 @@ public class Gui implements Serializable {
 		// Create button actions
 
 		JButton btnCriar = new JButton("Create Maze");
+		btnCriar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				
+				panelMenu.setVisible(false);
+				panelCreate.setVisible(true);
+				panelCreate.revalidate();
+				panelCreate.repaint();
+			}
+		});
 		panelMenu.add(btnCriar);
 
 		// Exit button actions
@@ -279,6 +377,9 @@ public class Gui implements Serializable {
 			}
 		});
 		panelMenu.add(btnSair);
+		
+
+
 
 	}
 

@@ -23,8 +23,7 @@ public class Drake extends Mobile implements Serializable {
 		switch (p) {
 		// dormir
 		case 0:
-		case 1:
-		case 2: setSleep(true);
+		case 1: setSleep(true);
 				break;
 		default : setSleep(false);
 					break;

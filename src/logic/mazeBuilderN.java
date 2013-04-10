@@ -1,10 +1,11 @@
 package logic;
 
+import java.io.Serializable;
 import java.util.Random;
 import java.util.Stack;
 import java.util.Vector;
 
-public class MazeBuilderN extends MazeBuilder {
+public class MazeBuilderN extends MazeBuilder implements Serializable{
 
 	public char[][] buildMaze(int N) {
 

@@ -1,6 +1,8 @@
 package logic;
 
-public abstract class Mobile extends GameElement {
+import java.io.Serializable;
+
+public abstract class Mobile extends GameElement implements Serializable{
 	public void move(int dir) {
 		switch (dir) {
 		case 0:

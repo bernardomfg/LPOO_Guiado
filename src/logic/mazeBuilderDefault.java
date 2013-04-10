@@ -1,6 +1,8 @@
 package logic;
 
-public class MazeBuilderDefault extends MazeBuilder {
+import java.io.Serializable;
+
+public class MazeBuilderDefault extends MazeBuilder implements Serializable{
 
 	public char[][] buildMaze(int N) {
 		char[][] temp = { { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' },
