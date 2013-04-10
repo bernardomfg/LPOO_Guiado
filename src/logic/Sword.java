@@ -1,6 +1,8 @@
 package logic;
 
-public class Sword extends GameElement {
+import java.io.Serializable;
+
+public class Sword extends GameElement implements Serializable{
 
 
 }

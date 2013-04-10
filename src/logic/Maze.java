@@ -1,7 +1,8 @@
 package logic;
 
+import java.io.Serializable;
 import java.util.Random;
-public class Maze {
+public class Maze implements Serializable {
 
 	public char[][] maze;
 	public MazeBuilder mb;

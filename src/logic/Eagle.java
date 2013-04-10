@@ -1,6 +1,8 @@
 package logic;
 
-public class Eagle extends Mobile {
+import java.io.Serializable;
+
+public class Eagle extends Mobile implements Serializable{
 	public int xIn, yIn;
 	public int motion = 0;
 	public Boolean hasSword = false;

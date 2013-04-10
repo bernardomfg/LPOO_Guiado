@@ -1,8 +1,9 @@
 package logic;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Game {
+public class Game implements Serializable {
 
 	public static int gameMode = 0;
 
@@ -28,7 +29,7 @@ public class Game {
 		if (mov.equals("l") || mov.equals("L")) {
 			h.launchEagle();
 		} else {
-			h.moveHero(m, mov);
+			h.moveHero(m, mov, d);
 			if (!h.e.isDead) {
 				h.e.moveEagle(s);
 

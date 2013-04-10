@@ -1,8 +1,9 @@
 package logic;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public class Drake extends Mobile {
+public class Drake extends Mobile implements Serializable {
 	public Boolean sleeping = false;
 
 

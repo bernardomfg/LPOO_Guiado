@@ -1,6 +1,8 @@
 package logic;
 
-public abstract class MazeBuilder {
+import java.io.Serializable;
+
+public abstract class MazeBuilder implements Serializable{
 	protected char[][] m;
 
 	public char[][] getMaze() {

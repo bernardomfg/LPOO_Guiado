@@ -1,6 +1,9 @@
 package logic;
 
-public class Hero extends Mobile {
+import java.io.Serializable;
+import java.util.ArrayList;
+
+public class Hero extends Mobile implements Serializable  {
 	public Boolean sword = false;
 	public Boolean eagle = true;
 	public Boolean atExit = false;
@@ -28,7 +31,7 @@ public class Hero extends Mobile {
 		e.inFlight = true;
 	}
 
-	public void moveHero(Maze m, String op) {
+	public void moveHero(Maze m, String op, ArrayList<Drake> d) {
 
 		int x = getX();
 		int y = getY();
@@ -42,7 +45,7 @@ public class Hero extends Mobile {
 		case "a":
 			if (m.maze[y][x - 1] == ' ')
 				move(0);
-			if (m.maze[y][x - 1] == 'S' && hasSword()) {
+			if (m.maze[y][x - 1] == 'S' && d.isEmpty()) {
 				atExit = true;
 			}
 			break;
@@ -51,7 +54,7 @@ public class Hero extends Mobile {
 		case "d":
 			if (m.maze[y][x + 1] == ' ')
 				move(1);
-			if (m.maze[y][x + 1] == 'S' && hasSword()) {
+			if (m.maze[y][x + 1] == 'S' && d.isEmpty()) {
 				atExit = true;
 			}
 			break;
@@ -60,7 +63,7 @@ public class Hero extends Mobile {
 		case "w":
 			if (m.maze[y - 1][x] == ' ')
 				move(2);
-			if (m.maze[y - 1][x] == 'S' && hasSword()) {
+			if (m.maze[y - 1][x] == 'S' && d.isEmpty()) {
 				atExit = true;
 			}
 			break;
@@ -69,7 +72,7 @@ public class Hero extends Mobile {
 		case "s":
 			if (m.maze[y + 1][x] == ' ')
 				move(3);
-			if (m.maze[y + 1][x] == 'S' && hasSword()) {
+			if (m.maze[y + 1][x] == 'S' && d.isEmpty()) {
 				atExit = true;
 			}
 			break;

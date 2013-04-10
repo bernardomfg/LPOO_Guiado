@@ -18,12 +18,13 @@ public class HeroTest {
 	public void testHeroMoves() {
 		Maze m = new Maze();
 		Hero h = new Hero();
+		ArrayList<Drake> d = new ArrayList<Drake>();
 
 		m.generateMaze(0);
 		h.setX(1);
 		h.setY(1);
 
-		h.moveHero(m, "s");
+		h.moveHero(m, "s",d);
 		assertEquals(1, h.getX());
 		assertEquals(2, h.getY());
 	}
@@ -32,12 +33,13 @@ public class HeroTest {
 	public void testHeroMovesWall() {
 		Maze m = new Maze();
 		Hero h = new Hero();
+		ArrayList<Drake> d = new ArrayList<Drake>();
 
 		m.generateMaze(0);
 		h.setX(1);
 		h.setY(1);
 
-		h.moveHero(m, "a");
+		h.moveHero(m, "a",d);
 		assertEquals(1, h.getX());
 		assertEquals(1, h.getY());
 	}
@@ -47,6 +49,7 @@ public class HeroTest {
 		Maze m = new Maze();
 		Hero h = new Hero();
 		Sword s = new Sword();
+		ArrayList<Drake> d = new ArrayList<Drake>();
 
 		m.generateMaze(0);
 		h.setX(1);
@@ -56,7 +59,7 @@ public class HeroTest {
 
 		assertEquals(false, h.hasSword());
 
-		h.moveHero(m, "s");
+		h.moveHero(m, "s",d);
 		Game.checkSword(h, s);
 
 		assertEquals(true, h.hasSword());
@@ -75,7 +78,7 @@ public class HeroTest {
 		d.get(0).setX(1);
 		d.get(0).setY(3);
 
-		h.moveHero(m, "s");
+		h.moveHero(m, "s",d);
 		assertEquals(true, Game.checkDead(h, d));
 
 	}
@@ -97,7 +100,7 @@ public class HeroTest {
 		s.setY(1);
 
 		Game.checkSword(h, s);
-		h.moveHero(m, "s");
+		h.moveHero(m, "s",d);
 		Game.checkDead(h, d);
 		assertEquals(0, d.size());
 
@@ -108,6 +111,7 @@ public class HeroTest {
 		Maze m = new Maze();
 		Hero h = new Hero();
 		Sword s = new Sword();
+		ArrayList<Drake> d = new ArrayList<Drake>();
 
 		m.generateMaze(0);
 		h.setX(8);
@@ -117,7 +121,7 @@ public class HeroTest {
 
 		Game.checkSword(h, s);
 
-		h.moveHero(m, "d");
+		h.moveHero(m, "d",d);
 
 		assertEquals(true, h.atExit);
 	}
@@ -126,12 +130,14 @@ public class HeroTest {
 	public void testInvalidVictory() {
 		Maze m = new Maze();
 		Hero h = new Hero();
+		ArrayList<Drake> d = new ArrayList<Drake>();
+		d.add(new Drake());
 
 		m.generateMaze(0);
 		h.setX(8);
 		h.setY(5);
 
-		h.moveHero(m, "d");
+		h.moveHero(m, "d",d);
 
 		assertEquals(false, h.atExit);
 	}

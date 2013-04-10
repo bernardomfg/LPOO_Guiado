@@ -27,12 +27,17 @@ import console.DisplayConsole;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.FileOutputStream;
+import java.io.FileInputStream;
+import java.io.Serializable;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowFocusListener;
 import java.awt.event.WindowEvent;
 
-public class Gui {
+public class Gui implements Serializable {
 
 	private JFrame frame;
 	final JPanel panelGame = new JPanel();
@@ -85,7 +90,7 @@ public class Gui {
 			}
 		});
 		frame.setResizable(false);
-		frame.setBounds(100, 100, /*600*/1280, /*400*/1024);
+		frame.setBounds(100, 100, /* 600 */1280, /* 400 */1024);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
@@ -156,7 +161,7 @@ public class Gui {
 
 				}
 				if (h.atExit) {
-					
+
 					wonGame won = new wonGame();
 					won.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
 					won.setVisible(true);
@@ -203,11 +208,60 @@ public class Gui {
 		// Load button actions
 
 		JButton btnCarregar = new JButton("Load Game");
+		btnCarregar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				
+
+
+				ObjectInputStream load = null;
+				try {
+					load = new ObjectInputStream(
+							new FileInputStream("Game.dat"));
+					Gui loaded = (Gui)load.readObject();
+					loaded.main(null);
+					loaded.frame.repaint();
+					
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				} finally {
+					if (load != null)
+						try {
+							load.close();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+				}
+			}
+		});
 		panelMenu.add(btnCarregar);
 
 		// Save button actions
 
 		JButton btnGravar = new JButton("Save Game");
+		btnGravar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+
+				ObjectOutputStream save = null;
+				try {
+					save = new ObjectOutputStream(
+							new FileOutputStream("Game.dat"));
+					save.writeObject(Gui.this);
+				} catch (IOException e) {
+					e.printStackTrace();
+				} finally {
+					if (save != null)
+						try {
+							save.close();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+				}
+			}
+		});
 		panelMenu.add(btnGravar);
 
 		// Create button actions
@@ -234,13 +288,13 @@ public class Gui {
 		char[][] temp = DisplayConsole.fillMaze(maze, h, d, s);
 
 		final ImageIcon heroImg = new ImageIcon("sprites\\goku.png");
-		final ImageIcon drakeImg =  new ImageIcon("sprites\\cell.png");
+		final ImageIcon drakeImg = new ImageIcon("sprites\\cell.png");
 		final ImageIcon wallImg = new ImageIcon("sprites\\block.png");
-		final ImageIcon eagleImg =  new ImageIcon("sprites\\cloud.png");
-		final ImageIcon exitImg =  new ImageIcon("sprites\\chichi.png");
-		final ImageIcon swordImg =  new ImageIcon("sprites\\dragonball.png");
-		final ImageIcon superImg =  new ImageIcon("sprites\\gokuSayan.png");
-		final ImageIcon backgroundImg =  new ImageIcon("sprites\\grass.png");
+		final ImageIcon eagleImg = new ImageIcon("sprites\\cloud.png");
+		final ImageIcon exitImg = new ImageIcon("sprites\\chichi.png");
+		final ImageIcon swordImg = new ImageIcon("sprites\\dragonball.png");
+		final ImageIcon superImg = new ImageIcon("sprites\\gokuSayan.png");
+		final ImageIcon backgroundImg = new ImageIcon("sprites\\grass.png");
 		final ImageIcon drakeSwordImg = new ImageIcon("sprites\\cellBall.png");
 		final ImageIcon drakeSleepImg = new ImageIcon("sprites\\cellSleep.png");
 
@@ -258,111 +312,110 @@ public class Gui {
 				switch (temp[i][j]) {
 
 				case 'H':
-					labelHero = new JLabel()
-					{ 
-					    public void paintComponent (Graphics g) 
-					    { 
-					        super.paintComponent (g); 
-					        g.drawImage (heroImg.getImage(), 0, 0, getWidth (), getHeight (), null); 
-					    } 
+					labelHero = new JLabel() {
+						public void paintComponent(Graphics g) {
+							super.paintComponent(g);
+							g.drawImage(heroImg.getImage(), 0, 0, getWidth(),
+									getHeight(), null);
+						}
 					};
 					panelGame.add(labelHero);
 					break;
 
 				case 'D':
-					labelDrake = new JLabel(){ 
-					    public void paintComponent (Graphics g) 
-					    { 
-					        super.paintComponent (g); 
-					        g.drawImage (drakeImg.getImage(), 0, 0, getWidth (), getHeight (), null); 
-					    } 
+					labelDrake = new JLabel() {
+						public void paintComponent(Graphics g) {
+							super.paintComponent(g);
+							g.drawImage(drakeImg.getImage(), 0, 0, getWidth(),
+									getHeight(), null);
+						}
 					};
 					panelGame.add(labelDrake);
 					break;
 				case 'd': // test
 				case 'f':
-					labelDrake = new JLabel(){ 
-					    public void paintComponent (Graphics g) 
-					    { 
-					        super.paintComponent (g); 
-					        g.drawImage (drakeSleepImg.getImage(), 0, 0, getWidth (), getHeight (), null); 
-					    } 
+					labelDrake = new JLabel() {
+						public void paintComponent(Graphics g) {
+							super.paintComponent(g);
+							g.drawImage(drakeSleepImg.getImage(), 0, 0,
+									getWidth(), getHeight(), null);
+						}
 					};
 					panelGame.add(labelDrake);
 					break;
 				case 'F':
-					labelDrake = new JLabel(){ 
-					    public void paintComponent (Graphics g) 
-					    { 
-					        super.paintComponent (g); 
-					        g.drawImage (drakeSwordImg.getImage(), 0, 0, getWidth (), getHeight (), null); 
-					    } 
+					labelDrake = new JLabel() {
+						public void paintComponent(Graphics g) {
+							super.paintComponent(g);
+							g.drawImage(drakeSwordImg.getImage(), 0, 0,
+									getWidth(), getHeight(), null);
+						}
 					};
 					panelGame.add(labelDrake);
 					break;
 
 				case 'P':
-					labelEagle = new JLabel(){ 
-					    public void paintComponent (Graphics g) 
-					    { 
-					        super.paintComponent (g); 
-					        g.drawImage (eagleImg.getImage(), 0, 0, getWidth (), getHeight (), null); 
-					    } 
+					labelEagle = new JLabel() {
+						public void paintComponent(Graphics g) {
+							super.paintComponent(g);
+							g.drawImage(eagleImg.getImage(), 0, 0, getWidth(),
+									getHeight(), null);
+						}
 					};
 					panelGame.add(labelEagle);
 					break;
 
 				case 'E':
-					labelSword = new JLabel(){ 
-					    public void paintComponent (Graphics g) 
-					    { 
-					        super.paintComponent (g); 
-					        g.drawImage (swordImg.getImage(), 0, 0, getWidth (), getHeight (), null); 
-					    } 
+					labelSword = new JLabel() {
+						public void paintComponent(Graphics g) {
+							super.paintComponent(g);
+							g.drawImage(swordImg.getImage(), 0, 0, getWidth(),
+									getHeight(), null);
+						}
 					};
 					panelGame.add(labelSword);
 					break;
 
 				case 'A':
-					labelHero = new JLabel(){ 
-					    public void paintComponent (Graphics g) 
-					    { 
-					        super.paintComponent (g); 
-					        g.drawImage (superImg.getImage(), 0, 0, getWidth (), getHeight (), null); 
-					    } 
+					labelHero = new JLabel() {
+						public void paintComponent(Graphics g) {
+							super.paintComponent(g);
+							g.drawImage(superImg.getImage(), 0, 0, getWidth(),
+									getHeight(), null);
+						}
 					};
 					panelGame.add(labelHero);
 					break;
 
 				case ' ':
-					labelBackground = new JLabel(){ 
-					    public void paintComponent (Graphics g) 
-					    { 
-					        super.paintComponent (g); 
-					        g.drawImage (backgroundImg.getImage(), 0, 0, getWidth (), getHeight (), null); 
-					    } 
+					labelBackground = new JLabel() {
+						public void paintComponent(Graphics g) {
+							super.paintComponent(g);
+							g.drawImage(backgroundImg.getImage(), 0, 0,
+									getWidth(), getHeight(), null);
+						}
 					};
 					panelGame.add(labelBackground);
 					break;
 
 				case 'X':
-					labelWall = new JLabel(){ 
-					    public void paintComponent (Graphics g) 
-					    { 
-					        super.paintComponent (g); 
-					        g.drawImage (wallImg.getImage(), 0, 0, getWidth (), getHeight (), null); 
-					    } 
+					labelWall = new JLabel() {
+						public void paintComponent(Graphics g) {
+							super.paintComponent(g);
+							g.drawImage(wallImg.getImage(), 0, 0, getWidth(),
+									getHeight(), null);
+						}
 					};
 					panelGame.add(labelWall);
 					break;
 
 				case 'S':
-					labelExit = new JLabel(){ 
-					    public void paintComponent (Graphics g) 
-					    { 
-					        super.paintComponent (g); 
-					        g.drawImage (exitImg.getImage(), 0, 0, getWidth (), getHeight (), null); 
-					    } 
+					labelExit = new JLabel() {
+						public void paintComponent(Graphics g) {
+							super.paintComponent(g);
+							g.drawImage(exitImg.getImage(), 0, 0, getWidth(),
+									getHeight(), null);
+						}
 					};
 					panelGame.add(labelExit);
 					break;
