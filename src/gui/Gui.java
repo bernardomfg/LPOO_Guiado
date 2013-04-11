@@ -343,14 +343,15 @@ public class Gui implements Serializable {
 		btnCriar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				// panelCreate.setVisible(false);
-				// panelCreate.setVisible(true);
-				// frame.getContentPane().add(panelCreate, BorderLayout.WEST);
-				// panelCreate.revalidate();
-				// panelCreate.repaint();
-				// JSpinner spinner = new JSpinner();
-				// spinner.setModel(new SpinnerNumberModel(7, 7, 50, 1));
-				// paintCreation(panelCreate, spinner);
+				panelCreate.setVisible(false);
+				frame.remove(panelMenu);
+				panelMenu.setVisible(true);
+				frame.add(panelMenu, BorderLayout.WEST);
+				panelMenu.revalidate();
+				panelMenu.repaint();
+				frame.revalidate();
+				frame.repaint();
+				panelGame.requestFocus();
 			}
 		});
 		panelCreate.add(btnCriar);
@@ -360,9 +361,13 @@ public class Gui implements Serializable {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				panelCreate.setVisible(false);
+				frame.remove(panelMenu);
 				panelMenu.setVisible(true);
+				frame.add(panelMenu, BorderLayout.WEST);
 				panelMenu.revalidate();
 				panelMenu.repaint();
+				frame.revalidate();
+				frame.repaint();
 			}
 		});
 		panelCreate.add(btnCancelar);
