@@ -24,73 +24,109 @@ public class EditableGameTile extends JLabel {
 		this.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				switch (TextureLoader.currentSym) {
-				case 'S':
-					if ((lc[0] == 0 && (lc[1] > 0 && lc[1] < Gui.N - 1))
-							|| (lc[0] == Gui.N - 1 && (lc[1] > 0 && lc[1] < Gui.N - 1))
-							|| (lc[1] == 0 && (lc[0] > 0 && lc[0] < Gui.N - 1))
-							|| (lc[1] == Gui.N - 1 && (lc[0] > 0 && lc[0] < Gui.N - 1))) {
-						if (!TextureLoader.hasExit) {
+				if (arg0.getButton() == MouseEvent.BUTTON1) {
+					switch (TextureLoader.currentSym) {
+					case 'S':
+						if ((lc[0] == 0 && (lc[1] > 0 && lc[1] < Gui.N - 1))
+								|| (lc[0] == Gui.N - 1 && (lc[1] > 0 && lc[1] < Gui.N - 1))
+								|| (lc[1] == 0 && (lc[0] > 0 && lc[0] < Gui.N - 1))
+								|| (lc[1] == Gui.N - 1 && (lc[0] > 0 && lc[0] < Gui.N - 1))) {
+							if (!TextureLoader.hasExit) {
+								image = TextureLoader.currentImg;
+								symbol = TextureLoader.currentSym;
+								Gui.m.maze[lc[0]][lc[1]] = symbol;
+								TextureLoader.hasExit = true;
+							}
+						}
+						break;
+					case 'H':
+						if (lc[0] != 0 && lc[0] != Gui.N - 1 && lc[1] != 0
+								&& lc[1] != Gui.N - 1) {
+							if (!TextureLoader.hasHero) {
+								image = TextureLoader.currentImg;
+								symbol = TextureLoader.currentSym;
+								Gui.h.y = lc[0];
+								Gui.h.x = lc[1];
+								Gui.m.maze[lc[0]][lc[1]] = ' ';
+								TextureLoader.hasHero = true;
+							}
+						}
+						break;
+					case 'E':
+						if (lc[0] != 0 && lc[0] != Gui.N - 1 && lc[1] != 0
+								&& lc[1] != Gui.N - 1) {
+							if (!TextureLoader.hasSword) {
+								image = TextureLoader.currentImg;
+								symbol = TextureLoader.currentSym;
+								Gui.s.y = lc[0];
+								Gui.s.x = lc[1];
+								Gui.m.maze[lc[0]][lc[1]] = ' ';
+								TextureLoader.hasSword = true;
+							}
+						}
+						break;
+					case 'D':
+						if (lc[0] != 0 && lc[0] != Gui.N - 1 && lc[1] != 0
+								&& lc[1] != Gui.N - 1) {
+							image = TextureLoader.currentImg;
+							symbol = TextureLoader.currentSym;
+							Gui.d.add(new Drake());
+							Gui.d.get(Gui.d.size() - 1).y = lc[0];
+							Gui.d.get(Gui.d.size() - 1).x = lc[1];
+							Gui.m.maze[lc[0]][lc[1]] = ' ';
+						}
+						break;
+					case ' ':
+						if (lc[0] != 0 && lc[0] != Gui.N - 1 && lc[1] != 0
+								&& lc[1] != Gui.N - 1) {
 							image = TextureLoader.currentImg;
 							symbol = TextureLoader.currentSym;
 							Gui.m.maze[lc[0]][lc[1]] = symbol;
-							TextureLoader.hasExit = true;
-							System.out.println("success");
 						}
+						break;
+					default:
+
 					}
-					break;
-				case 'H':
-					if (lc[0] != 0 && lc[0] != Gui.N - 1 && lc[1] != 0
-							&& lc[1] != Gui.N - 1) {
-						if (!TextureLoader.hasHero) {
-							image = TextureLoader.currentImg;
-							symbol = TextureLoader.currentSym;
-							Gui.h.y = lc[0];
-							Gui.h.x = lc[1];
-							TextureLoader.hasHero = true;
-							System.out.println("success");
-						}
+				} else if (arg0.getButton() == MouseEvent.BUTTON3) {
+
+					switch (symbol) {
+					case 'S':
+						image = TextureLoader.wallImg;
+						symbol = 'X';
+						Gui.m.maze[lc[0]][lc[1]] = symbol;
+						TextureLoader.hasExit = false;
+
+						break;
+					case 'H':
+						image = TextureLoader.wallImg;
+						symbol = 'X';
+						Gui.h.y = 0;
+						Gui.h.x = 0;
+						TextureLoader.hasHero = false;
+						break;
+					case 'E':
+						image = TextureLoader.wallImg;
+						symbol = 'X';
+						Gui.s.y = 0;
+						Gui.s.x = 0;
+						TextureLoader.hasSword = false;
+						break;
+					case 'D':
+						image = TextureLoader.wallImg;
+						symbol = 'X';
+						Gui.d.remove(Gui.d.size() - 1);
+						break;
+					case ' ':
+						image = TextureLoader.wallImg;
+						symbol = 'X';
+						Gui.m.maze[lc[0]][lc[1]] = symbol;
+						break;
+					default:
+
 					}
-					break;
-				case 'E':
-					if (lc[0] != 0 && lc[0] != Gui.N - 1 && lc[1] != 0
-							&& lc[1] != Gui.N - 1) {
-						if (!TextureLoader.hasSword) {
-							image = TextureLoader.currentImg;
-							symbol = TextureLoader.currentSym;
-							Gui.s.y = lc[0];
-							Gui.s.x = lc[1];
-							TextureLoader.hasSword = true;
-							System.out.println("success");
-						}
-					}
-					break;
-				case 'D':
-					if (lc[0] != 0 && lc[0] != Gui.N - 1 && lc[1] != 0
-							&& lc[1] != Gui.N - 1) {
-						image = TextureLoader.currentImg;
-						symbol = TextureLoader.currentSym;
-						Gui.d.add(new Drake());
-						Gui.d.get(Gui.d.size()-1).y = lc[0];
-						Gui.d.get(Gui.d.size()-1).x = lc[1];
-						TextureLoader.hasSword = true;
-						System.out.println("success");
-					}
-					break;
-				case ' ':
-					if (lc[0] != 0 && lc[0] != Gui.N - 1 && lc[1] != 0
-							&& lc[1] != Gui.N - 1) {
-						if (!TextureLoader.hasSword) {
-							image = TextureLoader.currentImg;
-							symbol = TextureLoader.currentSym;
-							Gui.m.maze[lc[0]][lc[1]] = symbol;
-							System.out.println("success");
-						}
-					}
-					break;
-				default:
-					System.out.println("fail");
+
 				}
+
 				Gui.panelGame.revalidate();
 				Gui.panelGame.repaint();
 				// image = TextureLoader.currentImg;

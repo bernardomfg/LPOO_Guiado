@@ -92,7 +92,7 @@ public class Gui implements Serializable {
 
 		userBuildMenu(panelCreate);
 
-		frame.getContentPane().add(panelGame);
+		//frame.getContentPane().add(panelGame);
 		panelGame.setLayout(new GridLayout(1, 0, 0, 0));
 		panelGame.setFocusable(true);
 
@@ -159,9 +159,9 @@ public class Gui implements Serializable {
 
 		// Creates menu panel
 
-		
 		frame.getContentPane().add(panelMenu, BorderLayout.WEST);
 		panelMenu.setLayout(new GridLayout(0, 1, 0, 0));
+		frame.getContentPane().add(panelGame);
 
 		// New Game button actions
 
@@ -354,21 +354,15 @@ public class Gui implements Serializable {
 			}
 		});
 		panelCreate.add(btnCriar);
-		
+
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				 panelCreate.setVisible(false);
-				 panelMenu.setVisible(true);
-				 frame.revalidate();
-				 frame.repaint();
-				// frame.getContentPane().add(panelCreate, BorderLayout.WEST);
-				// panelCreate.revalidate();
-				// panelCreate.repaint();
-				// JSpinner spinner = new JSpinner();
-				// spinner.setModel(new SpinnerNumberModel(7, 7, 50, 1));
-				// paintCreation(panelCreate, spinner);
+				panelCreate.setVisible(false);
+				panelMenu.setVisible(true);
+				panelMenu.revalidate();
+				panelMenu.repaint();
 			}
 		});
 		panelCreate.add(btnCancelar);
@@ -387,7 +381,7 @@ public class Gui implements Serializable {
 			for (int j = 0; j < N; j++) {
 				temp[0] = i;
 				temp[1] = j;
-				panelGame.add(new EditableGameTile(TextureLoader.wallImg, ' ',
+				panelGame.add(new EditableGameTile(TextureLoader.wallImg, 'X',
 						true, temp.clone()));
 				m.maze[i][j] = 'X';
 				TextureLoader.hasHero = false;
