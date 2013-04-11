@@ -2,6 +2,7 @@ package logic;
 
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public abstract class GameElement implements Serializable{
 	public int x, y;
 

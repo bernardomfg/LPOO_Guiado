@@ -2,6 +2,7 @@ package logic;
 
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public class MazeBuilderDefault extends MazeBuilder implements Serializable{
 
 	public char[][] buildMaze(int N) {

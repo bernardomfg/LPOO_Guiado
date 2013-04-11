@@ -2,6 +2,7 @@ package logic;
 
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public abstract class MazeBuilder implements Serializable{
 	protected char[][] m;
 

@@ -6,6 +6,7 @@ import java.util.Random;
  * @author wilson
  *
  */
+@SuppressWarnings("serial")
 public class Maze implements Serializable {
 
 	public char[][] maze;

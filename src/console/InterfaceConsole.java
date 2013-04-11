@@ -6,6 +6,7 @@ public class InterfaceConsole {
 	
 	
 	public static int readGameMode() {
+		@SuppressWarnings("resource")
 		Scanner mode = new Scanner(System.in);
 		int op = 0;
 		System.out.println("Modos de Jogo:");
@@ -26,6 +27,7 @@ public class InterfaceConsole {
 
 	public static int readMazeSize() {
 
+		@SuppressWarnings("resource")
 		Scanner input = new Scanner(System.in);
 		int op = 0;
 		System.out
@@ -41,6 +43,7 @@ public class InterfaceConsole {
 	
 	public static String readDirection() {
 
+		@SuppressWarnings("resource")
 		Scanner dir = new Scanner(System.in);
 		String mov;
 		Boolean valid;
@@ -58,6 +61,7 @@ public class InterfaceConsole {
 
 	public static String readDirectionEagle() {
 
+		@SuppressWarnings("resource")
 		Scanner dir = new Scanner(System.in);
 		String mov;
 		Boolean valid;
@@ -75,6 +79,7 @@ public class InterfaceConsole {
 
 	public static int readDrakeNumber() {
 
+		@SuppressWarnings("resource")
 		Scanner input = new Scanner(System.in);
 		int op = 0;
 		System.out.print("Insira o número de Dragões (maior que 0): ");

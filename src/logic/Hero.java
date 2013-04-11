@@ -3,6 +3,7 @@ package logic;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+@SuppressWarnings("serial")
 public class Hero extends Mobile implements Serializable  {
 	public Boolean sword = false;
 	public Boolean eagle = true;

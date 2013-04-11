@@ -15,15 +15,14 @@ import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class lostGame extends JDialog {
+@SuppressWarnings("serial")
+public class LostGame extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-
-
 	/**
 	 * Create the dialog.
 	 */
-	public lostGame() {
+	public LostGame() {
 		setResizable(false);
 		setBounds(100, 100, 450, 215);
 		getContentPane().setLayout(new BorderLayout());

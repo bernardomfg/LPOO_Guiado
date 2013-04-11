@@ -5,6 +5,7 @@ import java.util.Random;
 import java.util.Stack;
 import java.util.Vector;
 
+@SuppressWarnings("serial")
 public class MazeBuilderN extends MazeBuilder implements Serializable{
 
 	public char[][] buildMaze(int N) {

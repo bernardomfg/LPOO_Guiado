@@ -3,6 +3,7 @@ package logic;
 import java.io.Serializable;
 import java.util.Random;
 
+@SuppressWarnings("serial")
 public class Drake extends Mobile implements Serializable {
 	public Boolean sleeping = false;
 	public int sleeps = Game.gameMode;

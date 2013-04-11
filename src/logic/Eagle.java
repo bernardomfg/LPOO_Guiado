@@ -2,6 +2,7 @@ package logic;
 
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public class Eagle extends Mobile implements Serializable{
 	public int xIn, yIn;
 	public int motion = 0;

@@ -2,6 +2,7 @@ package logic;
 
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public abstract class Mobile extends GameElement implements Serializable{
 	public void move(int dir) {
 		switch (dir) {
