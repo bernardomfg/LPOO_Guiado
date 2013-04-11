@@ -6,7 +6,7 @@ import java.util.ArrayList;
 @SuppressWarnings("serial")
 public class Game implements Serializable {
 
-	public static int gameMode;
+	public static int gameMode = 1;
 
 	public static void BuildMaze(ArrayList<Drake> d, Maze m, Hero h, Sword s,
 			int N) {

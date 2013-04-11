@@ -12,6 +12,12 @@ import console.DisplayConsole;
 
 public class TextureLoader {
 
+	public static ImageIcon currentImg = new ImageIcon();
+	public static char currentSym;
+	public static boolean hasExit = false;
+	public static boolean hasHero = false;
+	public static boolean hasSword = false;
+	
 	public static ImageIcon heroImg = new ImageIcon("sprites\\goku.png");
 	public static ImageIcon drakeImg = new ImageIcon("sprites\\cell.png");
 	public static ImageIcon wallImg = new ImageIcon("sprites\\block.png");

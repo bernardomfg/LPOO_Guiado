@@ -47,6 +47,7 @@ public class Gui implements Serializable {
 	public static Hero h = new Hero();
 	public static Sword s = new Sword();
 	public static String mov;
+	public final JPanel panelMenu = new JPanel();
 
 	/**
 	 * Launch the application.
@@ -87,7 +88,7 @@ public class Gui implements Serializable {
 		final JPanel panelCreate = new JPanel();
 		panelCreate.setLayout(new GridLayout(0, 1, 0, 0));
 		panelCreate.setVisible(false);
-		panelCreate.setPreferredSize(new Dimension(50, 150));
+		panelCreate.setPreferredSize(new Dimension(100, 150));
 
 		userBuildMenu(panelCreate);
 
@@ -158,7 +159,7 @@ public class Gui implements Serializable {
 
 		// Creates menu panel
 
-		final JPanel panelMenu = new JPanel();
+		
 		frame.getContentPane().add(panelMenu, BorderLayout.WEST);
 		panelMenu.setLayout(new GridLayout(0, 1, 0, 0));
 
@@ -338,12 +339,47 @@ public class Gui implements Serializable {
 				' ');
 		panelCreate.add(labelBackground);
 
+		JButton btnCriar = new JButton("Criar");
+		btnCriar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				// panelCreate.setVisible(false);
+				// panelCreate.setVisible(true);
+				// frame.getContentPane().add(panelCreate, BorderLayout.WEST);
+				// panelCreate.revalidate();
+				// panelCreate.repaint();
+				// JSpinner spinner = new JSpinner();
+				// spinner.setModel(new SpinnerNumberModel(7, 7, 50, 1));
+				// paintCreation(panelCreate, spinner);
+			}
+		});
+		panelCreate.add(btnCriar);
+		
+		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				 panelCreate.setVisible(false);
+				 panelMenu.setVisible(true);
+				 frame.revalidate();
+				 frame.repaint();
+				// frame.getContentPane().add(panelCreate, BorderLayout.WEST);
+				// panelCreate.revalidate();
+				// panelCreate.repaint();
+				// JSpinner spinner = new JSpinner();
+				// spinner.setModel(new SpinnerNumberModel(7, 7, 50, 1));
+				// paintCreation(panelCreate, spinner);
+			}
+		});
+		panelCreate.add(btnCancelar);
+
 	}
 
 	private void paintCreation(final JPanel panelCreate, final JSpinner spinner) {
 		int[] temp = new int[2];
 		panelGame.removeAll();
 		N = (Integer) spinner.getValue();
+		m.maze = new char[N][N];
 		panelGame.setLayout(new GridLayout(N, N, 0, 0));
 		panelCreate.revalidate();
 		panelCreate.repaint();
@@ -353,6 +389,10 @@ public class Gui implements Serializable {
 				temp[1] = j;
 				panelGame.add(new EditableGameTile(TextureLoader.wallImg, ' ',
 						true, temp.clone()));
+				m.maze[i][j] = 'X';
+				TextureLoader.hasHero = false;
+				TextureLoader.hasExit = false;
+				TextureLoader.hasSword = false;
 			}
 		}
 		panelCreate.revalidate();

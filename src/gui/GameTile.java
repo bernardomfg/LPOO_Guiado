@@ -1,6 +1,8 @@
 package gui;
 
 import java.awt.Graphics;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -9,13 +11,22 @@ import javax.swing.JLabel;
 public class GameTile extends JLabel {
 
 	public char symbol;
-	private ImageIcon image;
+	ImageIcon image;
 
 	public GameTile(ImageIcon img, char sym) {
 
 		super();
 		image = img;
 		symbol = sym;
+		
+		this.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				System.out.println("teste");
+				TextureLoader.currentImg = image;
+				TextureLoader.currentSym = symbol;
+				System.out.println(TextureLoader.currentSym);
+			}});
 	}
 
 	@Override
