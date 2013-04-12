@@ -1,11 +1,6 @@
 package console;
 
-import java.util.ArrayList;
-
 import logic.Drake;
-import logic.Hero;
-import logic.Maze;
-import logic.Sword;
 import logic.Game;
 
 public class Console {
@@ -15,41 +10,37 @@ public class Console {
 	 */
 	public static void main(String[] args) {
 
-		Maze m = new Maze();
-		Hero h = new Hero();
-		Sword s = new Sword();
-		String mov;
+
 		Boolean gameOver = false;
 
 		Game.gameMode = InterfaceConsole.readGameMode();
-		int N = InterfaceConsole.readMazeSize();
-		int dN = 1;
-		if (N != 0)
-			dN = InterfaceConsole.readDrakeNumber();
-		ArrayList<Drake> d = new ArrayList<Drake>();
-		for (int i = 0; i < dN; i++) {
-			d.add(new Drake());
+		Game.N = InterfaceConsole.readMazeSize();
+		Game.dN = 1;
+		if (Game.N != 0)
+			Game.dN = InterfaceConsole.readDrakeNumber();
+		for (int i = 0; i < Game.dN; i++) {
+			Game.d.add(new Drake());
 		}
 
-		Game.BuildMaze(d, m, h, s, N);
+		Game.BuildMaze(Game.d, Game.m, Game.h, Game.s, Game.N);
 
-		DisplayConsole.print(m.getMaze(), h, d, s);
+		DisplayConsole.print(Game.m.getMaze(), Game.h, Game.d, Game.s);
 
 		while (!gameOver) {
-			if (h.hasEagle())
-				mov = InterfaceConsole.readDirectionEagle();
+			if (Game.h.hasEagle())
+				Game.mov = InterfaceConsole.readDirectionEagle();
 			else
-				mov = InterfaceConsole.readDirection();
+				Game.mov = InterfaceConsole.readDirection();
 
-			Game.play(mov, h, s, m, d);
+			Game.play(Game.mov, Game.h, Game.s, Game.m, Game.d);
 
-			DisplayConsole.print(m.getMaze(), h, d, s);
+			DisplayConsole.print(Game.m.getMaze(), Game.h, Game.d, Game.s);
 
-			if (Game.checkDead(h, d)) {
+			if (Game.checkDead(Game.h, Game.d)) {
 				InterfaceConsole.lostTheGame();
 				gameOver = true;
 			}
-			if (h.atExit) {
+			if (Game.h.atExit) {
 				InterfaceConsole.wonTheGame();
 				gameOver = true;
 			}

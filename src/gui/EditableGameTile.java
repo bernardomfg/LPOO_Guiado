@@ -8,6 +8,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import logic.Drake;
+import logic.Game;
 
 @SuppressWarnings("serial")
 public class EditableGameTile extends JLabel {
@@ -27,61 +28,65 @@ public class EditableGameTile extends JLabel {
 				if (arg0.getButton() == MouseEvent.BUTTON1) {
 					switch (TextureLoader.currentSym) {
 					case 'S':
-						if ((lc[0] == 0 && (lc[1] > 0 && lc[1] < Gui.N - 1))
-								|| (lc[0] == Gui.N - 1 && (lc[1] > 0 && lc[1] < Gui.N - 1))
-								|| (lc[1] == 0 && (lc[0] > 0 && lc[0] < Gui.N - 1))
-								|| (lc[1] == Gui.N - 1 && (lc[0] > 0 && lc[0] < Gui.N - 1))) {
+						if ((lc[0] == 0 && (lc[1] > 0 && lc[1] < Game.N - 1))
+								|| (lc[0] == Game.N - 1 && (lc[1] > 0 && lc[1] < Game.N - 1))
+								|| (lc[1] == 0 && (lc[0] > 0 && lc[0] < Game.N - 1))
+								|| (lc[1] == Game.N - 1 && (lc[0] > 0 && lc[0] < Game.N - 1))) {
 							if (!TextureLoader.hasExit) {
 								image = TextureLoader.currentImg;
 								symbol = TextureLoader.currentSym;
-								Gui.m.maze[lc[0]][lc[1]] = symbol;
+								Game.m.maze[lc[0]][lc[1]] = symbol;
 								TextureLoader.hasExit = true;
 							}
 						}
 						break;
 					case 'H':
-						if (lc[0] != 0 && lc[0] != Gui.N - 1 && lc[1] != 0
-								&& lc[1] != Gui.N - 1) {
+						if (lc[0] != 0 && lc[0] != Game.N - 1 && lc[1] != 0
+								&& lc[1] != Game.N - 1) {
 							if (!TextureLoader.hasHero) {
+								checkDrawn();
 								image = TextureLoader.currentImg;
 								symbol = TextureLoader.currentSym;
-								Gui.h.y = lc[0];
-								Gui.h.x = lc[1];
-								Gui.m.maze[lc[0]][lc[1]] = ' ';
+								Game.h.y = lc[0];
+								Game.h.x = lc[1];
+								Game.m.maze[lc[0]][lc[1]] = ' ';
 								TextureLoader.hasHero = true;
 							}
 						}
 						break;
 					case 'E':
-						if (lc[0] != 0 && lc[0] != Gui.N - 1 && lc[1] != 0
-								&& lc[1] != Gui.N - 1) {
+						if (lc[0] != 0 && lc[0] != Game.N - 1 && lc[1] != 0
+								&& lc[1] != Game.N - 1) {
 							if (!TextureLoader.hasSword) {
+								checkDrawn();
 								image = TextureLoader.currentImg;
 								symbol = TextureLoader.currentSym;
-								Gui.s.y = lc[0];
-								Gui.s.x = lc[1];
-								Gui.m.maze[lc[0]][lc[1]] = ' ';
+								Game.s.y = lc[0];
+								Game.s.x = lc[1];
+								Game.m.maze[lc[0]][lc[1]] = ' ';
 								TextureLoader.hasSword = true;
 							}
 						}
 						break;
 					case 'D':
-						if (lc[0] != 0 && lc[0] != Gui.N - 1 && lc[1] != 0
-								&& lc[1] != Gui.N - 1) {
+						if (lc[0] != 0 && lc[0] != Game.N - 1 && lc[1] != 0
+								&& lc[1] != Game.N - 1) {
+							checkDrawn();
 							image = TextureLoader.currentImg;
 							symbol = TextureLoader.currentSym;
-							Gui.d.add(new Drake());
-							Gui.d.get(Gui.d.size() - 1).y = lc[0];
-							Gui.d.get(Gui.d.size() - 1).x = lc[1];
-							Gui.m.maze[lc[0]][lc[1]] = ' ';
+							Game.d.add(new Drake());
+							Game.d.get(Game.d.size() - 1).y = lc[0];
+							Game.d.get(Game.d.size() - 1).x = lc[1];
+							Game.m.maze[lc[0]][lc[1]] = ' ';
 						}
 						break;
 					case ' ':
-						if (lc[0] != 0 && lc[0] != Gui.N - 1 && lc[1] != 0
-								&& lc[1] != Gui.N - 1) {
+						if (lc[0] != 0 && lc[0] != Game.N - 1 && lc[1] != 0
+								&& lc[1] != Game.N - 1) {
+							checkDrawn();
 							image = TextureLoader.currentImg;
 							symbol = TextureLoader.currentSym;
-							Gui.m.maze[lc[0]][lc[1]] = symbol;
+							Game.m.maze[lc[0]][lc[1]] = symbol;
 						}
 						break;
 					default:
@@ -93,33 +98,36 @@ public class EditableGameTile extends JLabel {
 					case 'S':
 						image = TextureLoader.wallImg;
 						symbol = 'X';
-						Gui.m.maze[lc[0]][lc[1]] = symbol;
+						Game.m.maze[lc[0]][lc[1]] = symbol;
 						TextureLoader.hasExit = false;
 
 						break;
 					case 'H':
 						image = TextureLoader.wallImg;
 						symbol = 'X';
-						Gui.h.y = 0;
-						Gui.h.x = 0;
+						Game.h.y = 0;
+						Game.h.x = 0;
+						Game.m.maze[lc[0]][lc[1]] = symbol;
 						TextureLoader.hasHero = false;
 						break;
 					case 'E':
 						image = TextureLoader.wallImg;
 						symbol = 'X';
-						Gui.s.y = 0;
-						Gui.s.x = 0;
+						Game.s.y = 0;
+						Game.s.x = 0;
+						Game.m.maze[lc[0]][lc[1]] = symbol;
 						TextureLoader.hasSword = false;
 						break;
 					case 'D':
 						image = TextureLoader.wallImg;
 						symbol = 'X';
-						Gui.d.remove(Gui.d.size() - 1);
+						Game.m.maze[lc[0]][lc[1]] = symbol;
+						deleteDrake();
 						break;
 					case ' ':
 						image = TextureLoader.wallImg;
 						symbol = 'X';
-						Gui.m.maze[lc[0]][lc[1]] = symbol;
+						Game.m.maze[lc[0]][lc[1]] = symbol;
 						break;
 					default:
 
@@ -129,9 +137,6 @@ public class EditableGameTile extends JLabel {
 
 				Gui.panelGame.revalidate();
 				Gui.panelGame.repaint();
-				// image = TextureLoader.currentImg;
-				// symbol = TextureLoader.currentSym;
-				// Gui.m.maze[lc[0]][lc[1]] = symbol;
 			}
 		});
 
@@ -142,5 +147,36 @@ public class EditableGameTile extends JLabel {
 		super.paintComponent(g);
 		g.drawImage(image.getImage(), 0, 0, this.getWidth(), this.getHeight(),
 				null);
+	}
+
+	public void checkDrawn() {
+
+		switch (symbol) {
+
+		case 'S':
+			TextureLoader.hasSword = false;
+			break;
+
+		case 'H':
+			TextureLoader.hasHero = false;
+			break;
+		case 'E':
+			TextureLoader.hasSword = false;
+			break;
+		case 'D':
+			deleteDrake();
+			break;
+		}
+	}
+
+	public void deleteDrake() {
+
+		for (int i = 0; i < Game.d.size(); i++) {
+
+			if (Game.d.get(i).getX() == lc[1] && (Game.d.get(i).getY() == lc[0])) {
+
+				Game.d.remove(i);
+			}
+		}
 	}
 }

@@ -44,6 +44,10 @@ public class WonGame extends JDialog {
 		okButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
+				Gui.panelGame.removeAll();
+				Gui.panelGame.revalidate();
+				Gui.panelGame.repaint();
+				Gui.creating=true;
 				dispose();
 			}
 		});
@@ -55,6 +59,10 @@ public class WonGame extends JDialog {
 		cancelButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				Gui.panelGame.removeAll();
+				Gui.panelGame.revalidate();
+				Gui.panelGame.repaint();
+				Gui.creating=true;
 				dispose();
 			}
 		});

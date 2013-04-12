@@ -127,23 +127,23 @@ public class SelectMode extends JDialog {
 						@SuppressWarnings("resource")
 						Scanner s = new Scanner(textFieldTamanho.getText());
 						if (s.hasNextInt())
-							Gui.N = s.nextInt();
+							Game.N = s.nextInt();
 
 						s = new Scanner(textFieldNDragoes.getText());
 						if (s.hasNextInt())
-							Gui.dN = s.nextInt();
+							Game.dN = s.nextInt();
 
-						if ((Gui.dN > 0)
-								&& ((Gui.N >= 7) || (Gui.N == 0 && textFieldTamanho
+						if ((Game.dN > 0)
+								&& ((Game.N >= 7) || (Game.N == 0 && textFieldTamanho
 										.getText().length() == 1))) {
-							if (Gui.N == 0)
-								Gui.dN = 1;
+							if (Game.N == 0)
+								Game.dN = 1;
 
-							for (int i = 0; i < Gui.dN; i++) {
-								Gui.d.add(new Drake());
+							for (int i = 0; i < Game.dN; i++) {
+								Game.d.add(new Drake());
 							}
 
-							Game.BuildMaze(Gui.d, Gui.m, Gui.h, Gui.s, Gui.N);
+							Game.BuildMaze(Game.d, Game.m, Game.h, Game.s, Game.N);
 
 							dispose();
 						}

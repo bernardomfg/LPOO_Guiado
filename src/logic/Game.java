@@ -7,6 +7,13 @@ import java.util.ArrayList;
 public class Game implements Serializable {
 
 	public static int gameMode = 1;
+	public static int N = 0;
+	public static int dN = 0;
+	public static ArrayList<Drake> d = new ArrayList<Drake>();
+	public static Maze m = new Maze();
+	public static Hero h = new Hero();
+	public static Sword s = new Sword();
+	public static String mov;
 
 	public static void BuildMaze(ArrayList<Drake> d, Maze m, Hero h, Sword s,
 			int N) {

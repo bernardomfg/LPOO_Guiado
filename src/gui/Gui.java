@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -19,6 +20,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -33,21 +35,19 @@ import logic.Game;
 import logic.Hero;
 import logic.Maze;
 import logic.Sword;
+import javax.swing.SwingConstants;
 
 @SuppressWarnings("serial")
 public class Gui implements Serializable {
 
 	private JFrame frame;
 	public static JPanel panelGame = new JPanel();
-
-	public static int N = 0;
-	public static int dN = 0;
-	public static ArrayList<Drake> d = new ArrayList<Drake>();
-	public static Maze m = new Maze();
-	public static Hero h = new Hero();
-	public static Sword s = new Sword();
-	public static String mov;
 	public final JPanel panelMenu = new JPanel();
+	public final JLabel lblMazeGame = new JLabel("Maze Game");
+
+
+
+	public static boolean creating = false;
 
 	/**
 	 * Launch the application.
@@ -92,67 +92,74 @@ public class Gui implements Serializable {
 
 		userBuildMenu(panelCreate);
 
-		//frame.getContentPane().add(panelGame);
+		// frame.getContentPane().add(panelGame);
 		panelGame.setLayout(new GridLayout(1, 0, 0, 0));
 		panelGame.setFocusable(true);
 
 		panelGame.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
-				int key = arg0.getKeyCode();
 
-				switch (key) {
-				case KeyEvent.VK_W:
-					Game.play("w", h, s, m, d);
-					panelGame.removeAll();
-					TextureLoader.paintMaze(m.getMaze(), h, d, s);
-					panelGame.revalidate();
-					panelGame.repaint();
-					break;
+				if (!creating) {
+					int key = arg0.getKeyCode();
 
-				case KeyEvent.VK_S:
-					Game.play("s", h, s, m, d);
-					panelGame.removeAll();
-					TextureLoader.paintMaze(m.getMaze(), h, d, s);
-					panelGame.revalidate();
-					panelGame.repaint();
-					break;
+					switch (key) {
+					case KeyEvent.VK_W:
+					case KeyEvent.VK_UP:
+						Game.play("w", Game.h, Game.s, Game.m, Game.d);
+						panelGame.removeAll();
+						TextureLoader.paintMaze(Game.m.getMaze(), Game.h, Game.d, Game.s);
+						panelGame.revalidate();
+						panelGame.repaint();
+						break;
 
-				case KeyEvent.VK_A:
-					Game.play("a", h, s, m, d);
-					panelGame.removeAll();
-					TextureLoader.paintMaze(m.getMaze(), h, d, s);
-					panelGame.revalidate();
-					panelGame.repaint();
-					break;
+					case KeyEvent.VK_S:
+					case KeyEvent.VK_DOWN:
+						Game.play("s", Game.h, Game.s, Game.m, Game.d);
+						panelGame.removeAll();
+						TextureLoader.paintMaze(Game.m.getMaze(), Game.h, Game.d, Game.s);
+						panelGame.revalidate();
+						panelGame.repaint();
+						break;
 
-				case KeyEvent.VK_D:
-					Game.play("d", h, s, m, d);
-					panelGame.removeAll();
-					TextureLoader.paintMaze(m.getMaze(), h, d, s);
-					panelGame.revalidate();
-					panelGame.repaint();
-					break;
+					case KeyEvent.VK_A:
+					case KeyEvent.VK_LEFT:
+						Game.play("a", Game.h, Game.s, Game.m, Game.d);
+						panelGame.removeAll();
+						TextureLoader.paintMaze(Game.m.getMaze(), Game.h, Game.d, Game.s);
+						panelGame.revalidate();
+						panelGame.repaint();
+						break;
 
-				case KeyEvent.VK_L:
-					Game.play("l", h, s, m, d);
-					panelGame.removeAll();
-					TextureLoader.paintMaze(m.getMaze(), h, d, s);
-					panelGame.revalidate();
-					panelGame.repaint();
-					break;
+					case KeyEvent.VK_D:
+					case KeyEvent.VK_RIGHT:
+						Game.play("d", Game.h, Game.s, Game.m, Game.d);
+						panelGame.removeAll();
+						TextureLoader.paintMaze(Game.m.getMaze(), Game.h, Game.d, Game.s);
+						panelGame.revalidate();
+						panelGame.repaint();
+						break;
 
-				}
+					case KeyEvent.VK_L:
+						Game.play("l", Game.h, Game.s, Game.m, Game.d);
+						panelGame.removeAll();
+						TextureLoader.paintMaze(Game.m.getMaze(), Game.h, Game.d, Game.s);
+						panelGame.revalidate();
+						panelGame.repaint();
+						break;
 
-				if (Game.checkDead(h, d)) {
-					LostGame lost = new LostGame();
-					lost.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
-					lost.setVisible(true);
-				}
-				if (h.atExit) {
-					WonGame won = new WonGame();
-					won.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
-					won.setVisible(true);
+					}
+
+					if (Game.checkDead(Game.h, Game.d)) {
+						LostGame lost = new LostGame();
+						lost.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
+						lost.setVisible(true);
+					}
+					if (Game.h.atExit) {
+						WonGame won = new WonGame();
+						won.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
+						won.setVisible(true);
+					}
 				}
 			}
 		});
@@ -170,26 +177,28 @@ public class Gui implements Serializable {
 		btnNovoJogo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				N = 0;
-				dN = 0;
-				d = new ArrayList<Drake>();
-				m = new Maze();
-				h = new Hero();
-				s = new Sword();
+				creating=false;
+				Game.N = 0;
+				Game.dN = 0;
+				Game.d = new ArrayList<Drake>();
+				Game.m = new Maze();
+				Game.h = new Hero();
+				Game.s = new Sword();
 				panelGame.removeAll();
 				SelectMode chooseButton = new SelectMode();
 				chooseButton
 						.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
 				chooseButton.setVisible(true);
-				if (N % 2 == 0 && N != 0)
-					N--;
-				if (N == 0)
+				if (Game.N % 2 == 0 && Game.N != 0) {
+					Game.N--;
+				}
+				if (Game.N == 0)
 					panelGame.setLayout(new GridLayout(10, 10, 0, 0));
 				else
-					panelGame.setLayout(new GridLayout(N, N, 0, 0));
+					panelGame.setLayout(new GridLayout(Game.N, Game.N, 0, 0));
 
 				panelGame.setBorder(null);
-				TextureLoader.paintMaze(m.getMaze(), h, d, s);
+				TextureLoader.paintMaze(Game.m.getMaze(), Game.h, Game.d, Game.s);
 				panelGame.revalidate();
 				panelGame.repaint();
 			}
@@ -208,20 +217,21 @@ public class Gui implements Serializable {
 
 					load = new ObjectInputStream(new FileInputStream(
 							"MazeGame.dat"));
-					N = (Integer) load.readObject();
-					m = (Maze) load.readObject();
-					h = (Hero) load.readObject();
-					d = (ArrayList<Drake>) load.readObject();
-					s = (Sword) load.readObject();
-					if (d.size() != 0)
-						Game.gameMode = d.get(0).sleeps;
+					Game.N = (Integer) load.readObject();
+					Game.m = (Maze) load.readObject();
+					Game.h = (Hero) load.readObject();
+					Game.d = (ArrayList<Drake>) load.readObject();
+					Game.s = (Sword) load.readObject();
+					if (Game.d.size() != 0)
+						Game.gameMode = Game.d.get(0).sleeps;
 
-					if (N == 0)
+					if (Game.N == 0)
 						panelGame.setLayout(new GridLayout(10, 10, 0, 0));
 					else
-						panelGame.setLayout(new GridLayout(N, N, 0, 0));
+						panelGame.setLayout(new GridLayout(Game.N, Game.N, 0, 0));
 					panelGame.setBorder(null);
-					TextureLoader.paintMaze(m.getMaze(), h, d, s);
+					TextureLoader.paintMaze(Game.m.getMaze(), Game.h, Game.d, Game.s);
+					creating = false;
 					panelGame.revalidate();
 					panelGame.repaint();
 					panelGame.requestFocus();
@@ -253,11 +263,11 @@ public class Gui implements Serializable {
 				try {
 					save = new ObjectOutputStream(new FileOutputStream(
 							"MazeGame.dat"));
-					save.writeObject(N);
-					save.writeObject(m);
-					save.writeObject(h);
-					save.writeObject(d);
-					save.writeObject(s);
+					save.writeObject(Game.N);
+					save.writeObject(Game.m);
+					save.writeObject(Game.h);
+					save.writeObject(Game.d);
+					save.writeObject(Game.s);
 					panelGame.requestFocus();
 
 				} catch (IOException e) {
@@ -287,6 +297,7 @@ public class Gui implements Serializable {
 				panelCreate.repaint();
 				JSpinner spinner = new JSpinner();
 				spinner.setModel(new SpinnerNumberModel(7, 7, 50, 1));
+				creating = true;
 				paintCreation(panelCreate, spinner);
 
 			}
@@ -303,6 +314,12 @@ public class Gui implements Serializable {
 			}
 		});
 		panelMenu.add(btnSair);
+
+		
+		lblMazeGame.setHorizontalAlignment(SwingConstants.LEFT);
+		lblMazeGame.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY,
+				2));
+		frame.getContentPane().add(lblMazeGame, BorderLayout.SOUTH);
 
 	}
 
@@ -343,15 +360,24 @@ public class Gui implements Serializable {
 		btnCriar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				panelCreate.setVisible(false);
-				frame.remove(panelMenu);
-				panelMenu.setVisible(true);
-				frame.add(panelMenu, BorderLayout.WEST);
-				panelMenu.revalidate();
-				panelMenu.repaint();
-				frame.revalidate();
-				frame.repaint();
-				panelGame.requestFocus();
+
+				if (TextureLoader.hasExit && TextureLoader.hasSword
+						&& TextureLoader.hasHero && Game.d.size() != 0) {
+					panelCreate.setVisible(false);
+					frame.remove(panelMenu);
+					panelMenu.setVisible(true);
+					frame.getContentPane().add(panelMenu, BorderLayout.WEST);
+					panelMenu.revalidate();
+					panelMenu.repaint();
+					lblMazeGame.setText("Play game");
+					frame.revalidate();
+					frame.repaint();
+					creating = false;
+					panelGame.requestFocus();
+				}
+				else {
+					lblMazeGame.setText("Insert one element of each type!");
+				}
 			}
 		});
 		panelCreate.add(btnCriar);
@@ -363,9 +389,12 @@ public class Gui implements Serializable {
 				panelCreate.setVisible(false);
 				frame.remove(panelMenu);
 				panelMenu.setVisible(true);
-				frame.add(panelMenu, BorderLayout.WEST);
+				frame.getContentPane().add(panelMenu, BorderLayout.WEST);
+				panelGame.removeAll();
 				panelMenu.revalidate();
 				panelMenu.repaint();
+				creating = false;
+				lblMazeGame.setText("Maze Game");
 				frame.revalidate();
 				frame.repaint();
 			}
@@ -377,23 +406,26 @@ public class Gui implements Serializable {
 	private void paintCreation(final JPanel panelCreate, final JSpinner spinner) {
 		int[] temp = new int[2];
 		panelGame.removeAll();
-		N = (Integer) spinner.getValue();
-		m.maze = new char[N][N];
-		panelGame.setLayout(new GridLayout(N, N, 0, 0));
+		Game.N = (Integer) spinner.getValue();
+		Game.m.maze = new char[Game.N][Game.N];
+		panelGame.setLayout(new GridLayout(Game.N, Game.N, 0, 0));
 		panelCreate.revalidate();
 		panelCreate.repaint();
-		for (int i = 0; i < N; i++) {
-			for (int j = 0; j < N; j++) {
+		for (int i = 0; i < Game.N; i++) {
+			for (int j = 0; j < Game.N; j++) {
 				temp[0] = i;
 				temp[1] = j;
 				panelGame.add(new EditableGameTile(TextureLoader.wallImg, 'X',
 						true, temp.clone()));
-				m.maze[i][j] = 'X';
-				TextureLoader.hasHero = false;
-				TextureLoader.hasExit = false;
-				TextureLoader.hasSword = false;
+				Game.m.maze[i][j] = 'X';
+
 			}
+
 		}
+		TextureLoader.hasHero = false;
+		TextureLoader.hasExit = false;
+		TextureLoader.hasSword = false;
+		Game.d.removeAll(Game.d);
 		panelCreate.revalidate();
 		panelCreate.repaint();
 	}
