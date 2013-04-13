@@ -3,6 +3,8 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Scanner;
@@ -11,6 +13,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JTextField;
@@ -30,6 +33,7 @@ public class SelectMode extends JDialog {
 	private JTextField textFieldNDragoes;
 	public String op;
 	int ok = 0;
+	public static boolean canceled = false;
 
 	/**
 	 * Create the dialog.
@@ -119,33 +123,82 @@ public class SelectMode extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
+				
+				
+				okButton.addKeyListener(new KeyAdapter() {
+					@Override
+					public void keyPressed(KeyEvent arg0) {
 
+						if (arg0.getKeyCode() == arg0.VK_ENTER) {
+						int resposta = JOptionPane.showConfirmDialog(null,
+								"Creating new game. Are you sure?");
+						if (JOptionPane.YES_OPTION == resposta) {
+
+							@SuppressWarnings("resource")
+							Scanner s = new Scanner(textFieldTamanho.getText());
+							if (s.hasNextInt())
+								Game.N = s.nextInt();
+
+							s = new Scanner(textFieldNDragoes.getText());
+							if (s.hasNextInt())
+								Game.dN = s.nextInt();
+
+							if ((Game.dN > 0)
+									&& ((Game.N >= 7) || (Game.N == 0 && textFieldTamanho
+											.getText().length() == 1))) {
+								if (Game.N == 0)
+									Game.dN = 1;
+
+								for (int i = 0; i < Game.dN; i++) {
+									Game.d.add(new Drake());
+								}
+
+								Game.BuildMaze(Game.d, Game.m, Game.h, Game.s,
+										Game.N);
+
+								dispose();
+							}
+							else
+								JOptionPane.showMessageDialog(null, "Drake number must be above 0!\nMaze size must be 0 or over 7!");
+						}
+					}}
+
+				});
+				
 				okButton.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent e) {
 
-						@SuppressWarnings("resource")
-						Scanner s = new Scanner(textFieldTamanho.getText());
-						if (s.hasNextInt())
-							Game.N = s.nextInt();
+						int resposta = JOptionPane.showConfirmDialog(null,
+								"Creating new game. Are you sure?");
+						if (JOptionPane.YES_OPTION == resposta) {
 
-						s = new Scanner(textFieldNDragoes.getText());
-						if (s.hasNextInt())
-							Game.dN = s.nextInt();
+							@SuppressWarnings("resource")
+							Scanner s = new Scanner(textFieldTamanho.getText());
+							if (s.hasNextInt())
+								Game.N = s.nextInt();
 
-						if ((Game.dN > 0)
-								&& ((Game.N >= 7) || (Game.N == 0 && textFieldTamanho
-										.getText().length() == 1))) {
-							if (Game.N == 0)
-								Game.dN = 1;
+							s = new Scanner(textFieldNDragoes.getText());
+							if (s.hasNextInt())
+								Game.dN = s.nextInt();
 
-							for (int i = 0; i < Game.dN; i++) {
-								Game.d.add(new Drake());
+							if ((Game.dN > 0)
+									&& ((Game.N >= 7) || (Game.N == 0 && textFieldTamanho
+											.getText().length() == 1))) {
+								if (Game.N == 0)
+									Game.dN = 1;
+
+								for (int i = 0; i < Game.dN; i++) {
+									Game.d.add(new Drake());
+								}
+
+								Game.BuildMaze(Game.d, Game.m, Game.h, Game.s,
+										Game.N);
+
+								dispose();
 							}
-
-							Game.BuildMaze(Game.d, Game.m, Game.h, Game.s, Game.N);
-
-							dispose();
+							else
+								JOptionPane.showMessageDialog(null, "Drake number must be above 0!\nMaze size must be 0 or over 7!");
 						}
 					}
 
@@ -160,7 +213,12 @@ public class SelectMode extends JDialog {
 					@Override
 					public void mouseClicked(MouseEvent e) {
 
-						dispose();
+						int resposta = JOptionPane.showConfirmDialog(null,
+								"Cancelling. Are you sure?");
+						if (JOptionPane.YES_OPTION == resposta)
+							//solve exception thrown when cancelling
+							canceled = true;
+							dispose();
 					}
 				});
 				cancelButton.setActionCommand("Cancel");

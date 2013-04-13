@@ -29,6 +29,7 @@ public class TextureLoader {
 	public static ImageIcon drakeSwordImg = new ImageIcon("sprites\\cellBall.png");
 	public static ImageIcon drakeSleepImg = new ImageIcon("sprites\\cellSleep.png");
 	public static ImageIcon drakesleepSwordImg = new ImageIcon("sprites\\cellsword.png");
+	public static ImageIcon mainTheme = new ImageIcon("sprites\\mainTheme.jpg");
 
 	public static void paintMaze(char[][] maze, Hero h, ArrayList<Drake> d,	Sword s) {
 		char[][] temp = DisplayConsole.fillMaze(maze, h, d, s);
@@ -42,10 +43,10 @@ public class TextureLoader {
 					Gui.panelGame.add(new GameTile(TextureLoader.drakeImg, ' '));
 					break;
 				case 'd': 
-					Gui.panelGame.add(new GameTile(TextureLoader.drakesleepSwordImg, ' '));
+					Gui.panelGame.add(new GameTile(TextureLoader.drakeSleepImg, ' '));
 					break;
 				case 'f':
-					Gui.panelGame.add(new GameTile(TextureLoader.drakeSleepImg, ' '));
+					Gui.panelGame.add(new GameTile(TextureLoader.drakesleepSwordImg, ' '));
 					break;
 				case 'F':
 					Gui.panelGame.add(new GameTile(TextureLoader.drakeSwordImg, ' '));

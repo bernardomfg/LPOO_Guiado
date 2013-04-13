@@ -1,4 +1,5 @@
 package console;
+
 import java.util.ArrayList;
 
 import logic.Drake;
@@ -22,7 +23,9 @@ public class DisplayConsole {
 
 	public static char[][] fillMaze(char[][] maze, Hero h, ArrayList<Drake> d,
 			Sword s) {
+
 		int N = maze.length;
+
 		char[][] temp = new char[N][N];
 		for (int i = 0; i < N; i++)
 			for (int j = 0; j < N; j++)
@@ -57,13 +60,10 @@ public class DisplayConsole {
 				temp[s.getY()][s.getX()] = 'F';
 			else if (temp[s.getY()][s.getX()] == 'd' && !h.e.inFlight)
 				temp[s.getY()][s.getX()] = 'f';
-			else
-				if (temp[s.getY()][s.getX()] != 'P')
-					temp[s.getY()][s.getX()] = 'E';
+			else if (temp[s.getY()][s.getX()] != 'P')
+				temp[s.getY()][s.getX()] = 'E';
 		}
 		return temp;
 	}
-
-	
 
 }

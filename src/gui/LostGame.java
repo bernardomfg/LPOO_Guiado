@@ -50,6 +50,7 @@ public class LostGame extends JDialog {
 						Gui.panelGame.revalidate();
 						Gui.panelGame.repaint();
 						Gui.creating=true;
+						Gui.panelGame.add(Gui.mainTheme);
 						dispose();
 					}
 				});

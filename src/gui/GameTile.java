@@ -23,10 +23,8 @@ public class GameTile extends JLabel {
 		this.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				System.out.println("teste");
 				TextureLoader.currentImg = image;
 				TextureLoader.currentSym = symbol;
-				System.out.println(TextureLoader.currentSym);
 			}});
 	}
 
