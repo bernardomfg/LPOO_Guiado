@@ -11,6 +11,9 @@ import org.junit.Test;
 
 public class DrakeTest {
 
+	/**
+	 * Tests if the dragon moves.
+	 */
 	@Test
 	public void testDragonMoves() {
 		Maze m = new Maze();
@@ -27,6 +30,9 @@ public class DrakeTest {
 		assertEquals(4, d.get(0).getY());
 	}
 
+	/**
+	 * Tests if the dragon can move while sleeping.
+	 */
 	@Test
 	public void testDragonSleepsAndTriesToMove() {
 		Maze m = new Maze();
@@ -44,6 +50,9 @@ public class DrakeTest {
 		assertEquals(3, d.get(0).getY());
 	}
 
+	/**
+	 * Tests if multiple dragons can move.
+	 */
 	@Test
 	public void testMultipleDragonMoves() {
 		Maze m = new Maze();

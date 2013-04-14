@@ -3,8 +3,6 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Scanner;
@@ -21,10 +19,11 @@ import javax.swing.border.EmptyBorder;
 
 import logic.Drake;
 import logic.Game;
+import logic.Maze;
 
-@SuppressWarnings("serial")
+@SuppressWarnings("resource")
 public class SelectMode extends JDialog {
-
+	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private final JPanel contentPanel1 = new JPanel();
 	private final JPanel contentPanel2 = new JPanel();
@@ -32,7 +31,7 @@ public class SelectMode extends JDialog {
 	private JTextField textFieldTamanho;
 	private JTextField textFieldNDragoes;
 	public String op;
-	int ok = 0;
+	public int ok = 0;
 	public static boolean canceled = false;
 
 	/**
@@ -54,35 +53,30 @@ public class SelectMode extends JDialog {
 		contentPanel1.setLayout(null);
 		contentPanel2.setLayout(null);
 
-		{
-			JRadioButtonMenuItem rdbDragaoParado = new JRadioButtonMenuItem(
-					"1 - Dragao parado");
-			rdbDragaoParado.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent arg0) {
+		JRadioButtonMenuItem rdbDragaoParado = new JRadioButtonMenuItem(
+				"1 - Dragao parado");
+		rdbDragaoParado.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				Game.gameMode = 1;
+			}
+		});
+		rdbDragaoParado.setSelected(true);
+		buttonGroup.add(rdbDragaoParado);
+		rdbDragaoParado.setBounds(10, 47, 328, 37);
+		contentPanel.add(rdbDragaoParado);
 
-					Game.gameMode = 1;
-				}
-			});
-			rdbDragaoParado.setSelected(true);
-			buttonGroup.add(rdbDragaoParado);
-			rdbDragaoParado.setBounds(10, 47, 328, 37);
-			contentPanel.add(rdbDragaoParado);
-		}
-		{
-			JRadioButtonMenuItem rdbDragaoMov = new JRadioButtonMenuItem(
-					"2 - Dragao com movimento");
-			rdbDragaoMov.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent arg0) {
-
-					Game.gameMode = 2;
-				}
-			});
-			buttonGroup.add(rdbDragaoMov);
-			rdbDragaoMov.setBounds(10, 93, 328, 37);
-			contentPanel.add(rdbDragaoMov);
-		}
+		JRadioButtonMenuItem rdbDragaoMov = new JRadioButtonMenuItem(
+				"2 - Dragao com movimento");
+		rdbDragaoMov.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				Game.gameMode = 2;
+			}
+		});
+		buttonGroup.add(rdbDragaoMov);
+		rdbDragaoMov.setBounds(10, 93, 328, 37);
+		contentPanel.add(rdbDragaoMov);
 
 		JLabel lblTamanhoDoLabirinto = new JLabel("Tamanho do Labirinto:");
 		lblTamanhoDoLabirinto.setBounds(10, 189, 234, 37);
@@ -99,6 +93,7 @@ public class SelectMode extends JDialog {
 				Game.gameMode = 3;
 			}
 		});
+
 		buttonGroup.add(rdbDragaoMovSleep);
 		rdbDragaoMovSleep.setBounds(10, 141, 347, 37);
 		contentPanel.add(rdbDragaoMovSleep);
@@ -118,114 +113,62 @@ public class SelectMode extends JDialog {
 		lblModoDeJogo.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		lblModoDeJogo.setBounds(10, 11, 234, 37);
 		contentPanel.add(lblModoDeJogo);
+
+		JPanel buttonPane = new JPanel();
+		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		getContentPane().add(buttonPane, BorderLayout.SOUTH);
 		{
-			JPanel buttonPane = new JPanel();
-			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			getContentPane().add(buttonPane, BorderLayout.SOUTH);
-			{
-				
-				
-				okButton.addKeyListener(new KeyAdapter() {
-					@Override
-					public void keyPressed(KeyEvent arg0) {
-
-						if (arg0.getKeyCode() == arg0.VK_ENTER) {
-						int resposta = JOptionPane.showConfirmDialog(null,
-								"Creating new game. Are you sure?");
-						if (JOptionPane.YES_OPTION == resposta) {
-
-							@SuppressWarnings("resource")
-							Scanner s = new Scanner(textFieldTamanho.getText());
-							if (s.hasNextInt())
-								Game.N = s.nextInt();
-
-							s = new Scanner(textFieldNDragoes.getText());
-							if (s.hasNextInt())
-								Game.dN = s.nextInt();
-
-							if ((Game.dN > 0)
-									&& ((Game.N >= 7) || (Game.N == 0 && textFieldTamanho
-											.getText().length() == 1))) {
-								if (Game.N == 0)
-									Game.dN = 1;
-
-								for (int i = 0; i < Game.dN; i++) {
-									Game.d.add(new Drake());
-								}
-
-								Game.BuildMaze(Game.d, Game.m, Game.h, Game.s,
-										Game.N);
-
-								dispose();
-							}
-							else
-								JOptionPane.showMessageDialog(null, "Drake number must be above 0!\nMaze size must be 0 or over 7!");
+			okButton.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					int resposta = JOptionPane.showConfirmDialog(null,
+							"Creating new game. Are you sure?");
+					if (JOptionPane.YES_OPTION == resposta) {
+						Scanner s = new Scanner(textFieldTamanho.getText());
+						if (s.hasNextInt()) {
+							Game.N = s.nextInt();
 						}
-					}}
-
-				});
-				
-				okButton.addMouseListener(new MouseAdapter() {
-					@Override
-					public void mouseClicked(MouseEvent e) {
-
-						int resposta = JOptionPane.showConfirmDialog(null,
-								"Creating new game. Are you sure?");
-						if (JOptionPane.YES_OPTION == resposta) {
-
-							@SuppressWarnings("resource")
-							Scanner s = new Scanner(textFieldTamanho.getText());
-							if (s.hasNextInt())
-								Game.N = s.nextInt();
-
-							s = new Scanner(textFieldNDragoes.getText());
-							if (s.hasNextInt())
-								Game.dN = s.nextInt();
-
-							if ((Game.dN > 0)
-									&& ((Game.N >= 7) || (Game.N == 0 && textFieldTamanho
-											.getText().length() == 1))) {
-								if (Game.N == 0)
-									Game.dN = 1;
-
-								for (int i = 0; i < Game.dN; i++) {
-									Game.d.add(new Drake());
-								}
-
-								Game.BuildMaze(Game.d, Game.m, Game.h, Game.s,
-										Game.N);
-
-								dispose();
-							}
-							else
-								JOptionPane.showMessageDialog(null, "Drake number must be above 0!\nMaze size must be 0 or over 7!");
+						s = new Scanner(textFieldNDragoes.getText());
+						if (s.hasNextInt()) {
+							Game.dN = s.nextInt();
 						}
-					}
-
-				});
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
-			}
-			{
-				JButton cancelButton = new JButton("Cancel");
-				cancelButton.addMouseListener(new MouseAdapter() {
-					@Override
-					public void mouseClicked(MouseEvent e) {
-
-						int resposta = JOptionPane.showConfirmDialog(null,
-								"Cancelling. Are you sure?");
-						if (JOptionPane.YES_OPTION == resposta)
-							//solve exception thrown when cancelling
-							canceled = true;
+						if ((Game.dN > 0)
+								&& ((Game.N >= 7) || (Game.N == 0 && textFieldTamanho
+										.getText().length() == 1))) {
+							if (Game.N == 0) {
+								Game.dN = 1;
+							}
+							for (int i = 0; i < Game.dN; i++) {
+								Game.d.add(new Drake());
+							}
+							Maze.BuildMaze(Game.d, Game.m, Game.h, Game.s,
+									Game.N);
 							dispose();
+						} else
+							JOptionPane
+									.showMessageDialog(null,
+											"Drake number must be above 0!\nMaze size must be 0 or over 7!");
 					}
-				});
-				cancelButton.setActionCommand("Cancel");
-				buttonPane.add(cancelButton);
-
-			}
-
+				}
+			});
+			okButton.setActionCommand("OK");
+			buttonPane.add(okButton);
+			getRootPane().setDefaultButton(okButton);
 		}
+		JButton cancelButton = new JButton("Cancel");
+		cancelButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int resposta = JOptionPane.showConfirmDialog(null,
+						"Cancelling. Are you sure?");
+				if (JOptionPane.YES_OPTION == resposta) {
+					// solve exception thrown when cancelling
+					canceled = true;
+				}
+				dispose();
+			}
+		});
+		cancelButton.setActionCommand("Cancel");
+		buttonPane.add(cancelButton);
 	}
 }

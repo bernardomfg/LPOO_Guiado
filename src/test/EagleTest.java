@@ -14,6 +14,9 @@ import org.junit.Test;
 
 public class EagleTest {
 
+	/**
+	 * Tests if eagle follows correct path to sword, grabs it and returns it to the hero in the beggining location.
+	 */
 	@Test
 	public void testEagleGetsSword() {
 		Maze m = new Maze();
@@ -72,6 +75,9 @@ public class EagleTest {
 		assertEquals(false, h.e.hasSword);
 	}
 	
+	/**
+	 * Tests if eagle dies when in contact with a dragon, but not while in flight.
+	 */
 	@Test
 	public void testEagleGetsKilled() {
 		Maze m = new Maze();

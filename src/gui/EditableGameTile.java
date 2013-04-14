@@ -10,17 +10,36 @@ import javax.swing.JLabel;
 import logic.Drake;
 import logic.Game;
 
-@SuppressWarnings("serial")
+
+/**Class which extends JLabel and saves 4 additional variables.
+ * 
+ *
+ */
 public class EditableGameTile extends JLabel {
-	Boolean mode;
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * @param lc Array containing the correspondent position of the label in the maze
+	 */
 	int[] lc;
+	/**
+	 * @param symbol Char equivalent to the image of the label in the maze
+	 */
 	public char symbol;
+	/**
+	 * @param image Image of the label
+	 */
 	ImageIcon image;
 
-	public EditableGameTile(ImageIcon img, char sym, Boolean mode, int[] pos) {
+	/** Constructor of the class
+	 * @param img Image to be placed as background of the label
+	 * @param sym Char corresponding to the object in the maze
+	 * @param mode 
+	 * @param pos
+	 */
+	public EditableGameTile(ImageIcon img, char sym, int[] pos) {
 		image = img;
 		symbol = sym;
-		this.mode = mode;
 		lc = pos;
 		this.addMouseListener(new MouseAdapter() {
 			@Override
@@ -90,17 +109,14 @@ public class EditableGameTile extends JLabel {
 						}
 						break;
 					default:
-
 					}
 				} else if (arg0.getButton() == MouseEvent.BUTTON3) {
-
 					switch (symbol) {
 					case 'S':
 						image = TextureLoader.wallImg;
 						symbol = 'X';
 						Game.m.maze[lc[0]][lc[1]] = symbol;
 						TextureLoader.hasExit = false;
-
 						break;
 					case 'H':
 						image = TextureLoader.wallImg;
@@ -130,16 +146,12 @@ public class EditableGameTile extends JLabel {
 						Game.m.maze[lc[0]][lc[1]] = symbol;
 						break;
 					default:
-
 					}
-
 				}
-
 				Gui.panelGame.revalidate();
 				Gui.panelGame.repaint();
 			}
 		});
-
 	}
 
 	@Override
@@ -150,13 +162,10 @@ public class EditableGameTile extends JLabel {
 	}
 
 	public void checkDrawn() {
-
 		switch (symbol) {
-
 		case 'S':
 			TextureLoader.hasSword = false;
 			break;
-
 		case 'H':
 			TextureLoader.hasHero = false;
 			break;
@@ -170,11 +179,9 @@ public class EditableGameTile extends JLabel {
 	}
 
 	public void deleteDrake() {
-
 		for (int i = 0; i < Game.d.size(); i++) {
-
-			if (Game.d.get(i).getX() == lc[1] && (Game.d.get(i).getY() == lc[0])) {
-
+			if (Game.d.get(i).getX() == lc[1]
+					&& (Game.d.get(i).getY() == lc[0])) {
 				Game.d.remove(i);
 			}
 		}

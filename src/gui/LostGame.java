@@ -19,6 +19,7 @@ import java.awt.event.MouseEvent;
 public class LostGame extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
+
 	/**
 	 * Create the dialog.
 	 */
@@ -29,52 +30,47 @@ public class LostGame extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(new GridLayout(1, 0, 0, 0));
-		{
-			JLabel lblPerdeuOJogo = new JLabel("Perdeu o Jogo!");
-			lblPerdeuOJogo.setForeground(Color.RED);
-			lblPerdeuOJogo.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 30));
-			lblPerdeuOJogo.setHorizontalAlignment(SwingConstants.CENTER);
-			contentPanel.add(lblPerdeuOJogo);
-		}
-		{
-			JPanel buttonPane = new JPanel();
-			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			getContentPane().add(buttonPane, BorderLayout.SOUTH);
-			{
-				JButton okButton = new JButton("OK");
-				okButton.addMouseListener(new MouseAdapter() {
-					@Override
-					public void mouseClicked(MouseEvent arg0) {
-						
-						Gui.panelGame.removeAll();
-						Gui.panelGame.revalidate();
-						Gui.panelGame.repaint();
-						Gui.creating=true;
-						Gui.panelGame.add(Gui.mainTheme);
-						dispose();
-					}
-				});
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
-			}
-			{
-				JButton cancelButton = new JButton("Cancel");
-				cancelButton.addMouseListener(new MouseAdapter() {
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						
-						Gui.panelGame.removeAll();
-						Gui.panelGame.revalidate();
-						Gui.panelGame.repaint();
-						Gui.creating=true;
-						dispose();
-					}
-				});
-				cancelButton.setActionCommand("Cancel");
-				buttonPane.add(cancelButton);
-			}
-		}
-	}
 
+		JLabel lblPerdeuOJogo = new JLabel("Perdeu o Jogo!");
+		lblPerdeuOJogo.setForeground(Color.RED);
+		lblPerdeuOJogo.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 30));
+		lblPerdeuOJogo.setHorizontalAlignment(SwingConstants.CENTER);
+		contentPanel.add(lblPerdeuOJogo);
+
+		JPanel buttonPane = new JPanel();
+		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		getContentPane().add(buttonPane, BorderLayout.SOUTH);
+
+		JButton okButton = new JButton("OK");
+		okButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+
+				Gui.panelGame.removeAll();
+				Gui.panelGame.revalidate();
+				Gui.panelGame.repaint();
+				Gui.creating = true;
+				// Gui.panelGame.add(Gui.mainTheme);
+				dispose();
+			}
+		});
+		okButton.setActionCommand("OK");
+		buttonPane.add(okButton);
+		getRootPane().setDefaultButton(okButton);
+
+		JButton cancelButton = new JButton("Cancel");
+		cancelButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+				Gui.panelGame.removeAll();
+				Gui.panelGame.revalidate();
+				Gui.panelGame.repaint();
+				Gui.creating = true;
+				dispose();
+			}
+		});
+		cancelButton.setActionCommand("Cancel");
+		buttonPane.add(cancelButton);
+	}
 }

@@ -4,13 +4,28 @@ import java.util.ArrayList;
 
 import logic.Drake;
 import logic.Hero;
+import logic.Maze;
 import logic.Sword;
 
+/** Handles the prints in the console. */
 public class DisplayConsole {
 
+	/**
+	 * Receives the maze, the hero, the dragon ArrayList and the sword and
+	 * displays them in place in the console.
+	 * 
+	 * @param maze
+	 *            The maze
+	 * @param h
+	 *            The hero
+	 * @param d
+	 *            The dragon ArrayList
+	 * @param s
+	 *            The sword
+	 */
 	public static void print(char[][] maze, Hero h, ArrayList<Drake> d, Sword s) {
 
-		char[][] temp = fillMaze(maze, h, d, s);
+		char[][] temp = Maze.fillMaze(maze, h, d, s);
 		// maze printing cycle
 		for (char[] line : temp) {
 			for (char sym : line) {
@@ -20,50 +35,4 @@ public class DisplayConsole {
 			System.out.println();
 		}
 	}
-
-	public static char[][] fillMaze(char[][] maze, Hero h, ArrayList<Drake> d,
-			Sword s) {
-
-		int N = maze.length;
-
-		char[][] temp = new char[N][N];
-		for (int i = 0; i < N; i++)
-			for (int j = 0; j < N; j++)
-				// copying the basic maze to the dynamic maze
-				temp[i][j] = maze[i][j];
-		// places hero
-		if (h.hasEagle()) {
-			if (h.hasSword())
-				temp[h.getY()][h.getX()] = 'A';
-			else
-				temp[h.getY()][h.getX()] = 'H';
-		} else {
-
-			if (h.hasSword())
-				temp[h.getY()][h.getX()] = 'A';
-			else
-				temp[h.getY()][h.getX()] = 'H';
-
-			if (!h.e.isDead)
-				temp[h.e.getY()][h.e.getX()] = 'P';
-		}
-		// places all possible dragons
-		for (int i = 0; i < d.size(); i++) {
-			if (d.get(i).isSleeping())
-				temp[d.get(i).getY()][d.get(i).getX()] = 'd';
-			else
-				temp[d.get(i).getY()][d.get(i).getX()] = 'D';
-		}
-		// places sword checking if it's in same position as dragon
-		if (!h.hasSword()) {
-			if (temp[s.getY()][s.getX()] == 'D' && !h.e.inFlight)
-				temp[s.getY()][s.getX()] = 'F';
-			else if (temp[s.getY()][s.getX()] == 'd' && !h.e.inFlight)
-				temp[s.getY()][s.getX()] = 'f';
-			else if (temp[s.getY()][s.getX()] != 'P')
-				temp[s.getY()][s.getX()] = 'E';
-		}
-		return temp;
-	}
-
 }

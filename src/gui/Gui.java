@@ -6,8 +6,6 @@ import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GridLayout;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
@@ -45,7 +43,8 @@ public class Gui implements Serializable {
 	public static JPanel panelGame = new JPanel();
 	public final JPanel panelMenu = new JPanel();
 	public final JLabel lblMazeGame = new JLabel("Maze Game");
-	public static final GameTile mainTheme = new GameTile(TextureLoader.mainTheme,'b');
+	public static final GameTile mainTheme = new GameTile(
+			TextureLoader.mainTheme, 'b');
 
 	public static boolean creating = false;
 
@@ -72,10 +71,17 @@ public class Gui implements Serializable {
 	 * Initialise the contents of the frame.
 	 */
 	private void initialize() {
+		//setting default keys
+
+		KeyChanger.upKey = 87;
+		KeyChanger.downKey = 83;
+		KeyChanger.rightKey = 68;
+		KeyChanger.leftKey = 65;
+		KeyChanger.launchKey = 76;
+		
 		frame = new JFrame();
 		frame.addWindowFocusListener(new WindowFocusListener() {
 			public void windowGainedFocus(WindowEvent arg0) {
-
 				panelGame.requestFocus();
 			}
 
@@ -92,82 +98,11 @@ public class Gui implements Serializable {
 
 		userBuildMenu(panelCreate);
 
-		// frame.getContentPane().add(panelGame);
 		panelGame.setLayout(new GridLayout(1, 0, 0, 0));
 		panelGame.setFocusable(true);
-		
-		panelGame.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent arg0) {
 
-				if (!creating) {
-					int key = arg0.getKeyCode();
-
-					switch (key) {
-					case KeyEvent.VK_W:
-					case KeyEvent.VK_UP:
-						Game.play("w", Game.h, Game.s, Game.m, Game.d);
-						panelGame.removeAll();
-						TextureLoader.paintMaze(Game.m.getMaze(), Game.h,
-								Game.d, Game.s);
-						panelGame.revalidate();
-						panelGame.repaint();
-						break;
-
-					case KeyEvent.VK_S:
-					case KeyEvent.VK_DOWN:
-						Game.play("s", Game.h, Game.s, Game.m, Game.d);
-						panelGame.removeAll();
-						TextureLoader.paintMaze(Game.m.getMaze(), Game.h,
-								Game.d, Game.s);
-						panelGame.revalidate();
-						panelGame.repaint();
-						break;
-
-					case KeyEvent.VK_A:
-					case KeyEvent.VK_LEFT:
-						Game.play("a", Game.h, Game.s, Game.m, Game.d);
-						panelGame.removeAll();
-						TextureLoader.paintMaze(Game.m.getMaze(), Game.h,
-								Game.d, Game.s);
-						panelGame.revalidate();
-						panelGame.repaint();
-						break;
-
-					case KeyEvent.VK_D:
-					case KeyEvent.VK_RIGHT:
-						Game.play("d", Game.h, Game.s, Game.m, Game.d);
-						panelGame.removeAll();
-						TextureLoader.paintMaze(Game.m.getMaze(), Game.h,
-								Game.d, Game.s);
-						panelGame.revalidate();
-						panelGame.repaint();
-						break;
-
-					case KeyEvent.VK_L:
-						Game.play("l", Game.h, Game.s, Game.m, Game.d);
-						panelGame.removeAll();
-						TextureLoader.paintMaze(Game.m.getMaze(), Game.h,
-								Game.d, Game.s);
-						panelGame.revalidate();
-						panelGame.repaint();
-						break;
-
-					}
-
-					if (Game.checkDead(Game.h, Game.d)) {
-						LostGame lost = new LostGame();
-						lost.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
-						lost.setVisible(true);
-					}
-					if (Game.h.atExit) {
-						WonGame won = new WonGame();
-						won.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
-						won.setVisible(true);
-					}
-				}
-			}
-		});
+		MovementListener moveListener = new MovementListener();
+		panelGame.addKeyListener(moveListener);
 
 		// Creates menu panel
 
@@ -179,92 +114,21 @@ public class Gui implements Serializable {
 		// New Game button actions
 
 		final JButton btnNovoJogo = new JButton("New Game");
-		panelMenu.add(btnNovoJogo);
 		btnNovoJogo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				int resposta = JOptionPane.showConfirmDialog(null,
-						"Creating new game. Are you sure?");
-				if (JOptionPane.YES_OPTION == resposta) {
-					creating = false;
-					Game.N = 0;
-					Game.dN = 0;
-					Game.d = new ArrayList<Drake>();
-					Game.m = new Maze();
-					Game.h = new Hero();
-					Game.s = new Sword();
-					panelGame.removeAll();
-					SelectMode chooseButton = new SelectMode();
-					lblMazeGame.setText("Drake number must be above 0!\nMaze size must be 0 or over 7!");
-					chooseButton
-							.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
-					chooseButton.setVisible(true);
-					if (!SelectMode.canceled) {
-					if (Game.N % 2 == 0 && Game.N != 0) {
-						Game.N--;
-					}
-					if (Game.N == 0)
-						panelGame.setLayout(new GridLayout(10, 10, 0, 0));
-					else
-						panelGame
-								.setLayout(new GridLayout(Game.N, Game.N, 0, 0));
-
-					panelGame.setBorder(null);
-					TextureLoader.paintMaze(Game.m.getMaze(), Game.h, Game.d,
-							Game.s);
-					lblMazeGame.setText("Play Game");
-					panelGame.revalidate();
-					panelGame.repaint();
-				}}
+				startGame();
 			}
 		});
+		panelMenu.add(btnNovoJogo);
 
 		// Load button actions
 
 		JButton btnCarregar = new JButton("Load Game");
 		btnCarregar.addMouseListener(new MouseAdapter() {
-			@SuppressWarnings({ "unchecked" })
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-
-				ObjectInputStream load = null;
-				try {
-
-					load = new ObjectInputStream(new FileInputStream(
-							"MazeGame.dat"));
-					Game.N = (Integer) load.readObject();
-					Game.m = (Maze) load.readObject();
-					Game.h = (Hero) load.readObject();
-					Game.d = (ArrayList<Drake>) load.readObject();
-					Game.s = (Sword) load.readObject();
-					if (Game.d.size() != 0)
-						Game.gameMode = Game.d.get(0).sleeps;
-
-					if (Game.N == 0)
-						panelGame.setLayout(new GridLayout(10, 10, 0, 0));
-					else
-						panelGame
-								.setLayout(new GridLayout(Game.N, Game.N, 0, 0));
-					panelGame.setBorder(null);
-					TextureLoader.paintMaze(Game.m.getMaze(), Game.h, Game.d,
-							Game.s);
-					creating = false;
-					panelGame.revalidate();
-					panelGame.repaint();
-					panelGame.requestFocus();
-
-				} catch (IOException e) {
-					e.printStackTrace();
-				} catch (ClassNotFoundException e) {
-					e.printStackTrace();
-				} finally {
-					if (load != null)
-						try {
-							load.close();
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-				}
+				loadGame();
 			}
 		});
 		panelMenu.add(btnCarregar);
@@ -275,33 +139,7 @@ public class Gui implements Serializable {
 		btnGravar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-
-				int resposta = JOptionPane.showConfirmDialog(null,
-						"Saving Game. Are you sure?");
-				if (JOptionPane.YES_OPTION == resposta) {
-
-					ObjectOutputStream save = null;
-					try {
-						save = new ObjectOutputStream(new FileOutputStream(
-								"MazeGame.dat"));
-						save.writeObject(Game.N);
-						save.writeObject(Game.m);
-						save.writeObject(Game.h);
-						save.writeObject(Game.d);
-						save.writeObject(Game.s);
-						panelGame.requestFocus();
-
-					} catch (IOException e) {
-						e.printStackTrace();
-					} finally {
-						if (save != null)
-							try {
-								save.close();
-							} catch (IOException e) {
-								e.printStackTrace();
-							}
-					}
-				}
+				saveGame();
 			}
 		});
 		panelMenu.add(btnGravar);
@@ -312,24 +150,26 @@ public class Gui implements Serializable {
 		btnCriar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-
-				int resposta = JOptionPane.showConfirmDialog(null,
-						"Creating new game. Are you sure?");
-				if (JOptionPane.YES_OPTION == resposta) {
-					panelMenu.setVisible(false);
-					panelCreate.setVisible(true);
-					panelCreate.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 2));
-					frame.getContentPane().add(panelCreate, BorderLayout.WEST);
-					panelCreate.revalidate();
-					panelCreate.repaint();
-					JSpinner spinner = new JSpinner();
-					spinner.setModel(new SpinnerNumberModel(7, 7, 50, 1));
-					creating = true;
-					paintCreation(panelCreate, spinner);
-				}
+				createMaze(panelCreate);
 			}
 		});
 		panelMenu.add(btnCriar);
+
+		// Create button change keys
+
+		JButton btnKeys = new JButton("Change Keys");
+		btnKeys.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				
+				KeyChanger changeKeys = new KeyChanger();
+				changeKeys.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
+				changeKeys.setVisible(true);
+				
+				
+			}
+		});
+		panelMenu.add(btnKeys);
 
 		// Exit button actions
 
@@ -337,11 +177,7 @@ public class Gui implements Serializable {
 		btnSair.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-
-				int resposta = JOptionPane.showConfirmDialog(null,
-						"Exiting. Are you sure?");
-				if (JOptionPane.YES_OPTION == resposta)
-					System.exit(0);
+				exit();
 			}
 		});
 		panelMenu.add(btnSair);
@@ -361,11 +197,8 @@ public class Gui implements Serializable {
 		spinner.setModel(new SpinnerNumberModel(7, 7, 50, 1));
 		ChangeListener listener = new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
-
-				paintCreation(panelCreate, spinner);
-
+				TextureLoader.paintCreation(panelCreate, spinner);
 			}
-
 		};
 		spinner.addChangeListener(listener);
 		panelCreate.add(spinner);
@@ -390,11 +223,9 @@ public class Gui implements Serializable {
 		btnCriar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-
 				int resposta = JOptionPane.showConfirmDialog(null,
 						"Creating new game. Are you sure?");
 				if (JOptionPane.YES_OPTION == resposta) {
-
 					if (TextureLoader.hasExit && TextureLoader.hasSword
 							&& TextureLoader.hasHero && Game.d.size() != 0) {
 						panelCreate.setVisible(false);
@@ -421,7 +252,6 @@ public class Gui implements Serializable {
 		btnCancelar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-
 				int resposta = JOptionPane.showConfirmDialog(null,
 						"Discarding changes. Are you sure?");
 				if (JOptionPane.YES_OPTION == resposta) {
@@ -440,33 +270,134 @@ public class Gui implements Serializable {
 			}
 		});
 		panelCreate.add(btnCancelar);
-
 	}
 
-	private void paintCreation(final JPanel panelCreate, final JSpinner spinner) {
-		int[] temp = new int[2];
-		panelGame.removeAll();
-		Game.N = (Integer) spinner.getValue();
-		Game.m.maze = new char[Game.N][Game.N];
-		panelGame.setLayout(new GridLayout(Game.N, Game.N, 0, 0));
-		panelCreate.revalidate();
-		panelCreate.repaint();
-		for (int i = 0; i < Game.N; i++) {
-			for (int j = 0; j < Game.N; j++) {
-				temp[0] = i;
-				temp[1] = j;
-				panelGame.add(new EditableGameTile(TextureLoader.wallImg, 'X',
-						true, temp.clone()));
-				Game.m.maze[i][j] = 'X';
+	public void startGame() {
+		int resposta = JOptionPane.showConfirmDialog(null,
+				"Creating new game. Are you sure?");
+		if (JOptionPane.YES_OPTION == resposta) {
+			creating = false;
+			Game.N = 0;
+			Game.dN = 0;
+			Game.d = new ArrayList<Drake>();
+			Game.m = new Maze();
+			Game.h = new Hero();
+			Game.s = new Sword();
+			panelGame.removeAll();
+			SelectMode chooseButton = new SelectMode();
+			lblMazeGame
+					.setText("Drake number must be above 0!\nMaze size must be 0 or over 7!");
+			chooseButton.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
+			chooseButton.setVisible(true);
+			if (!SelectMode.canceled) {
+				if (Game.N % 2 == 0 && Game.N != 0) {
+					Game.N--;
+				}
+				if (Game.N == 0)
+					panelGame.setLayout(new GridLayout(10, 10, 0, 0));
+				else
+					panelGame.setLayout(new GridLayout(Game.N, Game.N, 0, 0));
 
+				panelGame.setBorder(null);
+				TextureLoader.paintMaze(Game.m.getMaze(), Game.h, Game.d,
+						Game.s);
+				lblMazeGame.setText("Play Game");
+				panelGame.revalidate();
+				panelGame.repaint();
 			}
-
 		}
-		TextureLoader.hasHero = false;
-		TextureLoader.hasExit = false;
-		TextureLoader.hasSword = false;
-		Game.d.removeAll(Game.d);
-		panelCreate.revalidate();
-		panelCreate.repaint();
+	}
+
+	@SuppressWarnings("unchecked")
+	public void loadGame() {
+		ObjectInputStream load = null;
+		try {
+			load = new ObjectInputStream(new FileInputStream("MazeGame.dat"));
+			Game.N = (Integer) load.readObject();
+			Game.m = (Maze) load.readObject();
+			Game.h = (Hero) load.readObject();
+			Game.d = (ArrayList<Drake>) load.readObject();
+			Game.s = (Sword) load.readObject();
+			if (Game.d.size() != 0) {
+				Game.gameMode = Game.d.get(0).sleeps;
+			}
+			if (Game.N == 0) {
+				panelGame.setLayout(new GridLayout(10, 10, 0, 0));
+			} else {
+				panelGame.setLayout(new GridLayout(Game.N, Game.N, 0, 0));
+			}
+			panelGame.setBorder(null);
+			TextureLoader.paintMaze(Game.m.getMaze(), Game.h, Game.d, Game.s);
+			creating = false;
+			panelGame.revalidate();
+			panelGame.repaint();
+			panelGame.requestFocus();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			if (load != null) {
+				try {
+					load.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	public void saveGame() {
+		int resposta = JOptionPane.showConfirmDialog(null,
+				"Saving Game. Are you sure?");
+		if (JOptionPane.YES_OPTION == resposta) {
+			ObjectOutputStream save = null;
+			try {
+				save = new ObjectOutputStream(new FileOutputStream(
+						"MazeGame.dat"));
+				save.writeObject(Game.N);
+				save.writeObject(Game.m);
+				save.writeObject(Game.h);
+				save.writeObject(Game.d);
+				save.writeObject(Game.s);
+				panelGame.requestFocus();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				if (save != null) {
+					try {
+						save.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+	}
+
+	public void createMaze(final JPanel panelCreate) {
+		int resposta = JOptionPane.showConfirmDialog(null,
+				"Creating new game. Are you sure?");
+		if (JOptionPane.YES_OPTION == resposta) {
+			panelMenu.setVisible(false);
+			panelCreate.setVisible(true);
+			panelCreate.setBorder(BorderFactory.createLineBorder(
+					Color.LIGHT_GRAY, 2));
+			frame.getContentPane().add(panelCreate, BorderLayout.WEST);
+			panelCreate.revalidate();
+			panelCreate.repaint();
+			JSpinner spinner = new JSpinner();
+			spinner.setModel(new SpinnerNumberModel(7, 7, 50, 1));
+			creating = true;
+			TextureLoader.paintCreation(panelCreate, spinner);
+		}
+	}
+
+	public void exit() {
+		int resposta = JOptionPane.showConfirmDialog(null,
+				"Exiting. Are you sure?");
+		if (JOptionPane.YES_OPTION == resposta) {
+			System.exit(0);
+		}
 	}
 }
