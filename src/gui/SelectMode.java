@@ -66,7 +66,12 @@ public class SelectMode extends JDialog {
 		rdbDragaoParado.setBounds(10, 47, 328, 37);
 		contentPanel.add(rdbDragaoParado);
 
-		JRadioButtonMenuItem rdbDragaoMov = new JRadioButtonMenuItem(		//radio button to define game mode
+		JRadioButtonMenuItem rdbDragaoMov = new JRadioButtonMenuItem( // radio
+																		// button
+																		// to
+																		// define
+																		// game
+																		// mode
 				"2 - Dragao com movimento");
 		rdbDragaoMov.addMouseListener(new MouseAdapter() {
 			@Override
@@ -78,7 +83,11 @@ public class SelectMode extends JDialog {
 		rdbDragaoMov.setBounds(10, 93, 328, 37);
 		contentPanel.add(rdbDragaoMov);
 
-		JLabel lblTamanhoDoLabirinto = new JLabel("Tamanho do Labirinto:");		//text field with maze size
+		JLabel lblTamanhoDoLabirinto = new JLabel("Tamanho do Labirinto:"); // text
+																			// field
+																			// with
+																			// maze
+																			// size
 		lblTamanhoDoLabirinto.setBounds(10, 189, 234, 37);
 		lblTamanhoDoLabirinto.setVisible(true);
 		textFieldTamanho = new JTextField();
@@ -100,7 +109,12 @@ public class SelectMode extends JDialog {
 		contentPanel.add(lblTamanhoDoLabirinto);
 		contentPanel.add(textFieldTamanho);
 
-		JLabel lblNumeroDeDragoes = new JLabel("Numero de Dragoes:");		//text field with number of dragons
+		JLabel lblNumeroDeDragoes = new JLabel("Numero de Dragoes:"); // text
+																		// field
+																		// with
+																		// number
+																		// of
+																		// dragons
 		lblNumeroDeDragoes.setBounds(10, 262, 234, 37);
 		lblNumeroDeDragoes.setVisible(true);
 		textFieldNDragoes = new JTextField();
@@ -123,7 +137,10 @@ public class SelectMode extends JDialog {
 				public void mouseClicked(MouseEvent e) {
 					int resposta = JOptionPane.showConfirmDialog(null,
 							"Creating new game. Are you sure?");
-					if (JOptionPane.YES_OPTION == resposta) {				//verifies all conditions to start a new game
+					if (JOptionPane.YES_OPTION == resposta) { // verifies all
+																// conditions to
+																// start a new
+																// game
 						Scanner s = new Scanner(textFieldTamanho.getText());
 						if (s.hasNextInt()) {
 							Game.N = s.nextInt();
@@ -133,7 +150,7 @@ public class SelectMode extends JDialog {
 							Game.dN = s.nextInt();
 						}
 						if ((Game.dN > 0)
-								&& ((Game.N >= 7) || (Game.N == 0 && textFieldTamanho
+								&& ((Game.N >= 7 && Game.N < 50) || (Game.N == 0 && textFieldTamanho
 										.getText().length() == 1))) {
 							if (Game.N == 0) {
 								Game.dN = 1;
@@ -147,7 +164,7 @@ public class SelectMode extends JDialog {
 						} else
 							JOptionPane
 									.showMessageDialog(null,
-											"Drake number must be above 0!\nMaze size must be 0 or over 7!");
+											"Drake number must be above 0!\nMaze size must be 0 or over 7 and under 51!");
 					}
 				}
 			});
@@ -164,8 +181,8 @@ public class SelectMode extends JDialog {
 				if (JOptionPane.YES_OPTION == resposta) {
 					// solve exception thrown when cancelling
 					canceled = true;
+					dispose();
 				}
-				dispose();
 			}
 		});
 		cancelButton.setActionCommand("Cancel");

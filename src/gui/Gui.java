@@ -285,6 +285,7 @@ public class Gui implements Serializable {
 			creating = false;
 			Game.N = 0;
 			Game.dN = 0;
+			Game.gameMode = 1;
 			Game.d = new ArrayList<Drake>();
 			Game.m = new Maze();
 			Game.h = new Hero();
