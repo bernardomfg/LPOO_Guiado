@@ -62,30 +62,32 @@ public class InterfaceConsole {
 	public static String readDirection() {
 		Scanner dir = new Scanner(System.in);
 		String mov;
-		Boolean invalid;
+		Boolean fail = true;
 		do {
-			if (Game.h.hasEagle()) {
+			if (Game.h.hasEagle() && !Game.h.hasSword()) {
 				System.out
 						.print("Escolha uma direção (WASD) ou lancar aguia (L): ");
 				mov = dir.next();
-				if (mov != "A" && mov != "a" && mov != "W" && mov != "w"
-						&& mov != "D" && mov != "d" && mov != "S" && mov != "s"
-						&& mov != "L" && mov != "l") {
-					invalid = true;
+				if ((mov.equals("A")) || (mov.equals("a")) || (mov.equals("W"))
+						|| (mov.equals("w")) || (mov.equals("D")) || (mov.equals("d"))
+						|| (mov.equals("S")) || (mov.equals("s")) || (mov.equals("L"))
+						|| (mov.equals("l"))) {
+					fail = false;
 				} else {
-					invalid = false;
+					fail = true;
 				}
 			} else {
 				System.out.print("Escolha uma direção (WASD):");
 				mov = dir.next();
-				if (mov != "A" && mov != "a" && mov != "W" && mov != "w"
-						&& mov != "D" && mov != "d" && mov != "S" && mov != "s") {
-					invalid = true;
+				if ((mov.equals("A")) || (mov.equals("a")) || (mov.equals("W"))
+						|| (mov.equals("w")) || (mov.equals("D")) || (mov.equals("d"))
+						|| (mov.equals("S")) || (mov.equals("s"))) {
+					fail = false;
 				} else {
-					invalid = false;
+					fail = true;
 				}
 			}
-		} while (!invalid);
+		} while (fail);
 		return mov;
 	}
 

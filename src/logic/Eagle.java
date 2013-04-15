@@ -5,10 +5,7 @@ import java.io.Serializable;
 public class Eagle extends Mobile implements Serializable {
 	private static final long serialVersionUID = 1L;
 	public int xIn, yIn;
-	/**
-	 * @param motion
-	 *            Integer represents which objective the eagle is moving towards
-	 */
+
 	public int motion = 0;
 	public Boolean hasSword = false;
 	public Boolean inFlight = false;

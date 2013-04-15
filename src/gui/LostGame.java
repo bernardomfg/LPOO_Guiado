@@ -15,9 +15,13 @@ import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-@SuppressWarnings("serial")
+/**Informs the player that he lost the game
+ * 
+ *
+ */
 public class LostGame extends JDialog {
 
+	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 
 	/**
@@ -50,7 +54,6 @@ public class LostGame extends JDialog {
 				Gui.panelGame.revalidate();
 				Gui.panelGame.repaint();
 				Gui.creating = true;
-				// Gui.panelGame.add(Gui.mainTheme);
 				dispose();
 			}
 		});

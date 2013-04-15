@@ -15,6 +15,11 @@ import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+
+/**Informs the player that he lost the game
+ * 
+ *
+ */
 public class WonGame extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();

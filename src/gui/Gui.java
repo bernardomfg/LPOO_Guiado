@@ -189,6 +189,9 @@ public class Gui implements Serializable {
 
 	}
 
+	/**Creates panel containing the create menu
+	 * @param panelCreate Panel containing the buttons to build menu
+	 */
 	public void userBuildMenu(final JPanel panelCreate) {
 		JLabel label = new JLabel("Size");
 		panelCreate.add(label);
@@ -272,6 +275,9 @@ public class Gui implements Serializable {
 		panelCreate.add(btnCancelar);
 	}
 
+	/**Function called to initialize a pop up and create a new game
+	 * 
+	 */
 	public void startGame() {
 		int resposta = JOptionPane.showConfirmDialog(null,
 				"Creating new game. Are you sure?");
@@ -308,6 +314,9 @@ public class Gui implements Serializable {
 		}
 	}
 
+	/**Function called when load button is pressed
+	 * 
+	 */
 	@SuppressWarnings("unchecked")
 	public void loadGame() {
 		ObjectInputStream load = null;
@@ -347,6 +356,9 @@ public class Gui implements Serializable {
 		}
 	}
 
+	/**Function called when save game button is pressed
+	 * 
+	 */
 	public void saveGame() {
 		int resposta = JOptionPane.showConfirmDialog(null,
 				"Saving Game. Are you sure?");
@@ -375,6 +387,9 @@ public class Gui implements Serializable {
 		}
 	}
 
+	/**Function called to create a new maze built by the user
+	 * @param panelCreate Panel to draw the maze
+	 */
 	public void createMaze(final JPanel panelCreate) {
 		int resposta = JOptionPane.showConfirmDialog(null,
 				"Creating new game. Are you sure?");
@@ -393,6 +408,9 @@ public class Gui implements Serializable {
 		}
 	}
 
+	/**Function called when exit button is pressed
+	 * 
+	 */
 	public void exit() {
 		int resposta = JOptionPane.showConfirmDialog(null,
 				"Exiting. Are you sure?");

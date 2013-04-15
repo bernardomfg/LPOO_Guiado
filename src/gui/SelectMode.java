@@ -35,7 +35,7 @@ public class SelectMode extends JDialog {
 	public static boolean canceled = false;
 
 	/**
-	 * Create the dialog.
+	 * Create the dialog to input maze characteristics.
 	 */
 	public SelectMode() {
 		setResizable(false);
@@ -66,7 +66,7 @@ public class SelectMode extends JDialog {
 		rdbDragaoParado.setBounds(10, 47, 328, 37);
 		contentPanel.add(rdbDragaoParado);
 
-		JRadioButtonMenuItem rdbDragaoMov = new JRadioButtonMenuItem(
+		JRadioButtonMenuItem rdbDragaoMov = new JRadioButtonMenuItem(		//radio button to define game mode
 				"2 - Dragao com movimento");
 		rdbDragaoMov.addMouseListener(new MouseAdapter() {
 			@Override
@@ -78,7 +78,7 @@ public class SelectMode extends JDialog {
 		rdbDragaoMov.setBounds(10, 93, 328, 37);
 		contentPanel.add(rdbDragaoMov);
 
-		JLabel lblTamanhoDoLabirinto = new JLabel("Tamanho do Labirinto:");
+		JLabel lblTamanhoDoLabirinto = new JLabel("Tamanho do Labirinto:");		//text field with maze size
 		lblTamanhoDoLabirinto.setBounds(10, 189, 234, 37);
 		lblTamanhoDoLabirinto.setVisible(true);
 		textFieldTamanho = new JTextField();
@@ -100,7 +100,7 @@ public class SelectMode extends JDialog {
 		contentPanel.add(lblTamanhoDoLabirinto);
 		contentPanel.add(textFieldTamanho);
 
-		JLabel lblNumeroDeDragoes = new JLabel("Numero de Dragoes:");
+		JLabel lblNumeroDeDragoes = new JLabel("Numero de Dragoes:");		//text field with number of dragons
 		lblNumeroDeDragoes.setBounds(10, 262, 234, 37);
 		lblNumeroDeDragoes.setVisible(true);
 		textFieldNDragoes = new JTextField();
@@ -123,7 +123,7 @@ public class SelectMode extends JDialog {
 				public void mouseClicked(MouseEvent e) {
 					int resposta = JOptionPane.showConfirmDialog(null,
 							"Creating new game. Are you sure?");
-					if (JOptionPane.YES_OPTION == resposta) {
+					if (JOptionPane.YES_OPTION == resposta) {				//verifies all conditions to start a new game
 						Scanner s = new Scanner(textFieldTamanho.getText());
 						if (s.hasNextInt()) {
 							Game.N = s.nextInt();

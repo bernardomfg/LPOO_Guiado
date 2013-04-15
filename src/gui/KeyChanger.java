@@ -13,13 +13,15 @@ import java.awt.event.MouseEvent;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-/** Class that extends JDialog to create a dialog that changes the keys in game
+/**
+ * Class that extends JDialog to create a dialog that changes the keys in game
  * 
- *
+ * 
  */
 public class KeyChanger extends JDialog {
 	private static final long serialVersionUID = 1L;
@@ -31,7 +33,8 @@ public class KeyChanger extends JDialog {
 	public static int launchKey = -1;
 	int ok = 0;
 
-	/**Initializes the JDialog
+	/**
+	 * Initializes the JDialog
 	 * 
 	 */
 	public KeyChanger() {
@@ -42,32 +45,61 @@ public class KeyChanger extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(new GridLayout(1, 0, 0, 0));
 
-		final JLabel changeKey = new JLabel("Insert UP key!");		//label informing the user of which key to select
+		final JLabel changeKey = new JLabel("Insert UP key!"); // label
+																// informing the
+																// user of which
+																// key to select
+		
+		//assigns a key to a direction
 		changeKey.addKeyListener(new KeyListener() {
 
 			@Override
-			public void keyPressed(KeyEvent arg0) {					//listener to change the value of the key used depending on the value of ok
+			public void keyPressed(KeyEvent arg0) { // listener to change the
+													// value of the key used
+													// depending on the value of
+													// OK
 
 				switch (ok) {
 				case 0:
 					upKey = arg0.getKeyCode();
-					System.out.println(upKey);
 					break;
 				case 1:
-					downKey = arg0.getKeyCode();
-					System.out.println(downKey);
+					if (arg0.getKeyCode() != upKey) {
+						downKey = arg0.getKeyCode();
+					} else {
+						JOptionPane.showMessageDialog(null,
+								"Key already assigned!");
+					}
 					break;
 				case 2:
-					leftKey = arg0.getKeyCode();
-					System.out.println(leftKey);
+					if (arg0.getKeyCode() != upKey
+							&& arg0.getKeyCode() != downKey) {
+						leftKey = arg0.getKeyCode();
+					} else {
+						JOptionPane.showMessageDialog(null,
+								"Key already assigned!");
+					}
 					break;
 				case 3:
-					rightKey = arg0.getKeyCode();
-					System.out.println(rightKey);
+					if (arg0.getKeyCode() != upKey
+							&& arg0.getKeyCode() != downKey
+							&& arg0.getKeyCode() != leftKey) {
+						rightKey = arg0.getKeyCode();
+					} else {
+						JOptionPane.showMessageDialog(null,
+								"Key already assigned!");
+					}
 					break;
 				case 4:
-					launchKey = arg0.getKeyCode();
-					System.out.println(launchKey);
+					if (arg0.getKeyCode() != upKey
+							&& arg0.getKeyCode() != downKey
+							&& arg0.getKeyCode() != leftKey
+							&& arg0.getKeyCode() != rightKey) {
+						launchKey = arg0.getKeyCode();
+					} else {
+						JOptionPane.showMessageDialog(null,
+								"Key already assigned!");
+					}
 					break;
 				}
 
@@ -90,10 +122,10 @@ public class KeyChanger extends JDialog {
 		changeKey.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 30));
 		changeKey.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPanel.add(changeKey);
-		
+
 		changeKey.setFocusable(true);
 		changeKey.requestFocusInWindow();
-		
+
 		JPanel buttonPane = new JPanel();
 		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		getContentPane().add(buttonPane, BorderLayout.SOUTH);
@@ -101,7 +133,9 @@ public class KeyChanger extends JDialog {
 		JButton okButton = new JButton("OK");
 		okButton.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent arg0) {			//Changes the information in the label
+			public void mouseClicked(MouseEvent arg0) { // Changes the
+														// information in the
+														// label
 
 				switch (ok) {
 				case 0:

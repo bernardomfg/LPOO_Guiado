@@ -19,23 +19,22 @@ public class EditableGameTile extends JLabel {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * @param lc Array containing the correspondent position of the label in the maze
+	 * lc Array containing the correspondent position of the label in the maze
 	 */
 	int[] lc;
 	/**
-	 * @param symbol Char equivalent to the image of the label in the maze
+	 * symbol Char equivalent to the image of the label in the maze
 	 */
 	public char symbol;
 	/**
-	 * @param image Image of the label
+	 * image Image of the label
 	 */
 	ImageIcon image;
 
 	/** Constructor of the class
 	 * @param img Image to be placed as background of the label
 	 * @param sym Char corresponding to the object in the maze
-	 * @param mode 
-	 * @param pos
+	 * @param pos Position of the label equivalent to the position in the array
 	 */
 	public EditableGameTile(ImageIcon img, char sym, int[] pos) {
 		image = img;
@@ -44,9 +43,9 @@ public class EditableGameTile extends JLabel {
 		this.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				if (arg0.getButton() == MouseEvent.BUTTON1) {
+				if (arg0.getButton() == MouseEvent.BUTTON1) {		//if label clicked with left mouse button
 					switch (TextureLoader.currentSym) {
-					case 'S':
+					case 'S':													//places the exit in the maze and verifies the game conditions for it to be placed
 						if ((lc[0] == 0 && (lc[1] > 0 && lc[1] < Game.N - 1))
 								|| (lc[0] == Game.N - 1 && (lc[1] > 0 && lc[1] < Game.N - 1))
 								|| (lc[1] == 0 && (lc[0] > 0 && lc[0] < Game.N - 1))
@@ -59,7 +58,7 @@ public class EditableGameTile extends JLabel {
 							}
 						}
 						break;
-					case 'H':
+					case 'H':											//places the hero
 						if (lc[0] != 0 && lc[0] != Game.N - 1 && lc[1] != 0
 								&& lc[1] != Game.N - 1) {
 							if (!TextureLoader.hasHero) {
@@ -73,7 +72,7 @@ public class EditableGameTile extends JLabel {
 							}
 						}
 						break;
-					case 'E':
+					case 'E':			//places the sword
 						if (lc[0] != 0 && lc[0] != Game.N - 1 && lc[1] != 0
 								&& lc[1] != Game.N - 1) {
 							if (!TextureLoader.hasSword) {
@@ -87,7 +86,7 @@ public class EditableGameTile extends JLabel {
 							}
 						}
 						break;
-					case 'D':
+					case 'D':				//places the dragons
 						if (lc[0] != 0 && lc[0] != Game.N - 1 && lc[1] != 0
 								&& lc[1] != Game.N - 1) {
 							checkDrawn();
@@ -99,7 +98,7 @@ public class EditableGameTile extends JLabel {
 							Game.m.maze[lc[0]][lc[1]] = ' ';
 						}
 						break;
-					case ' ':
+					case ' ':				//places the path
 						if (lc[0] != 0 && lc[0] != Game.N - 1 && lc[1] != 0
 								&& lc[1] != Game.N - 1) {
 							checkDrawn();
@@ -110,7 +109,7 @@ public class EditableGameTile extends JLabel {
 						break;
 					default:
 					}
-				} else if (arg0.getButton() == MouseEvent.BUTTON3) {
+				} else if (arg0.getButton() == MouseEvent.BUTTON3) {			//if clicked with right mouse button removes the element and places a wall
 					switch (symbol) {
 					case 'S':
 						image = TextureLoader.wallImg;
@@ -154,6 +153,7 @@ public class EditableGameTile extends JLabel {
 		});
 	}
 
+
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -161,6 +161,9 @@ public class EditableGameTile extends JLabel {
 				null);
 	}
 
+	/**Checks if a new game element has been placed on top of an existing main element. (Grass placed on sword)
+	 * 
+	 */
 	public void checkDrawn() {
 		switch (symbol) {
 		case 'S':
@@ -178,6 +181,9 @@ public class EditableGameTile extends JLabel {
 		}
 	}
 
+	/**Removes a drake from the maze when something is placed on top of it
+	 * 
+	 */
 	public void deleteDrake() {
 		for (int i = 0; i < Game.d.size(); i++) {
 			if (Game.d.get(i).getX() == lc[1]

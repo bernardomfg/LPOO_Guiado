@@ -6,11 +6,15 @@ import java.awt.event.KeyListener;
 
 import logic.Game;
 
+/**Keyboard Listener to play the game
+ * 
+ *
+ */
 public class MovementListener implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent arg0) {
 		if (!Gui.creating) {
-			int key = arg0.getKeyCode();
+			int key = arg0.getKeyCode();		//reads the key and acts accordingly
 			// moving up
 			if (key == KeyChanger.upKey) {
 				Game.play("w", Game.h, Game.s, Game.m, Game.d);
@@ -48,7 +52,7 @@ public class MovementListener implements KeyListener {
 				Gui.panelGame.repaint();
 			}
 			// launching eagle
-			if (key == KeyChanger.launchKey) {
+			if (key == KeyChanger.launchKey && Game.h.hasEagle() && !Game.h.hasSword()) {
 				Game.play("l", Game.h, Game.s, Game.m, Game.d);
 				Gui.panelGame.removeAll();
 				TextureLoader.paintMaze(Game.m.getMaze(), Game.h, Game.d,

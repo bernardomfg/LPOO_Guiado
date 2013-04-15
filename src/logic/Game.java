@@ -6,47 +6,14 @@ import java.util.ArrayList;
 public class Game implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * @param gameMode
-	 *            The 3 different game modes (no movement/movement/movement with
-	 *            sleep).
-	 */
 	public static int gameMode = 1;
 
-	/**
-	 * @param N
-	 *            Maze size.
-	 */
 	public static int N = 0;
-	/**
-	 * @param dN
-	 *            Drake number.
-	 */
 	public static int dN = 0;
-	/**
-	 * @param d
-	 *            ArrayList containing all active dragons.
-	 */
 	public static ArrayList<Drake> d = new ArrayList<Drake>();
-	/**
-	 * @param m
-	 *            The maze
-	 */
 	public static Maze m = new Maze();
-	/**
-	 * @param h
-	 *            Hero in game
-	 */
 	public static Hero h = new Hero();
-	/**
-	 * @param s
-	 *            Sword in game
-	 */
 	public static Sword s = new Sword();
-	/**
-	 * @param mov
-	 *            String containing the direction to where the hero will move.
-	 */
 	public static String mov;
 
 	/**
